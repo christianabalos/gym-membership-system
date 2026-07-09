@@ -1,58 +1,263 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# Gym Membership System
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based **Gym Membership System** developed using **Laravel** that helps gym administrators efficiently manage members, trainers, memberships, payments, workouts, and reports. The system also provides members with access to their own dashboard where they can view their membership details and assigned workout plans.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## Project Overview
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+The Gym Membership System is designed to simplify the daily operations of a gym by digitizing member registration, membership management, payment tracking, workout scheduling, and report generation.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+The system supports two user roles:
 
-## Learning Laravel
+- **Administrator**
+- **Member**
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+---
 
-In addition, [Laracasts](https://laracasts.com) contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+## Features
 
-You can also watch bite-sized lessons with real-world projects on [Laravel Learn](https://laravel.com/learn), where you will be guided through building a Laravel application from scratch while learning PHP fundamentals.
+### Administrator
 
-## Agentic Development
+- Secure Login
+- Dashboard Overview
+- Manage Members
+- Manage Trainers
+- Manage Membership Plans
+- Approve Membership Requests
+- Manage Workout Plans
+- Generate Weekly Workout Schedules
+- Record Member Payments
+- BMI Calculator
+- Generate Reports
+- Analytics Dashboard
 
-Laravel's predictable structure and conventions make it ideal for AI coding agents like Claude Code, Cursor, and GitHub Copilot. Install [Laravel Boost](https://laravel.com/docs/ai) to supercharge your AI workflow:
+### Member
+
+- Secure Login
+- View Profile
+- View Membership Information
+- View Payment History
+- View Assigned Workout Plan
+- Submit Membership Request
+- BMI Calculator
+
+---
+
+## Built With
+
+- **Laravel**
+- PHP
+- MySQL
+- Blade Templates
+- Bootstrap
+- JavaScript
+- HTML5
+- CSS3
+
+---
+
+## System Modules
+
+- Authentication
+- Dashboard
+- Member Management
+- Trainer Management
+- Membership Management
+- Membership Requests
+- Payment Management
+- Workout Management
+- BMI Calculator
+- Reports
+- Analytics
+
+---
+
+## Workflow
+
+1. User registers an account.
+2. User submits a membership request.
+3. Administrator reviews and approves the request.
+4. Administrator assigns a membership plan.
+5. Payments are recorded.
+6. Workout plans are assigned.
+7. Members can monitor their membership and workouts through their dashboard.
+8. Administrators generate reports for monitoring gym operations.
+
+---
+
+## Installation Guide
+
+### Requirements
+
+- PHP 8.x
+- Composer
+- MySQL
+- Node.js & NPM
+- XAMPP/Laragon
+
+### Clone the repository
 
 ```bash
-composer require laravel/boost --dev
-
-php artisan boost:install
+git clone https://github.com/yourusername/gym-membership-system.git
 ```
 
-Boost provides your agent 15+ tools and skills that help agents build Laravel applications while following best practices.
+### Go to the project directory
 
-## Contributing
+```bash
+cd gym-membership-system
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### Install PHP dependencies
 
-## Code of Conduct
+```bash
+composer install
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Install Node dependencies
 
-## Security Vulnerabilities
+```bash
+npm install
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Copy the environment file
+
+```bash
+cp .env.example .env
+```
+
+### Generate application key
+
+```bash
+php artisan key:generate
+```
+
+### Configure the database
+
+Update the `.env` file with your database credentials.
+
+Example:
+
+```env
+DB_DATABASE=gym_membership
+DB_USERNAME=root
+DB_PASSWORD=
+```
+
+### Run database migrations
+
+```bash
+php artisan migrate
+```
+
+If your project includes seeders:
+
+```bash
+php artisan db:seed
+```
+
+### Compile assets
+
+```bash
+npm run dev
+```
+
+### Start the development server
+
+```bash
+php artisan serve
+```
+
+Open your browser:
+
+```
+http://127.0.0.1:8000
+```
+
+---
+
+## Default Login
+
+### Administrator
+
+```
+Email:
+Password:
+```
+
+### Member
+
+```
+Email:
+Password:
+```
+
+*(Replace these with your actual demo accounts.)*
+
+---
+
+## Project Structure
+
+```
+app/
+bootstrap/
+config/
+database/
+public/
+resources/
+routes/
+storage/
+```
+
+---
+
+## Screenshots
+
+You may include screenshots here.
+
+Example:
+
+```
+docs/
+├── login.png
+├── dashboard.png
+├── members.png
+├── payments.png
+└── reports.png
+```
+
+---
+
+## Developers
+
+- Member 1
+- Member 2
+- Member 3
+- Member 4
+
+---
+
+## Academic Information
+
+**Project Title:** Gym Membership System
+
+**Course:** *(Bachelor of Science in Information Technology)*
+
+**Subject:** *(	 Elective 1 (Web Systems and Technologies 2) )*
+
+**Instructor:** *(Carl Gustaf Patrik Ferrer)*
+
+**School:** *(Pangasinan State University - Lingayen Campus)*
+
+**Academic Year:** 2026–2027
+
+---
 
 ## License
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+This project was developed for educational purposes only.
+
+Commercial use is not permitted without permission from the developers.
+
+---
+
