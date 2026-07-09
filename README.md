@@ -96,12 +96,6 @@ The system supports two user roles:
 - Node.js & NPM
 - XAMPP/Laragon
 
-### Clone the repository
-
-```bash
-git clone https://github.com/yourusername/gym-membership-system.git
-```
-
 ### Go to the project directory
 
 ```bash
@@ -120,12 +114,6 @@ composer install
 npm install
 ```
 
-### Copy the environment file
-
-```bash
-cp .env.example .env
-```
-
 ### Generate application key
 
 ```bash
@@ -133,10 +121,6 @@ php artisan key:generate
 ```
 
 ### Configure the database
-
-Update the `.env` file with your database credentials.
-
-Example:
 
 ```env
 DB_DATABASE=gym_membership
@@ -150,7 +134,7 @@ DB_PASSWORD=
 php artisan migrate
 ```
 
-If your project includes seeders:
+seeders:
 
 ```bash
 php artisan db:seed
@@ -176,26 +160,6 @@ http://127.0.0.1:8000
 
 ---
 
-## Default Login
-
-### Administrator
-
-```
-Email:
-Password:
-```
-
-### Member
-
-```
-Email:
-Password:
-```
-
-*(Replace these with your actual demo accounts.)*
-
----
-
 ## Project Structure
 
 ```
@@ -211,29 +175,12 @@ storage/
 
 ---
 
-## Screenshots
-
-You may include screenshots here.
-
-Example:
-
-```
-docs/
-├── login.png
-├── dashboard.png
-├── members.png
-├── payments.png
-└── reports.png
-```
-
----
-
 ## Developers
 
-- Member 1
-- Member 2
-- Member 3
-- Member 4
+- Christian James S. Abalos
+- James Patrick C. Cabaluna
+- Bhing Marrie Claire S. Untal
+
 
 ---
 
@@ -243,7 +190,7 @@ docs/
 
 **Course:** *Bachelor of Science in Information Technology*
 
-**Subject:** * Elective 1 (Web Systems and Technologies 2) *
+**Subject:**  Elective 1 (Web Systems and Technologies 2) 
 
 **Instructor:** *Carl Gustaf Patrik Ferrer*
 
