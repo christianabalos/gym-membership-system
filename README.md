@@ -241,13 +241,13 @@ docs/
 
 **Project Title:** Gym Membership System
 
-**Course:** *(Bachelor of Science in Information Technology)*
+**Course:** *Bachelor of Science in Information Technology*
 
-**Subject:** *(	 Elective 1 (Web Systems and Technologies 2) )*
+**Subject:** * Elective 1 (Web Systems and Technologies 2) *
 
-**Instructor:** *(Carl Gustaf Patrik Ferrer)*
+**Instructor:** *Carl Gustaf Patrik Ferrer*
 
-**School:** *(Pangasinan State University - Lingayen Campus)*
+**School:** *Pangasinan State University - Lingayen Campus*
 
 **Academic Year:** 2026–2027
 
