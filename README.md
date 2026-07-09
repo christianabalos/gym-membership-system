@@ -196,7 +196,7 @@ storage/
 
 **School:** *Pangasinan State University - Lingayen Campus*
 
-**Academic Year:** 2026–2027
+**Academic Year:** 2025–2026
 
 ---
 
