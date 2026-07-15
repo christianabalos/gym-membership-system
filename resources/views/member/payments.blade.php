@@ -2,70 +2,89 @@
 <html>
 <head>
     <title>My Payments</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            padding: 35px 15px;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.78)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 950px;
+            max-width: 1050px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 36px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 32px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
+            margin-top: 10px;
             margin-bottom: 30px;
-        }
-
-        .top-actions {
-            margin-bottom: 25px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 16px;
-            border-radius: 7px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
+            color: #dbeafe;
+            font-size: 15px;
         }
 
         .btn-back {
-            background: #6b7280;
+            display: inline-block;
+            background: rgba(107, 114, 128, 0.95);
             color: white;
+            padding: 10px 16px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .btn-back:hover {
+            background: #4b5563;
         }
 
         .table-wrap {
+            width: 100%;
             overflow-x: auto;
+            border-radius: 14px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
             overflow: hidden;
+            border-radius: 14px;
         }
 
         th {
-            background: #111827;
+            background: #0f172a;
             color: white;
             padding: 14px;
             text-align: center;
@@ -75,59 +94,91 @@
         td {
             padding: 14px;
             border: 1px solid #d1d5db;
-            vertical-align: middle;
+            text-align: center;
             font-size: 14px;
+            vertical-align: middle;
         }
 
         tr:nth-child(even) {
-            background: #f9fafb;
-        }
-
-        .amount {
-            font-weight: bold;
-            color: #111827;
+            background: rgba(249, 250, 251, 0.92);
         }
 
         .plan {
             font-weight: bold;
-            color: #1d4ed8;
+            color: #2563eb;
+        }
+
+        .amount {
+            font-weight: bold;
+            color: #166534;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 10px;
+            padding: 7px 12px;
             border-radius: 999px;
             font-size: 12px;
             font-weight: bold;
             text-transform: capitalize;
         }
 
-        .badge-paid {
+        .paid {
             background: #dcfce7;
             color: #166534;
         }
 
-        .badge-pending {
+        .approved {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .pending {
             background: #fef3c7;
             color: #92400e;
         }
 
-        .badge-failed {
+        .failed {
             background: #fee2e2;
             color: #991b1b;
         }
 
-        .method {
-            text-transform: capitalize;
+        .empty-box {
+            background: rgba(255, 255, 255, 0.90);
+            color: #374151;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            border: 1px solid rgba(203, 213, 225, 0.9);
         }
 
-        .empty {
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 25px;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.88);
+            color: #111827;
+            border-radius: 14px;
+            padding: 18px;
             text-align: center;
+            border-left: 6px solid #2563eb;
+        }
+
+        .summary-card small {
+            display: block;
             color: #6b7280;
-            padding: 30px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            background: #f9fafb;
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        .summary-card strong {
+            font-size: 22px;
+            color: #0f172a;
         }
 
         @media (max-width: 768px) {
@@ -136,7 +187,15 @@
             }
 
             .container {
-                padding: 22px;
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 30px;
+            }
+
+            .summary {
+                grid-template-columns: 1fr;
             }
 
             table {
@@ -145,16 +204,46 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>My Payments</h1>
         <p class="subtitle">View your membership payment records and payment status.</p>
 
-        <div class="top-actions">
-            <a href="{{ route('member.dashboard') }}" class="btn btn-back">Back</a>
-        </div>
+        <a href="{{ route('member.dashboard') }}" class="btn-back">Back</a>
 
-        @if($payments->count() > 0)
+        @php
+            $myPayments = $payments ?? collect();
+
+            $totalAmount = $myPayments->sum('amount');
+
+            $paidCount = $myPayments->filter(function ($payment) {
+                return in_array(strtolower($payment->status ?? ''), ['paid', 'approved']);
+            })->count();
+
+            $pendingCount = $myPayments->filter(function ($payment) {
+                return strtolower($payment->status ?? '') === 'pending';
+            })->count();
+        @endphp
+
+        @if($myPayments->count() > 0)
+            <div class="summary">
+                <div class="summary-card">
+                    <small>Total Paid/Recorded</small>
+                    <strong>₱{{ number_format($totalAmount, 2) }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <small>Paid Payments</small>
+                    <strong>{{ $paidCount }}</strong>
+                </div>
+
+                <div class="summary-card">
+                    <small>Pending Payments</small>
+                    <strong>{{ $pendingCount }}</strong>
+                </div>
+            </div>
+
             <div class="table-wrap">
                 <table>
                     <tr>
@@ -165,43 +254,55 @@
                         <th>Payment Date</th>
                     </tr>
 
-                    @foreach($payments as $payment)
+                    @foreach($myPayments as $payment)
+                        @php
+                            $status = strtolower($payment->status ?? 'pending');
+
+                            $statusClass = match($status) {
+                                'paid' => 'paid',
+                                'approved' => 'approved',
+                                'failed' => 'failed',
+                                default => 'pending',
+                            };
+
+                            $method = $payment->payment_method
+                                ?? $payment->method
+                                ?? 'N/A';
+
+                            $date = $payment->payment_date
+                                ?? $payment->paid_at
+                                ?? $payment->created_at
+                                ?? null;
+                        @endphp
+
                         <tr>
                             <td class="plan">
                                 {{ $payment->membership->plan_name ?? 'N/A' }}
                             </td>
 
                             <td class="amount">
-                                ₱{{ number_format($payment->amount, 2) }}
-                            </td>
-
-                            <td class="method">
-                                {{ $payment->payment_method ?? 'N/A' }}
+                                ₱{{ number_format($payment->amount ?? 0, 2) }}
                             </td>
 
                             <td>
-                                @php
-                                    $statusClass = match($payment->status) {
-                                        'paid' => 'badge-paid',
-                                        'failed' => 'badge-failed',
-                                        default => 'badge-pending',
-                                    };
-                                @endphp
+                                {{ ucfirst($method) }}
+                            </td>
 
+                            <td>
                                 <span class="badge {{ $statusClass }}">
-                                    {{ $payment->status }}
+                                    {{ ucfirst($status) }}
                                 </span>
                             </td>
 
                             <td>
-                                {{ $payment->payment_date ? \Carbon\Carbon::parse($payment->payment_date)->format('M d, Y') : 'N/A' }}
+                                {{ $date ? \Carbon\Carbon::parse($date)->format('M d, Y') : 'N/A' }}
                             </td>
                         </tr>
                     @endforeach
                 </table>
             </div>
         @else
-            <div class="empty">
+            <div class="empty-box">
                 No payment records found yet.
             </div>
         @endif

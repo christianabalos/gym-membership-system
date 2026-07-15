@@ -2,167 +2,207 @@
 <html>
 <head>
     <title>Gym Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1050px;
+            max-width: 1100px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 34px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.16);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            gap: 15px;
-            margin-bottom: 25px;
+            gap: 16px;
+            margin-bottom: 22px;
         }
 
         h1 {
             margin: 0;
-            font-size: 32px;
+            font-size: 34px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         h2 {
-            margin-top: 35px;
-            margin-bottom: 16px;
+            color: #ffffff;
+            margin: 28px 0 16px;
             font-size: 24px;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.35);
+        }
+
+        .logout-form {
+            margin: 0;
         }
 
         .logout-btn {
+            border: none;
             background: #dc2626;
             color: white;
-            border: none;
-            padding: 10px 18px;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 9px;
+            font-weight: bold;
             cursor: pointer;
-            font-weight: bold;
         }
 
-        .nav {
+        .logout-btn:hover {
+            background: #b91c1c;
+        }
+
+        .nav-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(155px, 1fr));
+            grid-template-columns: repeat(4, 1fr);
             gap: 10px;
-            margin-bottom: 30px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid #d1d5db;
-        }
-
-        .nav a {
-            text-decoration: none;
-            background: #111827;
-            color: white;
-            padding: 12px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-        }
-
-        .notification-box {
-            background: #fef3c7;
-            border: 1px solid #f59e0b;
-            color: #92400e;
-            padding: 16px;
-            border-radius: 10px;
             margin-bottom: 25px;
         }
 
-        .notification-box strong {
+        .nav-btn {
+            display: block;
+            text-align: center;
+            background: rgba(15, 23, 42, 0.92);
+            color: white;
+            text-decoration: none;
+            padding: 12px 10px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: bold;
+            border: 1px solid rgba(255,255,255,0.14);
+        }
+
+        .nav-btn:hover {
+            background: #2563eb;
+        }
+
+        .divider {
+            border: none;
+            height: 1px;
+            background: rgba(255,255,255,0.25);
+            margin: 24px 0;
+        }
+
+        .notification {
+            background: rgba(254, 243, 199, 0.96);
+            color: #92400e;
+            border: 1px solid #f59e0b;
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 28px;
+        }
+
+        .notification strong {
             display: block;
             margin-bottom: 8px;
-            font-size: 16px;
         }
 
-        .notification-list {
-            margin: 10px 0 0;
-            padding-left: 18px;
+        .notification ul {
+            margin: 8px 0 14px;
+            padding-left: 20px;
         }
 
-        .notification-list li {
-            margin-bottom: 6px;
-        }
-
-        .notification-link {
+        .notification-btn {
             display: inline-block;
-            margin-top: 12px;
             background: #111827;
             color: white;
-            padding: 9px 14px;
-            border-radius: 7px;
+            padding: 9px 13px;
+            border-radius: 8px;
             text-decoration: none;
-            font-weight: bold;
             font-size: 13px;
+            font-weight: bold;
         }
 
         .summary-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 15px;
+            gap: 14px;
             margin-bottom: 30px;
         }
 
         .summary-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 20px;
-            background: #f9fafb;
+            background: rgba(255, 255, 255, 0.90);
+            color: #111827;
+            border-radius: 14px;
+            padding: 18px;
+            border: 1px solid rgba(203, 213, 225, 0.8);
         }
 
-        .summary-card h3 {
-            margin: 0 0 10px;
-            color: #374151;
-            font-size: 15px;
-        }
-
-        .summary-card p {
-            margin: 0;
-            font-size: 24px;
+        .summary-card .label {
+            font-size: 13px;
             font-weight: bold;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+
+        .summary-card .value {
+            font-size: 26px;
+            font-weight: 800;
             color: #111827;
         }
 
-        .peso {
-            color: #166534 !important;
+        .summary-card .money {
+            color: #166534;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 14px;
+            margin-bottom: 30px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
+            background: rgba(255,255,255,0.94);
+            color: #111827;
             overflow: hidden;
-            margin-bottom: 25px;
+            border-radius: 14px;
         }
 
         th {
-            background: #111827;
+            background: #0f172a;
             color: white;
-            padding: 13px;
+            padding: 14px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
         }
 
         td {
             padding: 13px;
             border: 1px solid #d1d5db;
-            font-size: 14px;
+            font-size: 13px;
+            text-align: center;
             vertical-align: middle;
         }
 
         tr:nth-child(even) {
-            background: #f9fafb;
+            background: rgba(249,250,251,0.95);
         }
 
         .badge {
@@ -184,13 +224,32 @@
             color: #92400e;
         }
 
-        .empty {
-            text-align: center;
-            color: #6b7280;
-            background: #f9fafb;
+        .badge-expired {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
-        @media (max-width: 768px) {
+        .empty-box {
+            background: rgba(255,255,255,0.90);
+            color: #475569;
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 900px) {
+            .nav-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
             body {
                 padding: 15px;
             }
@@ -204,16 +263,17 @@
                 align-items: flex-start;
             }
 
+            h1 {
+                font-size: 28px;
+            }
+
+            .nav-grid,
             .summary-grid {
                 grid-template-columns: 1fr;
             }
 
             table {
-                min-width: 700px;
-            }
-
-            .table-wrap {
-                overflow-x: auto;
+                min-width: 760px;
             }
         }
     </style>
@@ -221,168 +281,168 @@
 
 <body>
     <div class="container">
-        @php
-            $pendingRequestList = \App\Models\MemberRequest::where('status', 'pending')
-                ->latest()
-                ->take(5)
-                ->get();
-
-            $pendingRequestCount = \App\Models\MemberRequest::where('status', 'pending')->count();
-        @endphp
-
         <div class="header">
             <h1>Gym Membership Management System</h1>
 
-            <form action="{{ route('logout') }}" method="POST">
+            <form action="{{ route('logout') }}" method="POST" class="logout-form">
                 @csrf
                 <button type="submit" class="logout-btn">Logout</button>
             </form>
         </div>
 
-        <div class="nav">
-            <a href="{{ route('dashboard') }}">Dashboard</a>
-            <a href="{{ route('trainers.index') }}">Trainers</a>
-            <a href="{{ route('members.index') }}">Members</a>
-            <a href="{{ route('memberships.index') }}">Memberships</a>
-            <a href="{{ route('payments.index') }}">Payments</a>
-            <a href="{{ route('workouts.index') }}">Workouts</a>
-            <a href="{{ route('bmi.index') }}">BMI Calculator</a>
-            <a href="{{ route('reports.index') }}">Generate Reports</a>
-            <a href="{{ url('/admin/requests') }}">Member Requests</a>
+        <div class="nav-grid">
+            <a href="{{ route('dashboard') }}" class="nav-btn">Dashboard</a>
+            <a href="{{ route('trainers.index') }}" class="nav-btn">Trainers</a>
+            <a href="{{ route('members.index') }}" class="nav-btn">Members</a>
+            <a href="{{ route('memberships.index') }}" class="nav-btn">Memberships</a>
+            <a href="{{ route('payments.index') }}" class="nav-btn">Payments</a>
+            <a href="{{ route('workouts.index') }}" class="nav-btn">Workouts</a>
+            <a href="{{ route('bmi.index') }}" class="nav-btn">BMI Calculator</a>
+            <a href="{{ route('reports.index') }}" class="nav-btn">Generate Reports</a>
+            <a href="{{ route('admin.member-requests.index') }}" class="nav-btn">Member Requests</a>
         </div>
 
-        @if($pendingRequestCount > 0)
-            <div class="notification-box">
-                <strong>Notification: You have {{ $pendingRequestCount }} pending member request{{ $pendingRequestCount > 1 ? 's' : '' }}.</strong>
+        <hr class="divider">
 
-                <ul class="notification-list">
-                    @foreach($pendingRequestList as $request)
-                        <li>
-                            {{ $request->subject }} -
-                            {{ $request->created_at ? $request->created_at->format('M d, Y') : 'N/A' }}
-                        </li>
-                    @endforeach
-                </ul>
+        @if(isset($pendingRequestsCount) && $pendingRequestsCount > 0)
+    <div class="notification">
+        <strong>Notification: You have {{ $pendingRequestsCount }} pending member requests.</strong>
 
-                <a href="{{ url('/admin/requests') }}" class="notification-link">
-                    View Member Requests
-                </a>
-            </div>
-        @endif
+        <ul>
+            @foreach($pendingRequests as $request)
+                <li>
+                    {{ $request->member->full_name ?? $request->user->name ?? 'Member' }}
+                    - {{ $request->created_at ? $request->created_at->format('M d, Y') : 'N/A' }}
+                </li>
+            @endforeach
+        </ul>
+
+        <a href="{{ route('admin.member-requests.index') }}" class="notification-btn">
+            View Member Requests
+        </a>
+    </div>
+@endif
 
         <h2>System Summary</h2>
 
         <div class="summary-grid">
             <div class="summary-card">
-                <h3>Total Members</h3>
-                <p>{{ $totalMembers ?? 0 }}</p>
+                <div class="label">Total Members</div>
+                <div class="value">{{ $totalMembers ?? 0 }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Total Trainers</h3>
-                <p>{{ $totalTrainers ?? 0 }}</p>
+                <div class="label">Total Trainers</div>
+                <div class="value">{{ $totalTrainers ?? 0 }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Active Memberships</h3>
-                <p>{{ $activeMemberships ?? 0 }}</p>
+                <div class="label">Active Memberships</div>
+                <div class="value">{{ $activeMemberships ?? 0 }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Total Payments</h3>
-                <p class="peso">₱{{ number_format($totalPayments ?? 0, 2) }}</p>
+                <div class="label">Total Payments</div>
+                <div class="value money">₱{{ number_format($totalPayments, 2) }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Total Workouts</h3>
-                <p>{{ $totalWorkouts ?? 0 }}</p>
+                <div class="label">Total Workouts</div>
+                <div class="value">{{ $totalWorkouts ?? 0 }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Pending Member Requests</h3>
-                <p>{{ $pendingRequestCount }}</p>
+                <div class="label">Pending Member Requests</div>
+                <div class="value">{{ $pendingRequestsCount ?? 0 }}</div>
             </div>
         </div>
 
         <h2>Recent Payments</h2>
 
-        <div class="table-wrap">
-            <table>
-                <tr>
-                    <th>Member</th>
-                    <th>Membership</th>
-                    <th>Amount</th>
-                    <th>Method</th>
-                    <th>Status</th>
-                    <th>Date</th>
-                </tr>
-
-                @forelse($recentPayments ?? [] as $payment)
-                    @php
-                        $paymentStatus = strtolower($payment->status ?? 'pending');
-
-                        $statusClass = match($paymentStatus) {
-                            'paid', 'approved' => 'badge-paid',
-                            default => 'badge-pending',
-                        };
-
-                        $statusText = match($paymentStatus) {
-                            'paid', 'approved' => 'Paid',
-                            default => ucfirst($paymentStatus),
-                        };
-                    @endphp
-
+        @if(isset($recentPayments) && $recentPayments->count() > 0)
+            <div class="table-wrap">
+                <table>
                     <tr>
-                        <td>{{ $payment->member->full_name ?? 'N/A' }}</td>
-                        <td>{{ $payment->membership->plan_name ?? 'N/A' }}</td>
-                        <td>₱{{ number_format($payment->amount ?? 0, 2) }}</td>
-                        <td>{{ ucfirst($payment->method ?? 'N/A') }}</td>
-                        <td>
-                            <span class="badge {{ $statusClass }}">
-                                {{ $statusText }}
-                            </span>
-                        </td>
-                        <td>
-                            {{ $payment->paid_at ? \Carbon\Carbon::parse($payment->paid_at)->format('Y-m-d') : ($payment->created_at ? $payment->created_at->format('Y-m-d') : 'N/A') }}
-                        </td>
+                        <th>Member</th>
+                        <th>Membership</th>
+                        <th>Amount</th>
+                        <th>Method</th>
+                        <th>Status</th>
+                        <th>Date</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6" class="empty">No recent payments found.</td>
-                    </tr>
-                @endforelse
-            </table>
-        </div>
+
+                    @foreach($recentPayments as $payment)
+                        @php
+                            $status = strtolower($payment->status ?? 'pending');
+                            $statusClass = $status === 'paid' || $status === 'approved' ? 'badge-paid' : 'badge-pending';
+                        @endphp
+
+                        <tr>
+                            <td>{{ $payment->member->full_name ?? 'N/A' }}</td>
+                            <td>{{ $payment->membership->plan_name ?? 'N/A' }}</td>
+                            <td>₱{{ number_format($payment->amount ?? 0, 2) }}</td>
+                            <td>{{ ucfirst($payment->method ?? $payment->payment_method ?? 'N/A') }}</td>
+                            <td>
+                                <span class="badge {{ $statusClass }}">
+                                    {{ ucfirst($status) }}
+                                </span>
+                            </td>
+                            <td>
+                                {{ $payment->payment_date ?? $payment->paid_at ?? ($payment->created_at ? $payment->created_at->format('Y-m-d') : 'N/A') }}
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        @else
+            <div class="empty-box">No recent payments found.</div>
+        @endif
 
         <h2>Memberships Expiring Soon</h2>
 
-        <div class="table-wrap">
-            <table>
-                <tr>
-                    <th>Member Name</th>
-                    <th>Plan</th>
-                    <th>End Date</th>
-                    <th>Days Left</th>
-                </tr>
-
-                @forelse($expiringMemberships ?? [] as $membership)
-                    @php
-                        $daysLeft = \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::parse($membership->end_date), false);
-                    @endphp
-
+        @if(isset($expiringMemberships) && $expiringMemberships->count() > 0)
+            <div class="table-wrap">
+                <table>
                     <tr>
-                        <td>{{ $membership->member->full_name ?? 'N/A' }}</td>
-                        <td>{{ $membership->plan_name ?? 'N/A' }}</td>
-                        <td>{{ $membership->end_date ?? 'N/A' }}</td>
-                        <td>{{ $daysLeft > 0 ? $daysLeft . ' days' : 'Expired' }}</td>
+                        <th>Member Name</th>
+                        <th>Plan</th>
+                        <th>End Date</th>
+                        <th>Days Left</th>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="4" class="empty">No memberships expiring soon.</td>
-                    </tr>
-                @endforelse
-            </table>
-        </div>
+
+                    @foreach($expiringMemberships as $membership)
+                        @php
+                            $endDate = $membership->end_date ? \Carbon\Carbon::parse($membership->end_date)->startOfDay() : null;
+                            $today = now()->startOfDay();
+
+                            if ($endDate && $endDate->lt($today)) {
+                                $daysLeft = 'Expired';
+                                $badgeClass = 'badge-expired';
+                            } elseif ($endDate) {
+                                $daysLeft = $today->diffInDays($endDate) . ' day(s)';
+                                $badgeClass = 'badge-pending';
+                            } else {
+                                $daysLeft = 'N/A';
+                                $badgeClass = 'badge-pending';
+                            }
+                        @endphp
+
+                        <tr>
+                            <td>{{ $membership->member->full_name ?? 'N/A' }}</td>
+                            <td>{{ $membership->plan_name ?? 'N/A' }}</td>
+                            <td>{{ $membership->end_date ?? 'N/A' }}</td>
+                            <td>
+                                <span class="badge {{ $badgeClass }}">
+                                    {{ $daysLeft }}
+                                </span>
+                            </td>
+                        </tr>
+                    @endforeach
+                </table>
+            </div>
+        @else
+            <div class="empty-box">No expiring memberships found.</div>
+        @endif
     </div>
 </body>
 </html>

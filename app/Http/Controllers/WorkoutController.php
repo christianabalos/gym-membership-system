@@ -54,25 +54,33 @@ class WorkoutController extends Controller
     }
 
     public function index()
-    {
-        $workouts = Workout::with(['member', 'trainer'])
-            ->orderBy('member_id')
-            ->orderBy('workout_date')
-            ->get()
-            ->groupBy('member_id');
+{
+    $workouts = Workout::with(['member', 'trainer', 'membership.member', 'membership.trainer'])
+        ->whereHas('membership', function ($query) {
+            $query->whereIn('status', ['active', 'approved']);
+        })
+        ->orderBy('member_id')
+        ->orderBy('workout_date')
+        ->get();
 
-        if (request()->is('api/*')) {
-            return response()->json($workouts);
-        }
+    $allApprovedMemberships = Membership::with(['member', 'trainer'])
+        ->whereIn('status', ['active', 'approved'])
+        ->whereNotNull('trainer_id')
+        ->whereNotNull('schedule_time')
+        ->orderBy('member_id')
+        ->orderBy('start_date', 'asc')
+        ->orderBy('id', 'asc')
+        ->get();
 
-        $memberships = Membership::with(['member', 'trainer'])
-            ->whereIn('status', ['active', 'approved'])
-            ->whereNotNull('trainer_id')
-            ->orderBy('member_id')
-            ->get();
+    $approvedMemberships = $allApprovedMemberships
+        ->groupBy('member_id')
+        ->map(function ($memberships) {
+            return $memberships->first();
+        })
+        ->values();
 
-        return view('workouts.index', compact('workouts', 'memberships'));
-    }
+    return view('workouts.index', compact('workouts', 'approvedMemberships'));
+}
 
     public function generateNextWeek(Request $request)
     {
@@ -81,15 +89,23 @@ class WorkoutController extends Controller
         ]);
 
         $membership = Membership::with(['member', 'trainer'])
-            ->findOrFail($request->membership_id);
+    ->findOrFail($request->membership_id);
 
-        if (!$membership->trainer_id) {
-            return redirect()
-                ->route('workouts.index')
-                ->withErrors([
-                    'workout' => 'Workout schedule was not generated. This membership has no trainer.',
-                ]);
-        }
+$firstMembership = Membership::where('member_id', $membership->member_id)
+    ->whereIn('status', ['active', 'approved'])
+    ->whereNotNull('trainer_id')
+    ->whereNotNull('schedule_time')
+    ->orderBy('start_date', 'asc')
+    ->orderBy('id', 'asc')
+    ->first();
+
+if (!$firstMembership || $firstMembership->id !== $membership->id) {
+    return redirect()
+        ->route('workouts.index')
+        ->withErrors([
+            'workout' => 'Workout schedule must be generated only from the first active/approved membership of this member.',
+        ]);
+}
 
         if (!$membership->schedule_time) {
             return redirect()
@@ -177,22 +193,11 @@ class WorkoutController extends Controller
             ->with('success', 'Workout added successfully.');
     }
 
-    public function show(Workout $workout)
-    {
-        $workout->load(['member', 'trainer']);
-
-        if (request()->is('api/*')) {
-            return response()->json($workout);
-        }
-
-        return view('workouts.show', compact('workout'));
-    }
-
-    public function edit(Workout $workout)
+public function edit(Workout $workout)
 {
     $workout->load(['member', 'trainer']);
 
-    $timeSlots = [
+    $scheduleSlots = [
         '8:00 AM - 9:00 AM',
         '9:00 AM - 10:00 AM',
         '10:00 AM - 11:00 AM',
@@ -201,79 +206,101 @@ class WorkoutController extends Controller
         '4:00 PM - 5:00 PM',
     ];
 
-    $days = [
-        'Monday',
-        'Tuesday',
-        'Wednesday',
-        'Thursday',
-        'Friday',
-        'Saturday',
-        'Sunday',
-    ];
-
-    $takenSlotsByDay = [];
-
-    foreach ($days as $day) {
-        $takenSlotsByDay[$day] = Workout::where('trainer_id', $workout->trainer_id)
-            ->where('day', $day)
-            ->where('id', '!=', $workout->id)
-            ->whereNotNull('workout_time')
-            ->pluck('workout_time')
-            ->map(fn ($time) => trim($time))
-            ->toArray();
-    }
+    $trainerBookings = Workout::where('trainer_id', $workout->trainer_id)
+        ->where('id', '!=', $workout->id)
+        ->get([
+            'id',
+            'trainer_id',
+            'day',
+            'schedule_time',
+            'workout_time',
+            'time',
+            'workout_date',
+            'member_id',
+        ]);
 
     return view('workouts.edit', compact(
         'workout',
-        'timeSlots',
-        'takenSlotsByDay',
-        'days'
+        'scheduleSlots',
+        'trainerBookings'
     ));
 }
 
-    public function update(Request $request, Workout $workout)
-    {
-        $request->validate([
-            'day' => 'required|string',
-            'workout_type' => 'required|string',
-            'title' => 'required|string',
-            'workout_name' => 'nullable|string',
-            'description' => 'nullable|string',
-            'details' => 'nullable|string',
-            'workout_date' => 'required|date',
-            'time' => 'required|string',
-            'workout_time' => 'nullable|string',
-            'status' => 'required|string',
-        ]);
+public function update(Request $request, Workout $workout)
+{
+    $request->validate([
+        'day' => 'required|string',
+        'workout_type' => 'required|string',
+        'title' => 'required|string',
+        'details' => 'nullable|string',
+        'description' => 'nullable|string',
+        'workout_date' => 'required|date',
+        'schedule_time' => 'required|string',
+        'time' => 'nullable|string',
+        'workout_time' => 'nullable|string',
+        'status' => 'required|string',
+    ]);
 
-        $selectedTime = $this->normalizeWorkoutTime($request->time ?? $request->workout_time);
+    $selectedTime = $this->normalizeWorkoutTime($request->schedule_time);
 
-        $slotTaken = Workout::where('trainer_id', $workout->trainer_id)
-            ->where('day', $request->day)
-            ->where('id', '!=', $workout->id)
-            ->where('workout_time', $selectedTime)
-            ->exists();
+    $slotTaken = Workout::where('trainer_id', $workout->trainer_id)
+        ->where('day', $request->day)
+        ->where('id', '!=', $workout->id)
+        ->where(function ($query) use ($selectedTime) {
+            $query->where('schedule_time', $selectedTime)
+                ->orWhere('time', $selectedTime)
+                ->orWhere('workout_time', $selectedTime);
+        })
+        ->exists();
 
-        if ($slotTaken) {
-            return back()
-                ->withInput()
-                ->withErrors([
-                    'time' => 'This workout time is already booked for this trainer on ' . $request->day . '. Please choose another time.',
-                ]);
-        }
-
-        $workout->update([
-            'day' => $request->day,
-            'workout_type' => $request->workout_type,
-            'workout_name' => $request->title ?? $request->workout_name,
-            'description' => $request->description ?? $request->details,
-            'workout_date' => $request->workout_date,
-            'workout_time' => $selectedTime,
-            'status' => $request->status,
-        ]);
-
-        return redirect()
-            ->route('workouts.index')
-            ->with('success', 'Workout updated successfully.');
+    if ($slotTaken) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'schedule_time' => 'This workout time is already booked for this trainer on ' . $request->day . '. Please choose another time.',
+            ]);
     }
+
+    $workout->update([
+        'day' => $request->day,
+
+        'workout_type' => $request->workout_type,
+        'type' => $request->workout_type,
+
+        'title' => $request->title,
+        'workout_title' => $request->title,
+        'workout_name' => $request->title,
+
+        'details' => $request->details ?? $request->description,
+        'description' => $request->details ?? $request->description,
+
+        'workout_date' => $request->workout_date,
+
+        'schedule_time' => $selectedTime,
+        'time' => $selectedTime,
+        'workout_time' => $selectedTime,
+
+        'status' => $request->status,
+    ]);
+
+    return redirect()
+        ->route('workouts.index')
+        ->with('success', 'Workout updated successfully.');
+}
+
+public function show(Workout $workout)
+{
+    $workout->load(['member', 'trainer', 'membership.member', 'membership.trainer']);
+
+    return view('workouts.show', compact('workout'));
+}
+
+public function destroy(Workout $workout)
+{
+    $workout->delete();
+
+    return redirect()
+        ->route('workouts.index')
+        ->with('success', 'Workout deleted successfully.');
+}
 }

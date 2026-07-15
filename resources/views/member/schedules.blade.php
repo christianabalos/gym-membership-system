@@ -2,139 +2,143 @@
 <html>
 <head>
     <title>My Workout Schedules</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            padding: 35px 15px;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.78)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1200px;
+            max-width: 1100px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 36px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
-            margin-top: 0;
             text-align: center;
-            font-size: 32px;
-            margin-bottom: 10px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
+            margin-top: 10px;
             margin-bottom: 30px;
-        }
-
-        .top-actions {
-            margin-bottom: 25px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 16px;
-            border-radius: 7px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
+            color: #dbeafe;
+            font-size: 15px;
         }
 
         .btn-back {
-            background: #6b7280;
+            display: inline-block;
+            background: rgba(107, 114, 128, 0.95);
             color: white;
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            overflow: hidden;
-            border-radius: 10px;
-        }
-
-        .schedule-table th {
-            background: #111827;
-            color: white;
-            padding: 14px;
-            text-align: center;
+            padding: 10px 16px;
+            border-radius: 9px;
+            text-decoration: none;
             font-size: 14px;
-        }
-
-        .schedule-table td {
-            padding: 14px;
-            border: 1px solid #d1d5db;
-            vertical-align: middle;
-            font-size: 14px;
-        }
-
-        .schedule-table tr:nth-child(even) {
-            background: #f9fafb;
-        }
-
-        .trainer-name {
             font-weight: bold;
-            color: #1d4ed8;
+            margin-bottom: 25px;
         }
 
-        .workout-name {
-            font-weight: bold;
-            color: #111827;
+        .btn-back:hover {
+            background: #4b5563;
         }
 
-        .description {
+        .empty-box {
+            background: rgba(255, 255, 255, 0.90);
             color: #374151;
-            line-height: 1.4;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            font-size: 15px;
+            font-weight: bold;
+            border: 1px solid rgba(203, 213, 225, 0.9);
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .schedule-card {
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
+            border-radius: 16px;
+            padding: 22px;
+            border-left: 6px solid #2563eb;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+        }
+
+        .schedule-card h3 {
+            margin: 0 0 12px;
+            font-size: 22px;
+            color: #0f172a;
+        }
+
+        .info {
+            margin: 8px 0;
+            font-size: 14px;
+            color: #374151;
+            line-height: 1.5;
+        }
+
+        .info strong {
+            color: #111827;
         }
 
         .badge {
             display: inline-block;
-            padding: 6px 10px;
+            padding: 7px 12px;
             border-radius: 999px;
             font-size: 12px;
             font-weight: bold;
             text-transform: capitalize;
+            margin-top: 10px;
         }
 
-        .badge-scheduled {
+        .scheduled {
             background: #dbeafe;
             color: #1d4ed8;
         }
 
-        .badge-completed {
+        .completed {
             background: #dcfce7;
             color: #166534;
         }
 
-        .badge-rest {
+        .rest {
             background: #fef3c7;
             color: #92400e;
         }
 
-        .time-box {
-            font-weight: bold;
-            background: #eef2ff;
-            color: #3730a3;
-            padding: 7px 10px;
-            border-radius: 7px;
-            display: inline-block;
-        }
-
-        .empty {
-            text-align: center;
-            color: #6b7280;
-            padding: 30px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            background: #f9fafb;
+        .missed {
+            background: #fee2e2;
+            color: #991b1b;
         }
 
         @media (max-width: 768px) {
@@ -143,93 +147,91 @@
             }
 
             .container {
-                padding: 22px;
+                padding: 24px;
             }
 
-            .table-wrap {
-                overflow-x: auto;
+            h1 {
+                font-size: 30px;
             }
 
-            .schedule-table {
-                min-width: 950px;
+            .schedule-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>My Workout Schedules</h1>
-        <p class="subtitle">View your weekly workout plan, trainer, date, time, and workout status.</p>
+        <p class="subtitle">View your weekly workout plan, trainer, time, and workout status.</p>
 
-        <div class="top-actions">
-            <a href="{{ route('member.dashboard') }}" class="btn btn-back">Back</a>
-        </div>
+        <a href="{{ route('member.dashboard') }}" class="btn-back">Back</a>
 
-        @if($workouts->count() > 0)
-            <div class="table-wrap">
-                <table class="schedule-table">
-                    <tr>
-                        <th>Trainer</th>
-                        <th>Workout Type</th>
-                        <th>Workout Name</th>
-                        <th>Description</th>
-                        <th>Day</th>
-                        <th>Date</th>
-                        <th>Time</th>
-                        <th>Status</th>
-                    </tr>
+        @php
+            $myWorkouts = $workouts ?? collect();
+        @endphp
 
-                    @foreach($workouts as $workout)
-                        <tr>
-                            <td class="trainer-name">
-                                {{ $workout->trainer->name ?? 'No Trainer' }}
-                            </td>
+        @if($myWorkouts->count() > 0)
+            <div class="schedule-grid">
+                @foreach($myWorkouts as $workout)
+                    @php
+                        $status = strtolower($workout->status ?? 'scheduled');
 
-                            <td>
-                                {{ $workout->workout_type }}
-                            </td>
+                        $statusClass = match($status) {
+                            'completed' => 'completed',
+                            'rest' => 'rest',
+                            'missed' => 'missed',
+                            default => 'scheduled',
+                        };
 
-                            <td class="workout-name">
-                                {{ $workout->workout_name }}
-                            </td>
+                        $workoutTitle = $workout->title
+                            ?? $workout->workout_title
+                            ?? $workout->workout_name
+                            ?? 'Workout';
 
-                            <td class="description">
-                                {{ $workout->description }}
-                            </td>
+                        $workoutTime = $workout->schedule_time
+                            ?? $workout->time
+                            ?? $workout->workout_time
+                            ?? 'N/A';
+                    @endphp
 
-                            <td>
-                                {{ \Carbon\Carbon::parse($workout->workout_date)->format('l') }}
-                            </td>
+                    <div class="schedule-card">
+                        <h3>{{ $workoutTitle }}</h3>
 
-                            <td>
-                                {{ \Carbon\Carbon::parse($workout->workout_date)->format('M d, Y') }}
-                            </td>
+                        <p class="info">
+                            <strong>Trainer:</strong>
+                            {{ $workout->trainer->name ?? 'No Trainer' }}
+                        </p>
 
-                            <td>
-                                <span class="time-box">
-                                    {{ \Carbon\Carbon::parse($workout->workout_time)->format('g:i A') }}
-                                </span>
-                            </td>
+                        <p class="info">
+                            <strong>Day:</strong>
+                            {{ $workout->day ?? 'N/A' }}
+                        </p>
 
-                            <td>
-                                @php
-                                    $statusClass = match($workout->status) {
-                                        'completed' => 'badge-completed',
-                                        'rest' => 'badge-rest',
-                                        default => 'badge-scheduled',
-                                    };
-                                @endphp
+                        <p class="info">
+                            <strong>Time:</strong>
+                            {{ $workoutTime }}
+                        </p>
 
-                                <span class="badge {{ $statusClass }}">
-                                    {{ $workout->status }}
-                                </span>
-                            </td>
-                        </tr>
-                    @endforeach
-                </table>
+                        <p class="info">
+                            <strong>Type:</strong>
+                            {{ $workout->workout_type ?? $workout->type ?? 'N/A' }}
+                        </p>
+
+                        <p class="info">
+                            <strong>Description:</strong>
+                            {{ $workout->details ?? $workout->description ?? 'N/A' }}
+                        </p>
+
+                        <span class="badge {{ $statusClass }}">
+                            {{ ucfirst($status) }}
+                        </span>
+                    </div>
+                @endforeach
             </div>
         @else
-            <div class="empty">
+            <div class="empty-box">
                 No workout schedules found yet. Please wait for your trainer/workout schedule to be generated.
             </div>
         @endif

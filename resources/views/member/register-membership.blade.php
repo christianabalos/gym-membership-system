@@ -2,41 +2,70 @@
 <html>
 <head>
     <title>Register Membership</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            padding: 35px 15px;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.78)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 760px;
+            max-width: 820px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 36px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 34px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
+        }
+
+        .subtitle {
+            text-align: center;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            color: #dbeafe;
+            font-size: 15px;
         }
 
         .btn-back {
             display: inline-block;
-            background: #6b7280;
+            background: rgba(107, 114, 128, 0.95);
             color: white;
             padding: 10px 16px;
-            border-radius: 7px;
+            border-radius: 9px;
             text-decoration: none;
             font-size: 14px;
             font-weight: bold;
             margin-bottom: 25px;
+        }
+
+        .btn-back:hover {
+            background: #4b5563;
         }
 
         label {
@@ -44,101 +73,84 @@
             font-weight: bold;
             margin-top: 14px;
             margin-bottom: 7px;
+            color: #ffffff;
         }
 
         input,
         select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #9ca3af;
+            padding: 13px 14px;
+            border: 1px solid rgba(203, 213, 225, 0.9);
+            border-radius: 10px;
             font-size: 14px;
             box-sizing: border-box;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
         }
 
         input[readonly] {
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.75);
         }
 
         .trainer-note {
             margin-top: 8px;
-            color: #166534;
+            color: #dbeafe;
             font-size: 14px;
-        }
-
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 9px;
-            margin-top: 8px;
-            margin-bottom: 14px;
-        }
-
-        .schedule-box {
-            padding: 11px;
-            border-radius: 7px;
-            text-align: center;
             font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-
-        .schedule-box input {
-            display: none;
-        }
-
-        .schedule-box.available {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .schedule-box.booked {
-            background: #fee2e2;
-            color: #991b1b;
-            cursor: not-allowed;
-        }
-
-        .schedule-box.selected {
-            outline: 3px solid #2563eb;
-            background: #dbeafe;
-            color: #1d4ed8;
         }
 
         .price-note {
             margin-top: 8px;
-            font-size: 14px;
-            color: #111827;
+            font-size: 13px;
+            color: #dbeafe;
+            font-weight: bold;
         }
 
         .warning {
-            color: red;
+            color: #fecaca;
             margin-top: 8px;
             font-size: 14px;
+            font-weight: bold;
         }
 
         .error-box {
-            background: #fee2e2;
+            background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             margin-bottom: 18px;
+            font-weight: bold;
         }
 
         .submit-btn {
             width: 100%;
             margin-top: 25px;
-            padding: 13px;
+            padding: 14px;
             border: none;
-            border-radius: 8px;
-            background: #111827;
+            border-radius: 10px;
+            background: #2563eb;
             color: white;
             font-weight: bold;
             cursor: pointer;
             font-size: 15px;
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
         }
 
         .submit-btn:hover {
-            background: #374151;
+            background: #1d4ed8;
+        }
+
+        .two-column {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
         }
 
         @media (max-width: 768px) {
@@ -147,10 +159,14 @@
             }
 
             .container {
-                padding: 22px;
+                padding: 24px;
             }
 
-            .schedule-grid {
+            h1 {
+                font-size: 30px;
+            }
+
+            .two-column {
                 grid-template-columns: 1fr;
             }
         }
@@ -160,6 +176,7 @@
 <body>
     <div class="container">
         <h1>Register Membership</h1>
+        <p class="subtitle">Choose your plan, trainer, and payment method.</p>
 
         <a href="{{ route('member.dashboard') }}" class="btn-back">Back</a>
 
@@ -172,29 +189,7 @@
         @endif
 
         @php
-            use App\Models\Membership;
-
-            $slots = [
-                '8:00 AM - 9:00 AM',
-                '9:00 AM - 10:00 AM',
-                '10:00 AM - 11:00 AM',
-                '1:00 PM - 2:00 PM',
-                '2:00 PM - 3:00 PM',
-                '4:00 PM - 5:00 PM',
-            ];
-
             $selectedTrainerId = old('trainer_id', $member->trainer_id ?? '');
-
-            $bookedSlotsByTrainer = [];
-
-            foreach ($trainers as $trainer) {
-                $bookedSlotsByTrainer[$trainer->id] = Membership::where('trainer_id', $trainer->id)
-                    ->whereNotNull('schedule_time')
-                    ->whereIn('status', ['pending', 'approved', 'active'])
-                    ->pluck('schedule_time')
-                    ->map(fn($time) => trim($time))
-                    ->toArray();
-            }
         @endphp
 
         <form action="{{ route('member.storeMembership') }}" method="POST">
@@ -218,12 +213,6 @@
                 No Trainer selected. Standard membership price applies.
             </p>
 
-            <div class="field" id="scheduleSection" style="display: none;">
-                <label>Schedule Time:</label>
-
-                <div class="schedule-grid" id="scheduleGrid"></div>
-            </div>
-
             <label>Plan:</label>
             <select name="plan_name" id="plan_name" required>
                 <option value="">Select Plan</option>
@@ -239,17 +228,23 @@
                 No Trainer: Monthly ₱500, Quarterly ₱1800, Annual ₱5500. With Trainer: add ₱300.
             </p>
 
-            <label>Start Date:</label>
-            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" required>
+            <div class="two-column">
+                <div>
+                    <label>Start Date:</label>
+                    <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" required>
+                </div>
+
+                <div>
+                    <label>End Date:</label>
+                    <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" readonly required>
+                </div>
+            </div>
 
             @if(isset($nextStartDate) && $nextStartDate)
                 <p class="warning">
                     Your current membership ends on {{ $nextStartDate }}. Please choose {{ $nextStartDate }} or later as your start date.
                 </p>
             @endif
-
-            <label>End Date:</label>
-            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" readonly required>
 
             <label>Payment Method:</label>
             <select name="payment_method" required>
@@ -262,82 +257,12 @@
     </div>
 
     <script>
-        const slots = @json($slots);
-        const bookedSlotsByTrainer = @json($bookedSlotsByTrainer);
-        const oldScheduleTime = @json(old('schedule_time'));
-
         const planSelect = document.getElementById('plan_name');
         const trainerSelect = document.getElementById('trainer_id');
         const priceInput = document.getElementById('price');
         const startDateInput = document.getElementById('start_date');
         const endDateInput = document.getElementById('end_date');
         const trainerNote = document.getElementById('trainerNote');
-        const scheduleSection = document.getElementById('scheduleSection');
-        const scheduleGrid = document.getElementById('scheduleGrid');
-
-        function refreshScheduleSlots() {
-            const trainerId = trainerSelect.value;
-
-            if (!trainerId) {
-                trainerNote.innerText = 'No Trainer selected. Standard membership price applies.';
-                trainerNote.style.color = '#6b7280';
-
-                scheduleSection.style.display = 'none';
-                scheduleGrid.innerHTML = '';
-
-                return;
-            }
-
-            scheduleSection.style.display = 'block';
-
-            const bookedSlots = bookedSlotsByTrainer[trainerId] || [];
-            const bookedCount = bookedSlots.length;
-            const availableCount = slots.length - bookedCount;
-
-            trainerNote.innerText = `${bookedCount}/${slots.length} Booked, ${availableCount} available. Please choose your preferred schedule time.`;
-            trainerNote.style.color = '#166534';
-
-            scheduleGrid.innerHTML = '';
-
-            slots.forEach(slot => {
-                const isBooked = bookedSlots.includes(slot);
-
-                const label = document.createElement('label');
-                label.className = 'schedule-box ' + (isBooked ? 'booked' : 'available');
-                label.dataset.slot = slot;
-
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = 'schedule_time';
-                input.value = slot;
-
-                if (isBooked) {
-                    input.disabled = true;
-                }
-
-                if (oldScheduleTime === slot && !isBooked) {
-                    input.checked = true;
-                    label.classList.add('selected');
-                }
-
-                const span = document.createElement('span');
-                span.innerText = slot + ' - ' + (isBooked ? 'Booked' : 'Available');
-
-                label.appendChild(input);
-                label.appendChild(span);
-                scheduleGrid.appendChild(label);
-            });
-
-            document.querySelectorAll('.schedule-box input').forEach(input => {
-                input.addEventListener('change', function () {
-                    document.querySelectorAll('.schedule-box').forEach(box => {
-                        box.classList.remove('selected');
-                    });
-
-                    this.closest('.schedule-box').classList.add('selected');
-                });
-            });
-        }
 
         function updatePriceAndEndDate() {
             const plan = planSelect.value;
@@ -381,15 +306,25 @@
             }
         }
 
+        function updateTrainerNote() {
+            if (trainerSelect.value) {
+                trainerNote.innerText = 'Trainer selected. Additional ₱300 trainer fee applies.';
+                trainerNote.style.color = '#dcfce7';
+            } else {
+                trainerNote.innerText = 'No Trainer selected. Standard membership price applies.';
+                trainerNote.style.color = '#dbeafe';
+            }
+        }
+
         trainerSelect.addEventListener('change', function () {
-            refreshScheduleSlots();
+            updateTrainerNote();
             updatePriceAndEndDate();
         });
 
         planSelect.addEventListener('change', updatePriceAndEndDate);
         startDateInput.addEventListener('change', updatePriceAndEndDate);
 
-        refreshScheduleSlots();
+        updateTrainerNote();
         updatePriceAndEndDate();
     </script>
 </body>

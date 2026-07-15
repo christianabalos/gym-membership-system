@@ -14,30 +14,13 @@ class Member extends Model
         'address',
         'birth_date',
         'gender',
+        'email',
+        'password',
     ];
 
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
-
-    public function trainer()
-    {
-        return $this->belongsTo(Trainer::class);
-    }
-
-    public function memberships()
-    {
-        return $this->hasMany(Membership::class);
-    }
-
-    public function payments()
-    {
-        return $this->hasMany(Payment::class);
-    }
-
-    public function workouts()
-    {
-        return $this->hasMany(Workout::class);
-    }
+    public function user() { return $this->belongsTo(User::class); }
+    public function trainer() { return $this->belongsTo(Trainer::class); }
+    public function memberships() { return $this->hasMany(Membership::class); }
+    public function payments() { return $this->hasMany(Payment::class); }
+    public function workouts() { return $this->hasMany(Workout::class); }
 }

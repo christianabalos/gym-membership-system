@@ -2,54 +2,87 @@
 <html>
 <head>
     <title>Trainers</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
             max-width: 1250px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 34px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.28);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 28px;
         }
 
         h1 {
-            margin-top: 0;
-            font-size: 34px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         h2 {
             text-align: center;
-            margin-top: 40px;
+            margin-top: 35px;
             margin-bottom: 22px;
             font-size: 28px;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
-        .top-actions {
-            margin-bottom: 35px;
+        h3 {
+            margin: 0;
         }
 
         .btn {
             display: inline-block;
             padding: 10px 18px;
-            border-radius: 8px;
+            border-radius: 9px;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
         }
 
         .btn-back {
-            background: #6b7280;
+            background: rgba(107, 114, 128, 0.85);
             color: white;
         }
 
@@ -70,39 +103,53 @@
 
         .success {
             color: #166534;
-            background: #dcfce7;
-            padding: 10px;
-            border-radius: 8px;
+            background: rgba(220, 252, 231, 0.92);
+            padding: 12px 14px;
+            border-radius: 10px;
             margin-bottom: 18px;
+            font-weight: bold;
+        }
+
+        .table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            border-radius: 14px;
+            margin-bottom: 35px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 35px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border-radius: 14px;
+            overflow: hidden;
         }
 
         th {
-            background: #111827;
-            color: white;
+            background: rgba(15, 23, 42, 0.88);
+            color: #ffffff;
             padding: 14px;
             text-align: center;
-            font-size: 15px;
+            font-size: 13px;
         }
 
         td {
             padding: 14px;
-            border: 1px solid #d1d5db;
-            vertical-align: top;
-            font-size: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            vertical-align: middle;
+            font-size: 13px;
         }
 
-        .trainer-table td {
-            vertical-align: middle;
+        tr:nth-child(even) {
+            background: transparent;
         }
 
         .trainer-name {
-            font-weight: bold;
+            font-weight: 800;
+            color: #ffffff;
         }
 
         .members-list {
@@ -110,8 +157,20 @@
             padding-left: 18px;
         }
 
+        .members-list li {
+            margin-bottom: 4px;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
         .no-members {
-            color: #6b7280;
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.18);
+            color: #e5e7eb;
+            padding: 6px 10px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: bold;
         }
 
         .action-buttons {
@@ -134,46 +193,62 @@
             margin-bottom: 45px;
         }
 
-        .program-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+        .program-card,
+        .schedule-card {
+            background: rgba(255, 255, 255, 0.10);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 16px;
             padding: 20px;
-            background: #ffffff;
-            box-shadow: 0 4px 14px rgba(0,0,0,0.05);
+            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
-        .program-card h3 {
-            margin: 0;
+        .program-card h3,
+        .schedule-card h3 {
             font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.35);
         }
 
-        .program-specialization {
-            color: #6b7280;
+        .program-specialization,
+        .specialization {
+            color: #dbeafe;
             margin-top: 5px;
             margin-bottom: 15px;
+            font-weight: 600;
         }
 
-        .program-table {
+        .program-table,
+        .schedule-table {
             width: 100%;
             border-collapse: collapse;
             margin-bottom: 0;
+            border-radius: 12px;
+            overflow: hidden;
         }
 
-        .program-table th {
-            background: #111827;
-            color: white;
-            padding: 10px;
-            font-size: 14px;
+        .program-table th,
+        .schedule-table th {
+            background: rgba(15, 23, 42, 0.92);
+            color: #ffffff;
+            padding: 11px;
+            font-size: 13px;
         }
 
-        .program-table td {
-            padding: 10px;
-            border: 1px solid #d1d5db;
-            font-size: 14px;
+        .program-table td,
+        .schedule-table td {
+            padding: 11px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 13px;
         }
 
         .program-table tr:last-child td {
-            background: #fef3c7;
+            background: rgba(254, 243, 199, 0.82);
             font-weight: bold;
             color: #92400e;
         }
@@ -183,14 +258,21 @@
             justify-content: center;
             align-items: center;
             gap: 18px;
-            margin-bottom: 18px;
+            margin-bottom: 14px;
+        }
+
+        .calendar-controls h3 {
+            color: #ffffff;
+            min-width: 160px;
+            text-align: center;
+            text-shadow: 0 3px 10px rgba(0,0,0,0.45);
         }
 
         .calendar-btn {
             padding: 9px 14px;
             border: none;
-            border-radius: 7px;
-            background: #111827;
+            border-radius: 9px;
+            background: rgba(15, 23, 42, 0.92);
             color: white;
             cursor: pointer;
             font-weight: bold;
@@ -220,96 +302,76 @@
         .legend-6 { background: #ffedd5; color: #c2410c; }
         .legend-7 { background: #e0f2fe; color: #0369a1; }
 
+        .calendar-scroll {
+            width: 100%;
+            overflow-x: auto;
+            margin-bottom: 40px;
+            border-radius: 14px;
+        }
+
         .calendar-grid {
             display: grid;
             grid-template-columns: repeat(7, 1fr);
-            border: 1px solid #d1d5db;
-            margin-bottom: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            border-radius: 14px;
+            overflow: hidden;
+            min-width: 950px;
         }
 
         .calendar-day-header {
-            background: #111827;
+            background: rgba(15, 23, 42, 0.92);
             color: white;
             padding: 12px;
             text-align: center;
             font-weight: bold;
-            border: 1px solid #d1d5db;
+            border: 1px solid rgba(255, 255, 255, 0.18);
         }
 
         .calendar-day {
-            min-height: 130px;
+            min-height: 135px;
             padding: 8px;
-            border: 1px solid #d1d5db;
-            background: #ffffff;
-            font-size: 13px;
+            background: rgba(255, 255, 255, 0.08);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            font-size: 12px;
         }
 
         .calendar-date {
-            font-weight: bold;
-            margin-bottom: 6px;
+            font-weight: 800;
+            margin-bottom: 7px;
+            color: #ffffff;
         }
 
         .calendar-empty {
-            background: #f3f4f6;
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .calendar-item {
             padding: 7px 8px;
             border-radius: 8px;
             margin-top: 6px;
-            font-size: 12px;
+            font-size: 11px;
             line-height: 1.35;
             font-weight: 600;
         }
 
         .calendar-item strong {
             display: block;
+            font-size: 12px;
+            margin-bottom: 2px;
         }
 
-        .schedule-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            padding: 22px;
-            margin-bottom: 30px;
-            background: #ffffff;
-        }
-
-        .schedule-card h3 {
-            margin: 0;
-            font-size: 22px;
-        }
-
-        .specialization {
-            margin-top: 5px;
-            margin-bottom: 18px;
-            color: #374151;
-        }
-
-        .schedule-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 0;
-        }
-
-        .schedule-table th {
-            background: #111827;
-            color: white;
-            padding: 12px;
-            font-size: 14px;
-            border: 1px solid #d1d5db;
-            text-align: center;
-        }
-
-        .schedule-table td {
-            padding: 12px;
-            border: 1px solid #d1d5db;
-            text-align: center;
-            vertical-align: middle;
+        .schedule-list {
+            display: grid;
+            gap: 24px;
         }
 
         .time-cell {
             font-weight: bold;
-            background: #f9fafb;
+            background: rgba(15, 23, 42, 0.45);
+            color: #ffffff;
             text-align: center;
             width: 190px;
         }
@@ -318,47 +380,153 @@
             padding: 8px 10px;
             border-radius: 8px;
             text-align: center;
-            font-size: 13px;
+            font-size: 12px;
             font-weight: bold;
             min-width: 90px;
             display: inline-block;
         }
 
         .available {
-            background: #dcfce7;
+            background: rgba(220, 252, 231, 0.85);
             color: #166534;
         }
 
         .booked {
-            background: #dbeafe;
+            background: rgba(219, 234, 254, 0.85);
             color: #1d4ed8;
         }
 
         .rest {
-            background: #fef3c7;
+            background: rgba(254, 243, 199, 0.85);
             color: #92400e;
         }
 
-        @media (max-width: 900px) {
-            body {
-                padding: 15px;
-            }
-
-            .container {
-                padding: 20px;
-            }
-
+        @media (max-width: 1000px) {
             .program-grid {
                 grid-template-columns: 1fr;
             }
 
             table {
-                font-size: 13px;
+                min-width: 900px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
             }
 
-            th,
-            td {
-                padding: 9px;
+            .container {
+                padding: 22px;
+            }
+
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 28px;
+            }
+
+            h2 {
+                font-size: 23px;
+            }
+        }
+
+        @media print {
+            body {
+                background: none !important;
+                color: #000000 !important;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            body.print-calendar-mode #printable-calendar, 
+            body.print-calendar-mode #printable-calendar * {
+                visibility: visible;
+                color: #000000 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            body.print-calendar-mode #printable-calendar {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            body.print-calendar-mode .calendar-grid {
+                border: 2px solid #000000 !important;
+            }
+
+            body.print-calendar-mode .calendar-day-header,
+            body.print-calendar-mode .calendar-day {
+                border: 1px solid #000000 !important;
+            }
+
+            body.print-calendar-mode .calendar-item {
+                border: 1px solid #000000 !important;
+                margin-top: 6px !important;
+                padding: 5px !important;
+            }
+
+            body.print-calendar-mode .legend-item {
+                border: 1px solid #000000 !important;
+            }
+
+            body.print-schedule-mode #printable-schedule, 
+            body.print-schedule-mode #printable-schedule * {
+                visibility: visible;
+                color: #000000 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            body.print-schedule-mode #printable-schedule {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            body.print-schedule-mode .schedule-card {
+                background: transparent !important;
+                border: 1px solid #000000 !important;
+                padding: 15px;
+                margin-bottom: 25px;
+                page-break-inside: avoid;
+            }
+
+            body.print-schedule-mode table.schedule-table,
+            body.print-schedule-mode table.schedule-table th,
+            body.print-schedule-mode table.schedule-table td {
+                border: 1px solid #000000 !important;
+                color: #000000 !important;
+            }
+
+            body.print-schedule-mode .time-cell {
+                background: #f3f4f6 !important;
+                color: #000000 !important;
+            }
+
+            body.print-schedule-mode .slot-box {
+                border: 1px solid #6b7280 !important;
+                color: #000000 !important;
+                background: transparent !important;
             }
         }
     </style>
@@ -366,9 +534,8 @@
 
 <body>
     <div class="container">
-        <h1>Trainers</h1>
-
-        <div class="top-actions">
+        <div class="page-header">
+            <h1>Trainers</h1>
             <a href="{{ route('dashboard') }}" class="btn btn-back">Back</a>
         </div>
 
@@ -378,67 +545,69 @@
 
         <h2>Trainer List</h2>
 
-        <table class="trainer-table">
-            <tr>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Phone</th>
-                <th>Specialization</th>
-                <th>Members</th>
-                <th>Action</th>
-            </tr>
-
-            @forelse($trainers as $trainer)
+        <div class="table-wrap">
+            <table class="trainer-table">
                 <tr>
-                    <td class="trainer-name">{{ $trainer->name }}</td>
-                    <td>{{ $trainer->email }}</td>
-                    <td>{{ $trainer->phone }}</td>
-                    <td>{{ $trainer->specialization }}</td>
-
-                    <td>
-                        @php
-                            $uniqueMembers = $trainer->memberships
-                                ->whereIn('status', ['active', 'approved'])
-                                ->pluck('member')
-                                ->filter()
-                                ->unique('id');
-                        @endphp
-
-                        @if($uniqueMembers->count() > 0)
-                            <ul class="members-list">
-                                @foreach($uniqueMembers as $member)
-                                    <li>{{ $member->full_name }}</li>
-                                @endforeach
-                            </ul>
-                        @else
-                            <span class="no-members">No members</span>
-                        @endif
-                    </td>
-
-                    <td>
-                        <div class="action-buttons">
-                            <a href="{{ route('trainers.show', $trainer->id) }}" class="btn btn-view">View</a>
-                            <a href="{{ route('trainers.edit', $trainer->id) }}" class="btn btn-edit">Edit</a>
-
-                            <form action="{{ route('trainers.destroy', $trainer->id) }}" method="POST" class="delete-form" onsubmit="return confirm('Delete this trainer?');">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-delete">Delete</button>
-                            </form>
-                        </div>
-                    </td>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Specialization</th>
+                    <th>Members</th>
+                    <th>Action</th>
                 </tr>
-            @empty
-                <tr>
-                    <td colspan="6" style="text-align:center;">No trainers found.</td>
-                </tr>
-            @endforelse
-        </table>
+
+                @forelse($trainers as $trainer)
+                    <tr>
+                        <td class="trainer-name">{{ $trainer->name }}</td>
+                        <td>{{ $trainer->email }}</td>
+                        <td>{{ $trainer->phone }}</td>
+                        <td>{{ $trainer->specialization }}</td>
+
+                        <td>
+                            @php
+                                $uniqueMembers = $trainer->memberships
+                                    ->whereIn('status', ['active', 'approved'])
+                                    ->pluck('member')
+                                    ->filter()
+                                    ->unique('id');
+                            @endphp
+
+                            @if($uniqueMembers->count() > 0)
+                                <ul class="members-list">
+                                    @foreach($uniqueMembers as $member)
+                                        <li>{{ $member->full_name }}</li>
+                                    @endforeach
+                                </ul>
+                            @else
+                                <span class="no-members">No members</span>
+                            @endif
+                        </td>
+
+                        <td>
+                            <div class="action-buttons">
+                                <a href="{{ route('trainers.show', $trainer->id) }}" class="btn btn-view">View</a>
+                                <a href="{{ route('trainers.edit', $trainer->id) }}" class="btn btn-edit">Edit</a>
+
+                                <form action="{{ route('trainers.destroy', $trainer->id) }}" method="POST" class="delete-form" onsubmit="return confirm('Delete this trainer?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-delete">Delete</button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6" style="text-align:center;">No trainers found.</td>
+                    </tr>
+                @endforelse
+            </table>
+        </div>
 
         <h2>Trainer Workout Programs</h2>
 
         @php
-            function trainerProgram($specialization) {
+            $trainerProgram = function ($specialization) {
                 $specialization = strtolower($specialization ?? '');
 
                 if (str_contains($specialization, 'cardio')) {
@@ -486,7 +655,7 @@
                     ['day' => 'Saturday', 'workout' => 'General Fitness Circuit'],
                     ['day' => 'Sunday', 'workout' => 'Recovery Day / Rest'],
                 ];
-            }
+            };
         @endphp
 
         <div class="program-grid">
@@ -501,7 +670,7 @@
                             <th>Workout</th>
                         </tr>
 
-                        @foreach(trainerProgram($trainer->specialization) as $program)
+                        @foreach($trainerProgram($trainer->specialization) as $program)
                             <tr>
                                 <td>{{ $program['day'] }}</td>
                                 <td>{{ $program['workout'] }}</td>
@@ -512,80 +681,102 @@
             @endforeach
         </div>
 
-        <h2>Membership Schedule Calendar</h2>
-
-        <div class="calendar-controls">
-            <button type="button" onclick="previousMonth()" class="calendar-btn">Previous</button>
-            <h3 id="calendarTitle"></h3>
-            <button type="button" onclick="nextMonth()" class="calendar-btn">Next</button>
+        <div class="no-print" style="text-align: right; margin-bottom: 10px;">
+            <button onclick="printMembershipCalendar()" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer;">
+                Print Calendar
+            </button>
         </div>
 
-        <div class="trainer-legend">
-            @foreach($trainers as $index => $trainer)
-                <span class="legend-item legend-{{ $index % 8 }}">
-                    {{ $trainer->name }}
-                </span>
-            @endforeach
-        </div>
+        <div id="printable-calendar">
+            <h2>Membership Schedule Calendar</h2>
 
-        <div class="calendar-grid" id="calendarGrid"></div>
-
-        <h2>Trainer Schedule</h2>
-
-        @php
-            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-            $cleanTimeSlots = [
-                '8:00 AM - 9:00 AM',
-                '9:00 AM - 10:00 AM',
-                '10:00 AM - 11:00 AM',
-                '1:00 PM - 2:00 PM',
-                '2:00 PM - 3:00 PM',
-                '4:00 PM - 5:00 PM',
-            ];
-        @endphp
-
-        @foreach($trainers as $trainer)
-            <div class="schedule-card">
-                <h3>{{ $trainer->name }}</h3>
-                <div class="specialization">{{ $trainer->specialization }}</div>
-
-                <table class="schedule-table">
-                    <tr>
-                        <th>Time</th>
-                        @foreach($days as $day)
-                            <th>{{ $day }}</th>
-                        @endforeach
-                    </tr>
-
-                    @foreach($cleanTimeSlots as $time)
-                        <tr>
-                            <td class="time-cell">{{ $time }}</td>
-
-                            @foreach($days as $day)
-                                @php
-                                    $cell = $trainer->scheduleGrid[$time][$day] ?? null;
-                                @endphp
-
-                                <td>
-                                    @if($cell)
-                                        @if(($cell['status'] ?? '') === 'rest')
-                                            <div class="slot-box rest">Rest</div>
-                                        @else
-                                            <div class="slot-box booked">
-                                                {{ $cell['member'] }}
-                                            </div>
-                                        @endif
-                                    @else
-                                        <div class="slot-box available">Available</div>
-                                    @endif
-                                </td>
-                            @endforeach
-                        </tr>
-                    @endforeach
-                </table>
+            <div class="calendar-controls">
+                <button type="button" onclick="previousMonth()" class="calendar-btn no-print">Previous</button>
+                <h3 id="calendarTitle"></h3>
+                <button type="button" onclick="nextMonth()" class="calendar-btn no-print">Next</button>
             </div>
-        @endforeach
+
+            <div class="trainer-legend">
+                @foreach($trainers as $index => $trainer)
+                    <span class="legend-item legend-{{ $index % 8 }}">
+                        {{ $trainer->name }}
+                    </span>
+                @endforeach
+            </div>
+
+            <div class="calendar-scroll">
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+        </div>
+
+        <div class="no-print" style="text-align: right; margin-bottom: 10px; margin-top: 25px;">
+            <button onclick="printTrainerSchedule()" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer;">
+                Print Schedule
+            </button>
+        </div>
+
+        <div id="printable-schedule">
+            <h2>Trainer Schedule</h2>
+
+            @php
+                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+                $cleanTimeSlots = [
+                    '8:00 AM - 9:00 AM',
+                    '9:00 AM - 10:00 AM',
+                    '10:00 AM - 11:00 AM',
+                    '1:00 PM - 2:00 PM',
+                    '2:00 PM - 3:00 PM',
+                    '4:00 PM - 5:00 PM',
+                ];
+            @endphp
+
+            <div class="schedule-list">
+                @foreach($trainers as $trainer)
+                    <div class="schedule-card">
+                        <h3>{{ $trainer->name }}</h3>
+                        <div class="specialization">{{ $trainer->specialization }}</div>
+
+                        <div class="table-wrap">
+                            <table class="schedule-table">
+                                <tr>
+                                    <th>Time</th>
+                                    @foreach($days as $day)
+                                        <th>{{ $day }}</th>
+                                    @endforeach
+                                </tr>
+
+                                @foreach($cleanTimeSlots as $time)
+                                    <tr>
+                                        <td class="time-cell">{{ $time }}</td>
+
+                                        @foreach($days as $day)
+                                            @php
+                                                $cell = $trainer->scheduleGrid[$time][$day] ?? null;
+                                            @endphp
+
+                                            <td>
+                                                @if($cell)
+                                                    @if(($cell['status'] ?? '') === 'rest')
+                                                        <div class="slot-box rest">Rest</div>
+                                                    @else
+                                                        <div class="slot-box booked">
+                                                            {{ $cell['member'] }}
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <div class="slot-box available">Available</div>
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
     </div>
 
     <script>
@@ -595,41 +786,20 @@
             @foreach($trainers as $index => $trainer)
                 "{{ $trainer->name }}": {
                     background: [
-                        '#dbeafe',
-                        '#dcfce7',
-                        '#fef3c7',
-                        '#fce7f3',
-                        '#ede9fe',
-                        '#ccfbf1',
-                        '#ffedd5',
-                        '#e0f2fe'
+                        '#dbeafe', '#dcfce7', '#fef3c7', '#fce7f3', '#ede9fe', '#ccfbf1', '#ffedd5', '#e0f2fe'
                     ][{{ $index }} % 8],
                     text: [
-                        '#1d4ed8',
-                        '#166534',
-                        '#92400e',
-                        '#be185d',
-                        '#6d28d9',
-                        '#0f766e',
-                        '#c2410c',
-                        '#0369a1'
+                        '#1d4ed8', '#166534', '#92400e', '#be185d', '#6d28d9', '#0f766e', '#c2410c', '#0369a1'
                     ][{{ $index }} % 8],
                     border: [
-                        '#2563eb',
-                        '#16a34a',
-                        '#d97706',
-                        '#db2777',
-                        '#7c3aed',
-                        '#14b8a6',
-                        '#ea580c',
-                        '#0284c7'
+                        '#2563eb', '#16a34a', '#d97706', '#db2777', '#7c3aed', '#14b8a6', '#ea580c', '#0284c7'
                     ][{{ $index }} % 8]
                 },
             @endforeach
         };
 
         const calendarData = [
-            @foreach($calendarMemberships as $membership)
+            @foreach(($calendarMemberships ?? collect()) as $membership)
                 {
                     member: @json($membership->member->full_name ?? 'N/A'),
                     trainer: @json($membership->trainer->name ?? 'No Trainer'),
@@ -647,7 +817,6 @@
             const year = date.getFullYear();
             const month = String(date.getMonth() + 1).padStart(2, '0');
             const day = String(date.getDate()).padStart(2, '0');
-
             return `${year}-${month}-${day}`;
         }
 
@@ -737,6 +906,18 @@
         function nextMonth() {
             currentDate.setMonth(currentDate.getMonth() + 1);
             renderCalendar();
+        }
+
+        function printMembershipCalendar() {
+            document.body.classList.add('print-calendar-mode');
+            window.print();
+            document.body.classList.remove('print-calendar-mode');
+        }
+
+        function printTrainerSchedule() {
+            document.body.classList.add('print-schedule-mode');
+            window.print();
+            document.body.classList.remove('print-schedule-mode');
         }
 
         renderCalendar();

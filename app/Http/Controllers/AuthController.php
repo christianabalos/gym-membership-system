@@ -7,6 +7,7 @@ use App\Models\Member;
 use App\Models\Trainer;
 use App\Models\Membership;
 use App\Models\Payment;
+use App\Services\WorkoutScheduleGenerator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -32,22 +33,22 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-    'full_name' => 'required|string|max:255',
-    'email' => 'required|email|unique:users,email',
-    'password' => 'required|confirmed|min:6',
-    'phone' => 'required|string|max:20',
-    'address' => 'required|string|max:255',
-    'birth_month' => 'required',
-    'birth_day' => 'required',
-    'birth_year' => 'required',
-    'gender' => 'required',
-    'trainer_id' => 'nullable|exists:trainers,id',
-    'schedule_time' => 'nullable|string',
-    'plan_name' => 'required|in:Monthly,Quarterly,Annual',
-    'start_date' => 'required|date',
-    'end_date' => 'required|date',
-    'payment_method' => 'required|in:cash,online',
-]);
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|confirmed|min:6',
+            'phone' => 'required|string|max:20',
+            'address' => 'required|string|max:255',
+            'birth_month' => 'required',
+            'birth_day' => 'required',
+            'birth_year' => 'required',
+            'gender' => 'required',
+            'trainer_id' => 'nullable|exists:trainers,id',
+            'schedule_time' => 'nullable|string',
+            'plan_name' => 'required|in:Monthly,Quarterly,Annual',
+            'start_date' => 'required|date',
+            'end_date' => 'required|date',
+            'payment_method' => 'required|in:cash,online',
+        ]);
 
         if ($request->trainer_id && !$request->schedule_time) {
             return back()
@@ -99,6 +100,18 @@ class AuthController extends Controller
             $trainerFee = $request->trainer_id ? 300 : 0;
             $totalPrice = $basePrice + $trainerFee;
 
+            $birthDate = $request->birth_year . '-' .
+                str_pad($request->birth_month, 2, '0', STR_PAD_LEFT) . '-' .
+                str_pad($request->birth_day, 2, '0', STR_PAD_LEFT);
+
+            $membershipStatus = $request->payment_method === 'online'
+                ? 'approved'
+                : 'pending';
+
+            $paymentStatus = $request->payment_method === 'online'
+                ? 'paid'
+                : 'pending';
+
             $user = User::create([
                 'name' => $request->full_name,
                 'email' => $request->email,
@@ -110,10 +123,10 @@ class AuthController extends Controller
                 'user_id' => $user->id,
                 'trainer_id' => $request->trainer_id,
                 'full_name' => $request->full_name,
-                'phone' => $request->phone ?? '',
-                'address' => $request->address ?? '',
-                'birth_date' => $request->birth_date,
-                'gender' => $request->gender ?? '',
+                'phone' => $request->phone,
+                'address' => $request->address,
+                'birth_date' => $birthDate,
+                'gender' => $request->gender,
             ]);
 
             $membership = Membership::create([
@@ -124,7 +137,7 @@ class AuthController extends Controller
                 'price' => $totalPrice,
                 'start_date' => $request->start_date,
                 'end_date' => $request->end_date,
-                'status' => 'pending',
+                'status' => $membershipStatus,
             ]);
 
             $payment = Payment::create([
@@ -133,8 +146,14 @@ class AuthController extends Controller
                 'amount' => $totalPrice,
                 'payment_date' => now()->toDateString(),
                 'payment_method' => $request->payment_method,
-                'status' => 'pending',
+                'status' => $paymentStatus,
             ]);
+
+            if ($membershipStatus === 'approved' && $membership->trainer_id && $membership->schedule_time) {
+                $membership->load(['member', 'trainer']);
+
+                app(WorkoutScheduleGenerator::class)->generateNextWeek($membership);
+            }
 
             DB::commit();
 
@@ -151,7 +170,9 @@ class AuthController extends Controller
             DB::rollBack();
 
             return back()
-                ->withErrors(['register' => 'Registration failed. Please try again.'])
+                ->withErrors([
+                    'register' => 'Registration failed. Please try again. Error: ' . $e->getMessage(),
+                ])
                 ->withInput();
         }
     }
@@ -192,7 +213,7 @@ class AuthController extends Controller
         if ($response->failed()) {
             return redirect()->route('member.dashboard')
                 ->withErrors([
-                    'payment' => 'Online payment checkout failed. Please try again.',
+                    'payment' => 'Online payment checkout failed. Your membership is already approved and workouts were generated.',
                 ]);
         }
 
@@ -211,9 +232,7 @@ class AuthController extends Controller
         }
 
         return redirect()->route('member.dashboard')
-            ->withErrors([
-                'payment' => 'No checkout URL received from PayMongo.',
-            ]);
+            ->with('success', 'Registration successful. Your online payment membership is approved and workouts were generated.');
     }
 
     public function login(Request $request)

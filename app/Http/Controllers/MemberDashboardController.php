@@ -25,7 +25,7 @@ class MemberDashboardController extends Controller
         }
 
         $activeMembership = Membership::where('member_id', $member->id)
-            ->where('status', 'active')
+            ->whereIn('status', ['active', 'approved'])
             ->orderBy('end_date', 'desc')
             ->first();
 
@@ -62,21 +62,10 @@ class MemberDashboardController extends Controller
 
         $member->load('trainer');
 
-        $trainers = Trainer::with(['memberships' => function ($query) {
-            $query->whereIn('status', ['pending', 'active']);
-        }])->orderBy('name')->get();
-
-        $scheduleSlots = [
-            '8:00 AM - 9:00 AM',
-            '9:00 AM - 10:00 AM',
-            '10:00 AM - 11:00 AM',
-            '1:00 PM - 2:00 PM',
-            '2:00 PM - 3:00 PM',
-            '4:00 PM - 5:00 PM',
-        ];
+        $trainers = Trainer::orderBy('name')->get();
 
         $latestMembership = Membership::where('member_id', $member->id)
-            ->whereIn('status', ['pending', 'active'])
+            ->whereIn('status', ['pending', 'active', 'approved'])
             ->orderBy('end_date', 'desc')
             ->first();
 
@@ -85,7 +74,6 @@ class MemberDashboardController extends Controller
         return view('member.register-membership', compact(
             'member',
             'trainers',
-            'scheduleSlots',
             'nextStartDate'
         ));
     }
@@ -94,7 +82,6 @@ class MemberDashboardController extends Controller
     {
         $request->validate([
             'trainer_id' => 'nullable|exists:trainers,id',
-            'schedule_time' => 'nullable|string',
             'plan_name' => 'required|in:Monthly,Quarterly,Annual',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -111,13 +98,13 @@ class MemberDashboardController extends Controller
         }
 
         $existingMembership = Membership::where('member_id', $member->id)
-            ->whereIn('status', ['pending', 'active'])
+            ->whereIn('status', ['pending', 'active', 'approved'])
             ->orderBy('end_date', 'desc')
             ->first();
 
         if ($existingMembership) {
-            $newStartDate = Carbon::parse($request->start_date);
-            $existingEndDate = Carbon::parse($existingMembership->end_date);
+            $newStartDate = Carbon::parse($request->start_date)->startOfDay();
+            $existingEndDate = Carbon::parse($existingMembership->end_date)->startOfDay();
 
             if ($newStartDate->lt($existingEndDate)) {
                 return back()
@@ -125,45 +112,6 @@ class MemberDashboardController extends Controller
                         'start_date' => 'Your current membership ends on ' . $existingEndDate->format('Y-m-d') . '. Please choose ' . $existingEndDate->format('Y-m-d') . ' or later as your start date.',
                     ])
                     ->withInput();
-            }
-        }
-
-        $maxSlots = 6;
-
-        if ($request->trainer_id) {
-            if (!$request->schedule_time) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'schedule_time' => 'Please choose a schedule time.',
-                    ]);
-            }
-
-            $trainerBookedCount = Membership::where('trainer_id', $request->trainer_id)
-                ->whereIn('status', ['pending', 'active'])
-                ->whereNotNull('schedule_time')
-                ->distinct('schedule_time')
-                ->count('schedule_time');
-
-            if ($trainerBookedCount >= $maxSlots) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'trainer_id' => 'This trainer is fully booked. Please choose another trainer.',
-                    ]);
-            }
-
-            $slotTaken = Membership::where('trainer_id', $request->trainer_id)
-                ->where('schedule_time', $request->schedule_time)
-                ->whereIn('status', ['pending', 'active'])
-                ->exists();
-
-            if ($slotTaken) {
-                return back()
-                    ->withInput()
-                    ->withErrors([
-                        'schedule_time' => 'This schedule time is already taken. Please choose another time.',
-                    ]);
             }
         }
 
@@ -177,10 +125,11 @@ class MemberDashboardController extends Controller
         $trainerFee = $request->trainer_id ? 300 : 0;
         $totalPrice = $basePrice + $trainerFee;
 
+        $paymentMethod = strtolower($request->payment_method);
+
         $membership = Membership::create([
             'member_id' => $member->id,
             'trainer_id' => $request->trainer_id,
-            'schedule_time' => $request->trainer_id ? $request->schedule_time : null,
             'plan_name' => $request->plan_name,
             'price' => $totalPrice,
             'start_date' => $request->start_date,
@@ -192,74 +141,129 @@ class MemberDashboardController extends Controller
             'member_id' => $member->id,
             'membership_id' => $membership->id,
             'amount' => $membership->price,
-            'payment_method' => $request->payment_method,
+            'payment_method' => $paymentMethod,
             'status' => 'pending',
             'payment_date' => now()->toDateString(),
         ]);
 
-        if ($request->payment_method === 'online') {
+        if ($paymentMethod === 'online') {
             return $this->createPayMongoCheckout($payment);
         }
 
         return redirect()->route('member.dashboard')
-            ->with('success', 'Membership request submitted. Please wait for admin approval.');
+            ->with('success', 'Membership request submitted. Waiting for admin approval.');
     }
 
     private function createPayMongoCheckout(Payment $payment)
-    {
-        $successUrl = config('services.paymongo.success_url', env('PAYMONGO_SUCCESS_URL'));
-        $cancelUrl = config('services.paymongo.cancel_url', env('PAYMONGO_CANCEL_URL'));
+{
+    $payment->load(['membership.member.user']);
 
-        $response = Http::withBasicAuth(env('PAYMONGO_SECRET_KEY'), '')
-            ->post('https://api.paymongo.com/v1/checkout_sessions', [
-                'data' => [
-                    'attributes' => [
-                        'send_email_receipt' => false,
-                        'show_description' => true,
-                        'show_line_items' => true,
-                        'cancel_url' => $cancelUrl . '?payment_id=' . $payment->id,
-                        'success_url' => $successUrl . '?payment_id=' . $payment->id,
-                        'line_items' => [
-                            [
-                                'currency' => 'PHP',
-                                'amount' => $payment->amount * 100,
-                                'description' => 'Gym Membership Payment',
-                                'name' => $payment->membership->plan_name . ' Membership',
-                                'quantity' => 1,
-                            ],
-                        ],
-                        'payment_method_types' => [
-                            'gcash',
-                            'paymaya',
+    $secretKey = env('PAYMONGO_SECRET_KEY');
+
+    if (!$secretKey) {
+        return redirect()->route('member.dashboard')
+            ->withErrors([
+                'payment' => 'PayMongo secret key is missing in .env.',
+            ]);
+    }
+
+    $successUrl = env('PAYMONGO_SUCCESS_URL', url('/paymongo/success'));
+    $cancelUrl = env('PAYMONGO_CANCEL_URL', url('/paymongo/cancel'));
+
+    $memberName = $payment->membership->member->full_name ?? 'Gym Member';
+    $memberEmail = $payment->membership->member->user->email ?? 'member@example.com';
+
+    $amount = (int) round($payment->amount * 100);
+
+    $response = Http::withBasicAuth($secretKey, '')
+        ->acceptJson()
+        ->asJson()
+        ->post('https://api.paymongo.com/v1/checkout_sessions', [
+            'data' => [
+                'attributes' => [
+                    'line_items' => [
+                        [
+                            'currency' => 'PHP',
+                            'amount' => $amount,
+                            'name' => $payment->membership->plan_name . ' Membership',
+                            'quantity' => 1,
                         ],
                     ],
+
+                    'payment_method_types' => [
+                        'gcash',
+                    ],
+
+                    'billing' => [
+                        'name' => $memberName,
+                        'email' => $memberEmail,
+                    ],
+
+                    'description' => 'Gym Membership Payment',
+                    'success_url' => $successUrl . '?payment_id=' . $payment->id,
+                    'cancel_url' => $cancelUrl . '?payment_id=' . $payment->id,
                 ],
-            ]);
-
-        if ($response->failed()) {
-            return redirect()->route('member.dashboard')
-                ->withErrors([
-                    'payment' => 'Online payment checkout failed. Please try again.',
-                ]);
-        }
-
-        $checkout = $response->json();
-
-        $checkoutId = $checkout['data']['id'] ?? null;
-        $checkoutUrl = $checkout['data']['attributes']['checkout_url'] ?? null;
-
-        $payment->update([
-            'paymongo_checkout_id' => $checkoutId,
-            'paymongo_checkout_url' => $checkoutUrl,
+            ],
         ]);
 
-        if ($checkoutUrl) {
-            return redirect($checkoutUrl);
-        }
+    if ($response->failed()) {
+        return redirect()->route('member.dashboard')
+            ->withErrors([
+                'payment' => 'PayMongo checkout failed: ' . $response->body(),
+            ]);
+    }
 
+    $checkout = $response->json();
+
+    $checkoutId = $checkout['data']['id'] ?? null;
+    $checkoutUrl = $checkout['data']['attributes']['checkout_url'] ?? null;
+
+    if (!$checkoutUrl) {
         return redirect()->route('member.dashboard')
             ->withErrors([
                 'payment' => 'No checkout URL received from PayMongo.',
+            ]);
+    }
+
+    $payment->update([
+        'paymongo_checkout_id' => $checkoutId,
+        'paymongo_checkout_url' => $checkoutUrl,
+    ]);
+
+    return redirect()->away($checkoutUrl);
+}
+
+    public function paymongoSuccess(Request $request)
+    {
+        $payment = Payment::with('membership')->find($request->payment_id);
+
+        if (!$payment) {
+            return redirect()->route('member.dashboard')
+                ->withErrors([
+                    'payment' => 'Payment record not found.',
+                ]);
+        }
+
+        $payment->update([
+            'status' => 'paid',
+            'payment_date' => now()->toDateString(),
+        ]);
+
+        if ($payment->membership) {
+            $payment->membership->update([
+                'status' => 'approved',
+            ]);
+        }
+
+        return redirect()->route('member.dashboard')
+            ->with('success', 'Online payment successful. Your membership is now approved.');
+    }
+
+    public function paymongoCancel(Request $request)
+    {
+        return redirect()->route('member.dashboard')
+            ->withErrors([
+                'payment' => 'Online payment was cancelled. Your membership is still pending.',
             ]);
     }
 

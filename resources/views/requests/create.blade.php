@@ -2,80 +2,91 @@
 <html>
 <head>
     <title>Send Request</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            padding: 35px 15px;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.78)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
             max-width: 650px;
-            margin: 55px auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            margin: auto;
+            padding: 36px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 32px;
+            margin: 0;
+            font-size: 34px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 28px;
-        }
-
-        .top-actions {
-            margin-bottom: 22px;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 10px 16px;
-            border-radius: 7px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 30px;
+            color: #dbeafe;
+            font-size: 15px;
         }
 
         .btn-back {
-            background: #6b7280;
+            display: inline-block;
+            background: rgba(107, 114, 128, 0.95);
             color: white;
+            padding: 10px 16px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 25px;
         }
 
-        .btn-submit {
-            width: 100%;
-            background: #111827;
-            color: white;
-            padding: 13px;
-            margin-top: 18px;
+        .btn-back:hover {
+            background: #4b5563;
         }
 
         label {
             display: block;
-            font-weight: bold;
+            margin-top: 16px;
             margin-bottom: 7px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
         }
 
         input,
         textarea {
             width: 100%;
-            padding: 11px;
-            border: 1px solid #cbd5e1;
-            border-radius: 7px;
+            padding: 13px 14px;
+            border-radius: 10px;
+            border: 1px solid rgba(203, 213, 225, 0.95);
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
             font-size: 14px;
-            box-sizing: border-box;
-            margin-bottom: 14px;
+            outline: none;
         }
 
         textarea {
@@ -83,44 +94,91 @@
             resize: vertical;
         }
 
-        .hint {
-            color: #6b7280;
-            font-size: 13px;
-            margin-top: -7px;
-            margin-bottom: 14px;
+        input:focus,
+        textarea:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.25);
+        }
+
+        .note {
+            margin-top: 6px;
+            color: #dbeafe;
+            font-size: 12px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            margin-top: 25px;
+            padding: 14px;
+            border: none;
+            border-radius: 11px;
+            background: #2563eb;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
         }
 
         .error-box {
-            background: #fee2e2;
+            background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 18px;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
 
-        .error-box p {
-            margin: 5px 0;
+        .success {
+            background: rgba(220, 252, 231, 0.95);
+            color: #166534;
+            padding: 14px 16px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 15px;
+            }
+
+            .container {
+                padding: 24px;
+            }
+
+            h1 {
+                font-size: 29px;
+            }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Send Request to Admin</h1>
-        <p class="subtitle">Write your concern or request and wait for admin response.</p>
+        <h1>Send Request</h1>
+        <p class="subtitle">Send your concern to the admin and wait for response.</p>
 
-        <div class="top-actions">
-    <a href="{{ route('member.dashboard') }}" class="btn btn-back">Back</a>
-</div>
+       <a href="{{ url('/member/requests') }}" class="btn-back">Back</a>
+
+        @if(session('success'))
+            <div class="success">
+                {{ session('success') }}
+            </div>
+        @endif
 
         @if ($errors->any())
             <div class="error-box">
                 @foreach ($errors->all() as $error)
-                    <p>{{ $error }}</p>
+                    <div>{{ $error }}</div>
                 @endforeach
             </div>
         @endif
 
-        <form action="{{ route('member.requests.store') }}" method="POST" novalidate>
+        <form action="{{ url('/member/requests') }}" method="POST">
             @csrf
 
             <label>Subject:</label>
@@ -129,19 +187,25 @@
                 name="subject"
                 value="{{ old('subject') }}"
                 placeholder="Example: Change schedule request"
+                required
             >
 
-            <p class="hint">Use a short title for your request.</p>
+            <div class="note">
+                Use a short title for your request.
+            </div>
 
             <label>Message:</label>
             <textarea
                 name="message"
                 placeholder="Type your request here..."
+                required
             >{{ old('message') }}</textarea>
 
-            <p class="hint">Include important details like schedule, payment, membership, or trainer concern.</p>
+            <div class="note">
+                Include important details like schedule, payment, membership, or trainer concern.
+            </div>
 
-            <button type="submit" class="btn btn-submit">Send Request</button>
+            <button type="submit" class="submit-btn">Send Request</button>
         </form>
     </div>
 </body>

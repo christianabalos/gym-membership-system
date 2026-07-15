@@ -12,6 +12,7 @@ use App\Http\Controllers\BmiController;
 use App\Http\Controllers\MemberDashboardController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\MemberRequestController;
+use App\Http\Controllers\MemberImportController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -29,7 +30,12 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
     Route::resource('trainers', TrainerController::class);
+
+    Route::get('/members/export/{format}', [MemberController::class, 'export'])->name('members.export');
+    Route::post('/members/import', [MemberImportController::class, 'import'])->name('members.import');
+
     Route::resource('members', MemberController::class);
+    
     Route::resource('memberships', MembershipController::class);
     Route::resource('payments', PaymentController::class);
 
@@ -56,16 +62,16 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/reports/payments', [ReportController::class, 'payments'])->name('reports.payments');
     Route::get('/reports/workouts', [ReportController::class, 'workouts'])->name('reports.workouts');
     Route::get('/reports/trainers', [ReportController::class, 'trainers'])->name('reports.trainers');
-    Route::get('/reports/membership-analytics', [ReportController::class, 'membershipAnalytics'])->name('reports.membershipAnalytics');
+    Route::get('/reports/analytics', [ReportController::class, 'analytics'])->name('reports.analytics');
 
-    Route::get('/admin/requests', [MemberRequestController::class, 'adminIndex'])
-        ->name('admin.requests.index');
+    Route::get('/admin/member-requests', [MemberRequestController::class, 'adminIndex'])
+        ->name('admin.member-requests.index');
 
-    Route::put('/admin/requests/{id}', [MemberRequestController::class, 'updateStatus'])
-        ->name('admin.requests.update');
+    Route::patch('/admin/member-requests/{id}/status', [MemberRequestController::class, 'updateStatus'])
+        ->name('admin.member-requests.updateStatus');
 
-    Route::delete('/admin/requests/{memberRequest}', [MemberRequestController::class, 'destroy'])
-        ->name('admin.requests.destroy');
+    Route::delete('/admin/member-requests/{memberRequest}', [MemberRequestController::class, 'destroy'])
+        ->name('admin.member-requests.destroy');
 });
 
 Route::middleware(['auth'])->group(function () {
@@ -99,49 +105,9 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/member/requests', [MemberRequestController::class, 'store'])
         ->name('member.requests.store');
 
-    Route::get('/paymongo/success', function () {
-        $paymentId = request('payment_id');
+    Route::get('/paymongo/success', [MemberDashboardController::class, 'paymongoSuccess'])
+        ->name('paymongo.success');
 
-        if ($paymentId) {
-            $payment = \App\Models\Payment::with('membership')->find($paymentId);
-
-            if ($payment) {
-                $payment->update([
-                    'status' => 'paid',
-                ]);
-
-                if ($payment->membership) {
-                    $payment->membership->update([
-                        'status' => 'active',
-                    ]);
-                }
-            }
-        }
-
-        return redirect()->route('member.dashboard')
-            ->with('success', 'Online payment successful. Your membership is now active.');
-    })->name('paymongo.success');
-
-    Route::get('/paymongo/cancel', function () {
-        $paymentId = request('payment_id');
-
-        if ($paymentId) {
-            $payment = \App\Models\Payment::with('membership')->find($paymentId);
-
-            if ($payment) {
-                $payment->update([
-                    'status' => 'failed',
-                ]);
-
-                if ($payment->membership) {
-                    $payment->membership->update([
-                        'status' => 'pending',
-                    ]);
-                }
-            }
-        }
-
-        return redirect()->route('member.dashboard')
-            ->withErrors(['payment' => 'Online payment was cancelled or failed.']);
-    })->name('paymongo.cancel');
+    Route::get('/paymongo/cancel', [MemberDashboardController::class, 'paymongoCancel'])
+        ->name('paymongo.cancel');
 });

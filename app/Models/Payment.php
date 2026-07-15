@@ -10,11 +10,10 @@ class Payment extends Model
         'member_id',
         'membership_id',
         'amount',
-        'payment_method',
+        'method',
         'status',
         'payment_date',
-        'paymongo_checkout_id',
-        'paymongo_checkout_url',
+        'paid_at',
     ];
 
     public function member()
