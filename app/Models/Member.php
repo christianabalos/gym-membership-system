@@ -17,17 +17,12 @@ class Member extends Model
         'gender',
         'email',
         'password',
-
-        // Health Information
         'health_declaration',
         'no_health_issue',
-
-        // Emergency Contact
         'emergency_name',
         'emergency_relationship',
         'emergency_phone',
     ];
-
     public function user() { return $this->belongsTo(User::class); }
     public function trainer() { return $this->belongsTo(Trainer::class); }
     public function memberships() { return $this->hasMany(Membership::class); }

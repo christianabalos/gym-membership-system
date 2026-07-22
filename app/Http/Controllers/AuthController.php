@@ -53,6 +53,7 @@ class AuthController extends Controller
             'emergency_name' => 'nullable|string|max:255',
             'emergency_relationship' => 'nullable|string|max:255',
             'emergency_phone' => 'nullable|string|max:20',            
+
         ]);
 
         if ($request->trainer_id && !$request->schedule_time) {
@@ -133,6 +134,7 @@ class AuthController extends Controller
                 'birth_date' => $birthDate,
                 'gender' => $request->gender,
 
+
                 // Health Information
                 'health_declaration' => $request->health_declaration,
                 'no_health_issue' => $request->has('no_health_issue'),
@@ -141,6 +143,7 @@ class AuthController extends Controller
                 'emergency_name' => $request->emergency_name,
                 'emergency_relationship' => $request->emergency_relationship,
                 'emergency_phone' => $request->emergency_phone,
+
             ]);
 
             $membership = Membership::create([

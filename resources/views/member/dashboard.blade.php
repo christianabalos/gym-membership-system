@@ -156,6 +156,58 @@
             gap: 18px;
         }
 
+=======
+        /* --- QR CARD STYLES --- */
+        .qr-card-container {
+            max-width: 350px; 
+            margin: 0 auto 40px auto; 
+            background: rgba(255, 255, 255, 0.08); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 18px; 
+            padding: 25px 20px; 
+            text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25); 
+            backdrop-filter: blur(10px);
+        }
+        
+        .qr-pass-label {
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: #a5f3fc; 
+            font-weight: bold; 
+            display: block; 
+            margin-bottom: 5px;
+        }
+
+        .qr-member-name {
+            margin: 0 0 15px 0; 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: #ffffff;
+        }
+
+        .qr-image-wrapper {
+            background: white; 
+            padding: 12px; 
+            display: inline-block; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .qr-instructions {
+            font-size: 12px; 
+            color: #dbeafe; 
+            margin: 15px 0 0 0;
+        }
+        /* ------------------------ */
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
         .module-card {
             background: rgba(255, 255, 255, 0.92);
             color: #111827;
@@ -248,6 +300,11 @@
 <body>
     <div class="container">
         <div class="profile-header">
+        <div class="badge-wrap">
+            <span class="badge">Member Portal</span>
+        </div>
+
+        <h1>Member Dashboard</h1>
 
             <a href="{{ route('member.profile') }}">
                 <img

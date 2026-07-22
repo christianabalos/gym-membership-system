@@ -431,6 +431,105 @@
 
             h2 {
                 font-size: 23px;
+<<<<<<< HEAD
+=======
+            }
+        }
+
+        @media print {
+            body {
+                background: none !important;
+                color: #000000 !important;
+            }
+
+            body * {
+                visibility: hidden;
+            }
+
+            .no-print {
+                display: none !important;
+            }
+
+            body.print-calendar-mode #printable-calendar, 
+            body.print-calendar-mode #printable-calendar * {
+                visibility: visible;
+                color: #000000 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            body.print-calendar-mode #printable-calendar {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            body.print-calendar-mode .calendar-grid {
+                border: 2px solid #000000 !important;
+            }
+
+            body.print-calendar-mode .calendar-day-header,
+            body.print-calendar-mode .calendar-day {
+                border: 1px solid #000000 !important;
+            }
+
+            body.print-calendar-mode .calendar-item {
+                border: 1px solid #000000 !important;
+                margin-top: 6px !important;
+                padding: 5px !important;
+            }
+
+            body.print-calendar-mode .legend-item {
+                border: 1px solid #000000 !important;
+            }
+
+            body.print-schedule-mode #printable-schedule, 
+            body.print-schedule-mode #printable-schedule * {
+                visibility: visible;
+                color: #000000 !important;
+                background: transparent !important;
+                box-shadow: none !important;
+                text-shadow: none !important;
+            }
+
+            body.print-schedule-mode #printable-schedule {
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                margin: 0;
+                padding: 0;
+            }
+
+            body.print-schedule-mode .schedule-card {
+                background: transparent !important;
+                border: 1px solid #000000 !important;
+                padding: 15px;
+                margin-bottom: 25px;
+                page-break-inside: avoid;
+            }
+
+            body.print-schedule-mode table.schedule-table,
+            body.print-schedule-mode table.schedule-table th,
+            body.print-schedule-mode table.schedule-table td {
+                border: 1px solid #000000 !important;
+                color: #000000 !important;
+            }
+
+            body.print-schedule-mode .time-cell {
+                background: #f3f4f6 !important;
+                color: #000000 !important;
+            }
+
+            body.print-schedule-mode .slot-box {
+                border: 1px solid #6b7280 !important;
+                color: #000000 !important;
+                background: transparent !important;
+>>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
             }
         }
     </style>
@@ -585,22 +684,16 @@
             @endforeach
         </div>
 
-        <h2>Membership Schedule Calendar</h2>
-
-        <div class="calendar-controls">
-            <button type="button" onclick="previousMonth()" class="calendar-btn">Previous</button>
-            <h3 id="calendarTitle"></h3>
-            <button type="button" onclick="nextMonth()" class="calendar-btn">Next</button>
+        <div class="no-print" style="text-align: right; margin-bottom: 10px;">
+            <button onclick="printMembershipCalendar()" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer;">
+                Print Calendar
+            </button>
         </div>
 
-        <div class="trainer-legend">
-            @foreach($trainers as $index => $trainer)
-                <span class="legend-item legend-{{ $index % 8 }}">
-                    {{ $trainer->name }}
-                </span>
-            @endforeach
-        </div>
+        <div id="printable-calendar">
+            <h2>Membership Schedule Calendar</h2>
 
+<<<<<<< HEAD
         <div class="calendar-scroll">
             <div class="calendar-grid" id="calendarGrid"></div>
         </div>
@@ -664,6 +757,94 @@
                     </div>
                 </div>
             @endforeach
+=======
+            <div class="calendar-controls">
+                <button type="button" onclick="previousMonth()" class="calendar-btn no-print">Previous</button>
+                <h3 id="calendarTitle"></h3>
+                <button type="button" onclick="nextMonth()" class="calendar-btn no-print">Next</button>
+            </div>
+
+            <div class="trainer-legend">
+                @foreach($trainers as $index => $trainer)
+                    <span class="legend-item legend-{{ $index % 8 }}">
+                        {{ $trainer->name }}
+                    </span>
+                @endforeach
+            </div>
+
+            <div class="calendar-scroll">
+                <div class="calendar-grid" id="calendarGrid"></div>
+            </div>
+        </div>
+
+        <div class="no-print" style="text-align: right; margin-bottom: 10px; margin-top: 25px;">
+            <button onclick="printTrainerSchedule()" style="background-color: #2563eb; color: white; padding: 8px 16px; border-radius: 6px; border: none; font-weight: bold; cursor: pointer;">
+                Print Schedule
+            </button>
+        </div>
+
+        <div id="printable-schedule">
+            <h2>Trainer Schedule</h2>
+
+            @php
+                $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+
+                $cleanTimeSlots = [
+                    '8:00 AM - 9:00 AM',
+                    '9:00 AM - 10:00 AM',
+                    '10:00 AM - 11:00 AM',
+                    '1:00 PM - 2:00 PM',
+                    '2:00 PM - 3:00 PM',
+                    '4:00 PM - 5:00 PM',
+                ];
+            @endphp
+
+            <div class="schedule-list">
+                @foreach($trainers as $trainer)
+                    <div class="schedule-card">
+                        <h3>{{ $trainer->name }}</h3>
+                        <div class="specialization">{{ $trainer->specialization }}</div>
+
+                        <div class="table-wrap">
+                            <table class="schedule-table">
+                                <tr>
+                                    <th>Time</th>
+                                    @foreach($days as $day)
+                                        <th>{{ $day }}</th>
+                                    @endforeach
+                                </tr>
+
+                                @foreach($cleanTimeSlots as $time)
+                                    <tr>
+                                        <td class="time-cell">{{ $time }}</td>
+
+                                        @foreach($days as $day)
+                                            @php
+                                                $cell = $trainer->scheduleGrid[$time][$day] ?? null;
+                                            @endphp
+
+                                            <td>
+                                                @if($cell)
+                                                    @if(($cell['status'] ?? '') === 'rest')
+                                                        <div class="slot-box rest">Rest</div>
+                                                    @else
+                                                        <div class="slot-box booked">
+                                                            {{ $cell['member'] }}
+                                                        </div>
+                                                    @endif
+                                                @else
+                                                    <div class="slot-box available">Available</div>
+                                                @endif
+                                            </td>
+                                        @endforeach
+                                    </tr>
+                                @endforeach
+                            </table>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+>>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
         </div>
     </div>
 
@@ -674,34 +855,13 @@
             @foreach($trainers as $index => $trainer)
                 "{{ $trainer->name }}": {
                     background: [
-                        '#dbeafe',
-                        '#dcfce7',
-                        '#fef3c7',
-                        '#fce7f3',
-                        '#ede9fe',
-                        '#ccfbf1',
-                        '#ffedd5',
-                        '#e0f2fe'
+                        '#dbeafe', '#dcfce7', '#fef3c7', '#fce7f3', '#ede9fe', '#ccfbf1', '#ffedd5', '#e0f2fe'
                     ][{{ $index }} % 8],
                     text: [
-                        '#1d4ed8',
-                        '#166534',
-                        '#92400e',
-                        '#be185d',
-                        '#6d28d9',
-                        '#0f766e',
-                        '#c2410c',
-                        '#0369a1'
+                        '#1d4ed8', '#166534', '#92400e', '#be185d', '#6d28d9', '#0f766e', '#c2410c', '#0369a1'
                     ][{{ $index }} % 8],
                     border: [
-                        '#2563eb',
-                        '#16a34a',
-                        '#d97706',
-                        '#db2777',
-                        '#7c3aed',
-                        '#14b8a6',
-                        '#ea580c',
-                        '#0284c7'
+                        '#2563eb', '#16a34a', '#d97706', '#db2777', '#7c3aed', '#14b8a6', '#ea580c', '#0284c7'
                     ][{{ $index }} % 8]
                 },
             @endforeach
@@ -815,6 +975,18 @@
         function nextMonth() {
             currentDate.setMonth(currentDate.getMonth() + 1);
             renderCalendar();
+        }
+
+        function printMembershipCalendar() {
+            document.body.classList.add('print-calendar-mode');
+            window.print();
+            document.body.classList.remove('print-calendar-mode');
+        }
+
+        function printTrainerSchedule() {
+            document.body.classList.add('print-schedule-mode');
+            window.print();
+            document.body.classList.remove('print-schedule-mode');
         }
 
         renderCalendar();

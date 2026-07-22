@@ -215,6 +215,7 @@
                         <option value="Female" {{ old('gender', $member->gender) == 'Female' ? 'selected' : '' }}>Female</option>
                     </select>
 
+<<<<<<< HEAD
                     <div class="form-group">
                         <label for="health_declaration">Health Declaration:</label>
 
@@ -281,6 +282,13 @@
                     </div>
                 </div>
 
+=======
+                    <div class="note">
+                        Make sure all member information is correct before saving changes.
+                    </div>
+                </div>
+
+>>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
                 <button type="submit" class="submit-btn">Update Member</button>
             </form>
         </div>

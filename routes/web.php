@@ -34,7 +34,6 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::resource('trainers', TrainerController::class);
 
     Route::get('/members/export/{format}', [MemberController::class, 'export'])->name('members.export');
-    Route::post('/members/import', [MemberController::class, 'import'])->name('members.import');
 
     Route::get('/members/scan', [MemberController::class, 'scan'])->name('members.scan');
 
@@ -45,6 +44,8 @@ Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/attendance/search-members', [AttendanceController::class, 'searchMembers'])->name('attendance.searchMembers');
 
     Route::post('/attendance/manual', [AttendanceController::class, 'manualAttendance'])->name('attendance.manual');
+
+    Route::post('/members/import', [MemberImportController::class, 'import'])->name('members.import');
 
     Route::resource('members', MemberController::class);
     
@@ -136,4 +137,5 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/member/payments/pdf', [MemberDashboardController::class, 'paymentPdf'])
         ->name('member.payment.pdf');
+
 });
