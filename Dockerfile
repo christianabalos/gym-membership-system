@@ -27,6 +27,10 @@ WORKDIR /var/www
 
 COPY . .
 
+RUN mkdir -p database \
+    && touch database/database.sqlite \
+    && chmod -R 775 database storage bootstrap/cache
+
 RUN composer install --no-dev --optimize-autoloader
 
 RUN php artisan config:clear || true
