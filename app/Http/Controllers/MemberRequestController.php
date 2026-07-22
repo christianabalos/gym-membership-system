@@ -13,7 +13,8 @@ class MemberRequestController extends Controller
     {
         $member = Member::where('user_id', Auth::id())->first();
 
-        $requests = MemberRequest::where('member_id', $member?->id)
+        $requests = MemberRequest::with(['member', 'user'])
+            ->where('member_id', $member?->id)
             ->latest()
             ->get();
 
@@ -35,7 +36,8 @@ class MemberRequestController extends Controller
         $member = Member::where('user_id', Auth::id())->first();
 
         if (!$member) {
-            return redirect()->route('member.dashboard')
+            return redirect()
+                ->route('member.dashboard')
                 ->withErrors(['member' => 'Member profile not found.']);
         }
 
@@ -47,7 +49,7 @@ class MemberRequestController extends Controller
             'status' => 'pending',
         ]);
 
-        return redirect()->route('member.requests')
+        return redirect('/member/requests')
             ->with('success', 'Request sent to admin successfully.');
     }
 
@@ -57,7 +59,7 @@ class MemberRequestController extends Controller
             ->latest()
             ->get();
 
-        return view('requests.index', compact('requests'));
+        return view('requests.admin-index', compact('requests'));
     }
 
     public function updateStatus(Request $request, $id)
@@ -72,7 +74,7 @@ class MemberRequestController extends Controller
             'status' => $request->status,
         ]);
 
-        return redirect()->route('admin.requests.index')
+        return redirect('/admin/member-requests')
             ->with('success', 'Request status updated successfully.');
     }
 
@@ -80,7 +82,7 @@ class MemberRequestController extends Controller
     {
         $memberRequest->delete();
 
-        return redirect()->route('admin.requests.index')
+        return redirect('/admin/member-requests')
             ->with('success', 'Request deleted successfully.');
     }
 }

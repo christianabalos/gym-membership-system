@@ -2,6 +2,8 @@
 <html>
 <head>
     <title>Member Registration</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <style>
         * {
@@ -10,19 +12,28 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
             padding: 35px 15px;
-            color: #111827;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.72), rgba(15, 23, 42, 0.72)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
             max-width: 760px;
             margin: 0 auto;
-            background: #ffffff;
+            background: rgba(255, 255, 255, 0.18);
             padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            border-radius: 22px;
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(255,255,255,0.35);
         }
 
         h1 {
@@ -30,13 +41,14 @@
             margin: 0;
             font-size: 34px;
             font-weight: 800;
-            color: #0f172a;
+            color: #ffffff;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
             margin: 10px 0 28px;
-            color: #6b7280;
+            color: #e5e7eb;
             font-size: 15px;
         }
 
@@ -46,7 +58,7 @@
 
         .btn-back {
             display: inline-block;
-            background: #6b7280;
+            background: rgba(107, 114, 128, 0.95);
             color: white;
             padding: 10px 18px;
             border-radius: 8px;
@@ -55,13 +67,21 @@
             font-weight: bold;
         }
 
+        .btn-back:hover {
+            background: #4b5563;
+        }
+
         .error-box {
-            background: #fee2e2;
+            background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
             border: 1px solid #fecaca;
             padding: 14px 16px;
             border-radius: 10px;
             margin-bottom: 20px;
+        }
+
+        .error-box div {
+            margin-bottom: 5px;
         }
 
         .field {
@@ -79,28 +99,33 @@
             font-weight: bold;
             margin-bottom: 8px;
             font-size: 15px;
+            color: #ffffff;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.45);
         }
 
-        input,
-        select {
+            input,
+            select,
+            textarea {
             width: 100%;
             padding: 13px 14px;
-            border: 1px solid #cbd5e1;
-            border-radius: 0;
+            border: 1px solid rgba(255,255,255,0.45);
+            border-radius: 10px;
             font-size: 14px;
-            background: #ffffff;
+            background: rgba(255,255,255,0.90);
             color: #111827;
             outline: none;
+            transition: 0.2s ease;
         }
 
-        input:focus,
-        select:focus {
-            border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+            input:focus,
+            select:focus,
+            textarea:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
         }
 
         input[readonly] {
-            background: #f9fafb;
+            background: rgba(255,255,255,0.75);
         }
 
         .birth-grid {
@@ -112,8 +137,9 @@
         .trainer-note {
             margin-top: 8px;
             font-size: 14px;
-            color: #6b7280;
+            color: #e5e7eb;
             font-weight: 600;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.45);
         }
 
         .schedule-grid {
@@ -126,12 +152,13 @@
 
         .schedule-box {
             padding: 14px 12px;
-            border-radius: 7px;
+            border-radius: 10px;
             text-align: center;
             font-weight: bold;
             font-size: 14px;
             cursor: pointer;
             border: 2px solid transparent;
+            transition: 0.2s ease;
             user-select: none;
         }
 
@@ -159,7 +186,8 @@
         .price-note {
             margin-top: 8px;
             font-size: 13px;
-            color: #374151;
+            color: #e5e7eb;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.45);
         }
 
         .submit-btn {
@@ -167,25 +195,35 @@
             margin-top: 10px;
             padding: 15px;
             border: none;
-            border-radius: 8px;
-            background: #0f172a;
+            border-radius: 10px;
+            background: #2563eb;
             color: white;
             font-weight: bold;
             cursor: pointer;
             font-size: 15px;
+            box-shadow: 0 10px 22px rgba(37, 99, 235, 0.35);
+        }
+
+        .submit-btn:hover {
+            background: #1d4ed8;
         }
 
         .login-link {
             text-align: center;
             margin-top: 18px;
-            color: #6b7280;
+            color: #e5e7eb;
             font-size: 14px;
+            text-shadow: 0 1px 5px rgba(0,0,0,0.45);
         }
 
         .login-link a {
-            color: #2563eb;
+            color: #93c5fd;
             font-weight: bold;
             text-decoration: none;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
         }
 
         @media (max-width: 768px) {
@@ -195,6 +233,7 @@
 
             .container {
                 padding: 22px;
+                border-radius: 16px;
             }
 
             h1 {
@@ -207,13 +246,51 @@
                 grid-template-columns: 1fr;
             }
         }
+
+            h5,
+            summary {
+                color: #ffffff !important;
+            }
+
+            summary::marker {
+                color: #ffffff;
+            }
+
+            details summary::-webkit-details-marker {
+                color: #ffffff;
+            }        
+
+            /* Terms & Liability Waiver Modal */
+            #termsModal .modal-content{
+                color:#212529;
+            }
+
+            #termsModal .modal-title{
+                color:#212529;
+            }
+
+            #termsModal .modal-body{
+                color:#212529;
+            }
+
+            #termsModal .modal-body p{
+                color:#212529;
+            }
+
+            #termsModal .modal-footer{
+                color:#212529;
+            }            
+
     </style>
+
+    
+
 </head>
 
 <body>
     <div class="container">
         <h1>Member Registration</h1>
-        <p class="subtitle">Fill out the form below to create your gym membership account.</p>
+        <p class="subtitle">Create your gym membership account.</p>
 
         <div class="top-actions">
             <a href="{{ route('welcome') }}" class="btn-back">Back</a>
@@ -354,7 +431,14 @@
             <div class="field" id="scheduleSection" style="display: none;">
                 <label>Schedule Time:</label>
 
-                <div class="schedule-grid" id="scheduleGrid"></div>
+                <div class="schedule-grid" id="scheduleGrid">
+                    @foreach($slots as $slot)
+                        <label class="schedule-box available" data-slot="{{ $slot }}">
+                            <input type="radio" name="schedule_time" value="{{ $slot }}">
+                            <span>{{ $slot }} - Available</span>
+                        </label>
+                    @endforeach
+                </div>
             </div>
 
             <div class="two-column">
@@ -373,7 +457,7 @@
                     <input type="text" name="price" id="price" value="{{ old('price') }}" placeholder="Auto-computed price" readonly>
 
                     <div class="price-note">
-                        Monthly ₱500 • Quarterly ₱1800 • Annual ₱5500 • With Trainer: +₱300
+                        Monthly ₱500 • Quarterly ₱1800 • Annual ₱5500 • With Trainer +₱300
                     </div>
                 </div>
             </div>
@@ -398,6 +482,142 @@
                     <option value="online" {{ old('payment_method') == 'online' ? 'selected' : '' }}>Online Payment</option>
                 </select>
             </div>
+     
+                <details class="mt-3">
+
+                <summary class="fw-bold" style="cursor:pointer; color:white;">
+                    🩺 Health Declaration
+                </summary>
+
+                <div class="mt-3">
+
+                    <label class="form-label">
+                        Please declare any illnesses, injuries, allergies,
+                        disabilities, or medications that may affect your
+                        participation in gym activities.
+                    </label>
+
+                    <textarea
+                    name="health_declaration"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Leave blank if none...">{{ old('health_declaration') }}</textarea>
+
+                    <div class="form-check mt-3">
+
+                        <input
+                            class="form-check-input"
+                            type="checkbox"
+                            name="no_health_issue"
+                            value="1">
+
+                        <label class="form-check-label">
+                            I have no known illnesses, injuries, allergies,
+                            or medications to declare.
+                        </label>
+
+                    </div>
+
+                </div>
+
+            </details>            
+
+            <hr>
+
+            <h5 style="color: white;">
+                🚨 Emergency Contact Information
+            </h5>
+
+            <p class="text-light small">
+                Please provide the contact information of a person
+                we can notify in case of an emergency during your gym visit.
+            </p>
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <label>Contact Name</label>
+
+                    <input
+                        type="text"
+                        name="emergency_name"
+                        value="{{ old('emergency_name') }}"
+                        class="form-control"
+                        placeholder="Juan Dela Cruz">
+                </div>
+
+                <div class="col-md-6">
+
+                    <label>Relationship</label>
+
+                    <select
+                        name="emergency_relationship"
+                        class="form-select">
+
+                        <option value="">Select Relationship</option>
+
+                        <option value="Parent" {{ old('emergency_relationship') == 'Parent' ? 'selected' : '' }}>Parent</option>
+                        <option value="Spouse" {{ old('emergency_relationship') == 'Spouse' ? 'selected' : '' }}>Spouse</option>
+                        <option value="Sibling" {{ old('emergency_relationship') == 'Sibling' ? 'selected' : '' }}>Sibling</option>
+                        <option value="Guardian" {{ old('emergency_relationship') == 'Guardian' ? 'selected' : '' }}>Guardian</option>
+                        <option value="Relative" {{ old('emergency_relationship') == 'Relative' ? 'selected' : '' }}>Relative</option>
+                        <option value="Friend" {{ old('emergency_relationship') == 'Friend' ? 'selected' : '' }}>Friend</option>
+                        <option value="Other" {{ old('emergency_relationship') == 'Other' ? 'selected' : '' }}>Other</option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+            <div class="mt-3">
+
+                <label>Contact Number</label>
+
+                <input
+                    type="text"
+                    name="emergency_phone"
+                    class="form-control"
+                    placeholder="09XXXXXXXXX">
+            </div>
+
+            <div class="form-check mt-4">
+
+                <input
+                    class="form-check-input"
+                    type="checkbox"
+                    name="agree_terms"
+                    required>
+
+                <label class="form-check-label">
+
+                    I have read and agree to the
+                    <a href="#"
+                    data-bs-toggle="modal"
+                    data-bs-target="#termsModal">
+
+                        Gym Terms & Liability Waiver
+
+                    </a>
+
+                </label>
+
+            </div>            
+
+            <p
+                style="
+                    color:#e5e7eb;
+                    font-size:13px;
+                    text-align:center;
+                    margin-top:20px;
+                    margin-bottom:10px;">
+
+                <strong>Note:</strong>
+                All information you provide will be kept confidential
+                and used only for membership management and emergency purposes.
+
+            </p>            
 
             <button type="submit" class="submit-btn">Register Account</button>
         </form>
@@ -470,7 +690,7 @@
 
             if (!trainerId) {
                 trainerNote.textContent = 'No Trainer selected. Standard membership price applies.';
-                trainerNote.style.color = '#6b7280';
+                trainerNote.style.color = '#e5e7eb';
 
                 scheduleSection.style.display = 'none';
                 scheduleGrid.innerHTML = '';
@@ -484,7 +704,7 @@
             const availableCount = slots.length - bookedCount;
 
             trainerNote.textContent = bookedCount + '/' + slots.length + ' Booked, ' + availableCount + ' available. Please choose your preferred schedule time.';
-            trainerNote.style.color = '#166534';
+            trainerNote.style.color = '#dcfce7';
 
             scheduleGrid.innerHTML = '';
 
@@ -538,6 +758,107 @@
 
         updatePrice();
         updateScheduleSlots();
+
+
+        const noHealth = document.querySelector('input[name="no_health_issue"]');
+        const healthText = document.querySelector('textarea[name="health_declaration"]');
+
+        if (noHealth && healthText) {
+
+            noHealth.addEventListener('change', function () {
+
+                if (this.checked) {
+                    healthText.value = '';
+                    healthText.disabled = true;
+                } else {
+                    healthText.disabled = false;
+                }
+
+            });
+
+        }        
+        
     </script>
+
+    <div class="modal fade" id="termsModal" tabindex="-1">
+
+        <div class="modal-dialog modal-lg modal-dialog-scrollable">
+
+            <div class="modal-content">
+
+                <div class="modal-header">
+
+                    <h5 class="modal-title text-dark">
+
+                        Gym Membership Terms & Liability Waiver
+
+                    </h5>
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal">
+                    </button>
+
+                </div>
+
+                <div class="modal-body">
+
+                    <p>
+                        I understand that participating in gym
+                        activities involves inherent risks,
+                        including but not limited to muscle strain,
+                        falls, equipment-related injuries,
+                        and other physical injuries.
+                    </p>
+
+                    <p>
+                        I voluntarily participate in all activities
+                        and assume full responsibility for my own
+                        health and safety while inside the gym.
+                    </p>
+
+                    <p>
+                        I agree to follow all gym rules,
+                        equipment instructions,
+                        and trainer guidance.
+                    </p>
+
+                    <p>
+                        I release and hold harmless the gym,
+                        its owners, employees,
+                        trainers, and staff
+                        from liability for injuries
+                        that may occur during my participation,
+                        except where prohibited by law.
+                    </p>
+
+                    <p>
+                        I certify that all information provided
+                        during registration is true and complete.
+                    </p>
+
+                </div>
+
+                <div class="modal-footer">
+
+                    <button
+                        class="btn btn-primary"
+                        data-bs-dismiss="modal">
+
+                        I Understand
+
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

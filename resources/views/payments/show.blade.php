@@ -2,207 +2,250 @@
 <html>
 <head>
     <title>Payment Details</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 760px;
+            max-width: 820px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 36px 28px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 32px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
+            margin: 10px 0 28px;
+            color: #e5e7eb;
+            font-size: 15px;
         }
 
-        .btn {
-            display: inline-block;
-            padding: 10px 16px;
-            border-radius: 7px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .btn-back {
-            background: #6b7280;
-            color: white;
+        .top-actions {
             margin-bottom: 25px;
         }
 
-        .details-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
-            overflow: hidden;
-            background: white;
-        }
-
-        .detail-row {
-            display: grid;
-            grid-template-columns: 220px 1fr;
-            border-bottom: 1px solid #e5e7eb;
-        }
-
-        .detail-row:last-child {
-            border-bottom: none;
-        }
-
-        .label {
-            background: #f9fafb;
-            padding: 16px;
+        .btn-back {
+            display: inline-block;
+            background: rgba(107, 114, 128, 0.9);
+            color: white;
+            padding: 10px 16px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 14px;
             font-weight: bold;
-            color: #374151;
-            border-right: 1px solid #e5e7eb;
+            border: 1px solid rgba(255,255,255,0.15);
         }
 
-        .value {
+        .btn-back:hover {
+            background: #4b5563;
+        }
+
+        .details-box {
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.20);
+            background: rgba(255,255,255,0.08);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
             padding: 16px;
-            color: #111827;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            font-size: 14px;
+        }
+
+        th {
+            width: 35%;
+            text-align: left;
+            background: rgba(15, 23, 42, 0.75);
+            color: #ffffff;
+            font-weight: 800;
+        }
+
+        td {
+            color: #ffffff;
+            background: rgba(255,255,255,0.08);
+            font-weight: 700;
         }
 
         .amount {
-            font-weight: bold;
-            color: #166534;
+            color: #86efac;
+            font-weight: 900;
         }
 
-        .badge {
+        .method-badge,
+        .status-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 999px;
-            font-size: 13px;
-            font-weight: bold;
+            font-size: 12px;
+            font-weight: 900;
             text-transform: capitalize;
         }
 
-        .badge-paid,
-        .badge-approved {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .badge-pending {
-            background: #fef3c7;
+        .method-cash {
+            background: rgba(254, 243, 199, 0.95);
             color: #92400e;
         }
 
-        .badge-rejected,
-        .badge-cancelled {
-            background: #fee2e2;
+        .method-online {
+            background: rgba(219, 234, 254, 0.95);
+            color: #1d4ed8;
+        }
+
+        .method-na {
+            background: rgba(255, 255, 255, 0.18);
+            color: #e5e7eb;
+        }
+
+        .status-paid,
+        .status-approved,
+        .status-active {
+            background: rgba(220, 252, 231, 0.95);
+            color: #166534;
+        }
+
+        .status-pending {
+            background: rgba(254, 243, 199, 0.95);
+            color: #92400e;
+        }
+
+        .status-failed,
+        .status-cancelled,
+        .status-rejected {
+            background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             body {
                 padding: 15px;
             }
 
             .container {
-                padding: 22px;
+                padding: 24px 16px;
             }
 
-            .detail-row {
-                grid-template-columns: 1fr;
+            h1 {
+                font-size: 30px;
             }
 
-            .label {
-                border-right: none;
-                border-bottom: 1px solid #e5e7eb;
+            th,
+            td {
+                display: block;
+                width: 100%;
+            }
+
+            th {
+                border-bottom: none;
             }
         }
     </style>
 </head>
+
 <body>
+    @php
+        $method = strtolower($payment->payment_method ?? $payment->method ?? 'N/A');
+        $status = strtolower($payment->status ?? 'pending');
+
+        $methodClass = in_array($method, ['cash', 'online'])
+            ? 'method-' . $method
+            : 'method-na';
+
+        $statusClass = 'status-' . $status;
+    @endphp
+
     <div class="container">
         <h1>Payment Details</h1>
         <p class="subtitle">View complete payment information.</p>
 
-        <a href="{{ route('payments.index') }}" class="btn btn-back">Back</a>
+        <div class="top-actions">
+            <a href="{{ route('payments.index') }}" class="btn-back">Back</a>
+        </div>
 
-        <div class="details-card">
-            <div class="detail-row">
-                <div class="label">Member</div>
-                <div class="value">
-                    {{ $payment->member->full_name ?? 'N/A' }}
-                </div>
-            </div>
+        <div class="details-box">
+            <table>
+                <tr>
+                    <th>Member</th>
+                    <td>{{ $payment->member->full_name ?? 'N/A' }}</td>
+                </tr>
 
-            <div class="detail-row">
-                <div class="label">Membership</div>
-                <div class="value">
-                    {{ $payment->membership->plan_name ?? 'N/A' }}
-                </div>
-            </div>
+                <tr>
+                    <th>Membership</th>
+                    <td>{{ $payment->membership->plan_name ?? 'N/A' }}</td>
+                </tr>
 
-            <div class="detail-row">
-                <div class="label">Amount</div>
-                <div class="value amount">
-                    ₱{{ number_format($payment->amount, 2) }}
-                </div>
-            </div>
+                <tr>
+                    <th>Amount</th>
+                    <td class="amount">₱{{ number_format($payment->amount ?? 0, 2) }}</td>
+                </tr>
 
-            <div class="detail-row">
-                <div class="label">Payment Method</div>
-                <div class="value">
-                    @if($payment->method == 'online')
-                        Online Payment
-                    @else
-                        {{ ucfirst($payment->method ?? 'N/A') }}
-                    @endif
-                </div>
-            </div>
+                <tr>
+                    <th>Payment Method</th>
+                    <td>
+                        <span class="method-badge {{ $methodClass }}">
+                            {{ $method !== 'n/a' ? ucfirst($method) : 'N/A' }}
+                        </span>
+                    </td>
+                </tr>
 
-            <div class="detail-row">
-                <div class="label">Status</div>
-                <div class="value">
-                    @php
-                        $status = strtolower($payment->status ?? 'pending');
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        <span class="status-badge {{ $statusClass }}">
+                            {{ ucfirst($payment->status ?? 'Pending') }}
+                        </span>
+                    </td>
+                </tr>
 
-                        $statusClass = match($status) {
-                            'paid' => 'badge-paid',
-                            'approved' => 'badge-approved',
-                            'rejected' => 'badge-rejected',
-                            'cancelled' => 'badge-cancelled',
-                            default => 'badge-pending',
-                        };
-
-                        $statusText = match($status) {
-                            'approved' => 'Paid',
-                            default => ucfirst($status),
-                        };
-                    @endphp
-
-                    <span class="badge {{ $statusClass }}">
-                        {{ $statusText }}
-                    </span>
-                </div>
-            </div>
-
-            <div class="detail-row">
-                <div class="label">Payment Date</div>
-                <div class="value">
-                    {{ $payment->paid_at ? \Carbon\Carbon::parse($payment->paid_at)->format('Y-m-d') : ($payment->created_at ? $payment->created_at->format('Y-m-d') : 'N/A') }}
-                </div>
-            </div>
+                <tr>
+                    <th>Payment Date</th>
+                    <td>
+                        {{ $payment->payment_date
+                            ? \Carbon\Carbon::parse($payment->payment_date)->format('Y-m-d')
+                            : ($payment->paid_at
+                                ? \Carbon\Carbon::parse($payment->paid_at)->format('Y-m-d')
+                                : ($payment->created_at ? $payment->created_at->format('Y-m-d') : 'N/A'))
+                        }}
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>

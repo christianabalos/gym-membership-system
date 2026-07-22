@@ -2,261 +2,239 @@
 <html>
 <head>
     <title>Payments Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1050px;
+            max-width: 1150px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 34px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 32px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
+            margin: 10px 0 28px;
+            color: #dbeafe;
+            font-size: 15px;
+            font-weight: 600;
         }
 
         .top-actions {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             flex-wrap: wrap;
         }
 
         .btn {
             display: inline-block;
             padding: 10px 16px;
-            border-radius: 7px;
+            border-radius: 9px;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+            transition: 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
         }
 
         .btn-back {
-            background: #6b7280;
-            color: white;
+            background: rgba(107, 114, 128, 0.92);
+            color: #ffffff;
         }
 
         .btn-print {
             background: #2563eb;
-            color: white;
+            color: #ffffff;
         }
 
         .summary-grid {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            margin-bottom: 25px;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
         }
 
         .summary-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
+            border-radius: 14px;
             padding: 18px;
-            background: #f9fafb;
+            border: 1px solid rgba(203, 213, 225, 0.9);
             text-align: center;
         }
 
-        .summary-card h3 {
-            margin: 0 0 8px 0;
-            font-size: 15px;
-            color: #6b7280;
+        .summary-card .label {
+            font-size: 13px;
+            color: #475569;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
-        .summary-card p {
-            margin: 0;
+        .summary-card .value {
             font-size: 22px;
-            font-weight: bold;
-            color: #111827;
+            font-weight: 900;
         }
 
-        .summary-card .paid {
+        .value-total {
+            color: #0f172a;
+        }
+
+        .value-paid {
             color: #166534;
         }
 
-        .summary-card .pending {
+        .value-pending {
             color: #92400e;
+        }
+
+        .value-cancelled {
+            color: #991b1b;
         }
 
         .table-wrap {
             width: 100%;
             overflow-x: auto;
+            border-radius: 14px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
             overflow: hidden;
-            table-layout: fixed;
         }
 
         th {
-            background: #111827;
-            color: white;
-            padding: 14px;
+            background: rgba(15, 23, 42, 0.95);
+            color: #ffffff;
+            padding: 14px 12px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
+            white-space: nowrap;
         }
 
         td {
-            padding: 14px;
-            border: 1px solid #d1d5db;
+            padding: 14px 12px;
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
             vertical-align: middle;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 600;
             text-align: center;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
-        tr:nth-child(even) {
-            background: #f9fafb;
+        .member-cell {
+            font-weight: 900;
+            text-align: left;
+            white-space: nowrap;
         }
 
-        .member-name {
-            font-weight: bold;
-            color: #111827;
+        .price-cell {
+            color: #86efac;
+            font-weight: 900;
+            white-space: nowrap;
         }
 
-        .amount {
-            color: #166534;
-            font-weight: bold;
-        }
-
-        .badge {
+        .method-badge {
             display: inline-block;
-            padding: 6px 12px;
+            padding: 7px 12px;
             border-radius: 999px;
-            font-size: 12px;
-            font-weight: bold;
+            background: rgba(254, 243, 199, 0.95);
+            color: #92400e;
+            font-weight: 900;
             text-transform: capitalize;
         }
 
-        .badge-paid,
-        .badge-approved {
-            background: #dcfce7;
+        .status-badge {
+            display: inline-block;
+            padding: 7px 12px;
+            border-radius: 999px;
+            font-size: 12px;
+            font-weight: 900;
+            text-transform: capitalize;
+        }
+
+        .status-paid,
+        .status-approved {
+            background: rgba(220, 252, 231, 0.95);
             color: #166534;
         }
 
-        .badge-pending {
-            background: #fef3c7;
+        .status-pending {
+            background: rgba(254, 243, 199, 0.95);
             color: #92400e;
         }
 
-        .badge-rejected,
-        .badge-cancelled {
-            background: #fee2e2;
+        .status-cancelled,
+        .status-canceled {
+            background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
         }
 
         .empty {
             text-align: center;
-            color: #6b7280;
-            padding: 30px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            background: #f9fafb;
-            font-size: 15px;
+            padding: 26px;
+            color: #e5e7eb;
+            font-weight: bold;
         }
 
-        @media print {
-            @page {
-                size: landscape;
-                margin: 12mm;
-            }
+        .print-header {
+            display: none;
+        }
 
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-
-            .container {
-                max-width: 100%;
-                width: 100%;
-                box-shadow: none;
-                border-radius: 0;
-                padding: 0;
-            }
-
-            .top-actions {
-                display: none;
-            }
-
-            .subtitle {
-                margin-bottom: 18px;
-            }
-
+        @media (max-width: 900px) {
             .summary-grid {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-                margin-bottom: 15px;
-            }
-
-            .summary-card {
-                padding: 10px;
-            }
-
-            .summary-card h3 {
-                font-size: 11px;
-            }
-
-            .summary-card p {
-                font-size: 15px;
-            }
-
-            .table-wrap {
-                overflow: visible;
+                grid-template-columns: repeat(2, 1fr);
             }
 
             table {
-                width: 100%;
-                table-layout: fixed;
-                border-radius: 0;
-            }
-
-            th {
-                padding: 8px;
-                font-size: 11px;
-            }
-
-            td {
-                padding: 8px;
-                font-size: 11px;
-            }
-
-            h1 {
-                font-size: 24px;
-                margin-bottom: 8px;
-            }
-
-            .badge {
-                padding: 4px 8px;
-                font-size: 10px;
+                min-width: 950px;
             }
         }
 
-        @media (max-width: 768px) {
+        @media (max-width: 600px) {
             body {
                 padding: 15px;
             }
@@ -265,18 +243,155 @@
                 padding: 22px;
             }
 
+            h1 {
+                font-size: 30px;
+            }
+
             .summary-grid {
                 grid-template-columns: 1fr;
             }
 
+            .top-actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0;
+                margin: 0;
+                font-family: Arial, sans-serif;
+            }
+
+            .container {
+                max-width: none;
+                width: 100%;
+                margin: 0;
+                padding: 20px;
+                border: none;
+                box-shadow: none;
+                border-radius: 0;
+                background: #ffffff !important;
+                color: #000000 !important;
+                backdrop-filter: none;
+                -webkit-backdrop-filter: none;
+            }
+
+            .top-actions {
+                display: none !important;
+            }
+
+            .print-header {
+                display: block;
+                text-align: center;
+                margin-bottom: 18px;
+                color: #000000;
+            }
+
+            .print-header h2 {
+                margin: 0 0 5px;
+                font-size: 24px;
+            }
+
+            .print-header p {
+                margin: 0;
+                font-size: 13px;
+            }
+
+            h1 {
+                color: #000000 !important;
+                text-shadow: none;
+                font-size: 26px;
+            }
+
+            .subtitle {
+                color: #374151 !important;
+            }
+
+            .summary-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 8px;
+                margin-bottom: 14px;
+            }
+
+            .summary-card {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #111827;
+                padding: 10px;
+            }
+
+            .summary-card .label,
+            .summary-card .value {
+                color: #000000 !important;
+            }
+
+            .table-wrap {
+                overflow: visible;
+                border-radius: 0;
+            }
+
             table {
-                min-width: 850px;
+                width: 100%;
+                border-collapse: collapse;
+                background: #ffffff !important;
+                color: #000000 !important;
+                border-radius: 0;
+            }
+
+            th {
+                background: #111827 !important;
+                color: #ffffff !important;
+                border: 1px solid #111827;
+                padding: 9px;
+                font-size: 11px;
+            }
+
+            td {
+                background: #ffffff !important;
+                color: #000000 !important;
+                border: 1px solid #9ca3af;
+                padding: 8px;
+                font-size: 11px;
+                font-weight: normal;
+            }
+
+            .member-cell,
+            .price-cell {
+                color: #000000 !important;
+                font-weight: bold;
+            }
+
+            .method-badge,
+            .status-badge {
+                background: transparent !important;
+                color: #000000 !important;
+                padding: 0;
+                border-radius: 0;
+                font-weight: normal;
+            }
+
+            @page {
+                size: landscape;
+                margin: 12mm;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
+        <div class="print-header">
+            <h2>Gym Membership Management System</h2>
+            <p>Payments Report</p>
+        </div>
+
         <h1>Payments Report</h1>
         <p class="subtitle">Summary of payment records, methods, amounts, and payment status.</p>
 
@@ -286,96 +401,114 @@
         </div>
 
         @php
-            $totalPayments = $payments->sum('amount');
+            $paymentList = $payments ?? collect();
 
-            $paidPayments = $payments->filter(function ($payment) {
-                return in_array(strtolower($payment->status ?? ''), ['paid', 'approved']);
-            })->sum('amount');
+            $paidTotal = $paymentList
+                ->filter(fn($payment) => in_array(strtolower($payment->status ?? ''), ['paid', 'approved']))
+                ->sum('amount');
 
-            $pendingPayments = $payments->filter(function ($payment) {
-                return strtolower($payment->status ?? '') == 'pending';
-            })->sum('amount');
+            $pendingTotal = $paymentList
+                ->filter(fn($payment) => strtolower($payment->status ?? '') === 'pending')
+                ->sum('amount');
+
+            $cancelledTotal = $paymentList
+                ->filter(fn($payment) => in_array(strtolower($payment->status ?? ''), ['cancelled', 'canceled']))
+                ->sum('amount');
+
+            $allTotal = $paymentList->sum('amount');
         @endphp
 
         <div class="summary-grid">
             <div class="summary-card">
-                <h3>Total Payments</h3>
-                <p>₱{{ number_format($totalPayments, 2) }}</p>
+                <div class="label">All Payment Records</div>
+                <div class="value value-total">₱{{ number_format($allTotal, 2) }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Paid Payments</h3>
-                <p class="paid">₱{{ number_format($paidPayments, 2) }}</p>
+                <div class="label">Collected Payments</div>
+                <div class="value value-paid">₱{{ number_format($paidTotal, 2) }}</div>
             </div>
 
             <div class="summary-card">
-                <h3>Pending Payments</h3>
-                <p class="pending">₱{{ number_format($pendingPayments, 2) }}</p>
+                <div class="label">Pending Payments</div>
+                <div class="value value-pending">₱{{ number_format($pendingTotal, 2) }}</div>
+            </div>
+
+            <div class="summary-card">
+                <div class="label">Cancelled Payments</div>
+                <div class="value value-cancelled">₱{{ number_format($cancelledTotal, 2) }}</div>
             </div>
         </div>
 
-        @if($payments->count() > 0)
+        @if($paymentList->count() > 0)
             <div class="table-wrap">
                 <table>
-                    <tr>
-                        <th>Member</th>
-                        <th>Membership Plan</th>
-                        <th>Amount</th>
-                        <th>Method</th>
-                        <th>Status</th>
-                        <th>Date</th>
-                    </tr>
-
-                    @foreach($payments as $payment)
+                    <thead>
                         <tr>
-                            <td class="member-name">
-                                {{ $payment->member->full_name ?? 'N/A' }}
-                            </td>
-
-                            <td>
-                                {{ $payment->membership->plan_name ?? 'N/A' }}
-                            </td>
-
-                            <td class="amount">
-                                ₱{{ number_format($payment->amount, 2) }}
-                            </td>
-
-                            <td>
-                                @if($payment->method == 'online')
-                                    Online Payment
-                                @else
-                                    {{ ucfirst($payment->method ?? 'N/A') }}
-                                @endif
-                            </td>
-
-                            <td>
-                                @php
-                                    $status = strtolower($payment->status ?? 'pending');
-
-                                    $statusClass = match($status) {
-                                        'paid' => 'badge-paid',
-                                        'approved' => 'badge-approved',
-                                        'rejected' => 'badge-rejected',
-                                        'cancelled' => 'badge-cancelled',
-                                        default => 'badge-pending',
-                                    };
-
-                                    $statusText = match($status) {
-                                        'approved' => 'Paid',
-                                        default => ucfirst($status),
-                                    };
-                                @endphp
-
-                                <span class="badge {{ $statusClass }}">
-                                    {{ $statusText }}
-                                </span>
-                            </td>
-
-                            <td>
-                                {{ $payment->paid_at ? \Carbon\Carbon::parse($payment->paid_at)->format('Y-m-d') : ($payment->created_at ? $payment->created_at->format('Y-m-d') : 'N/A') }}
-                            </td>
+                            <th>Member</th>
+                            <th>Membership Plan</th>
+                            <th>Amount</th>
+                            <th>Method</th>
+                            <th>Status</th>
+                            <th>Date</th>
                         </tr>
-                    @endforeach
+                    </thead>
+
+                    <tbody>
+                        @foreach($paymentList as $payment)
+                            @php
+                                $status = strtolower($payment->status ?? 'pending');
+
+                                $statusClass = match($status) {
+                                    'paid' => 'status-paid',
+                                    'approved' => 'status-approved',
+                                    'cancelled' => 'status-cancelled',
+                                    'canceled' => 'status-canceled',
+                                    default => 'status-pending',
+                                };
+
+                                $method = $payment->payment_method
+                                    ?? $payment->method
+                                    ?? 'N/A';
+                            @endphp
+
+                            <tr>
+                                <td class="member-cell">
+                                    {{ $payment->member->full_name ?? 'N/A' }}
+                                </td>
+
+                                <td>
+                                    {{ $payment->membership->plan_name ?? 'N/A' }}
+                                </td>
+
+                                <td class="price-cell">
+                                    ₱{{ number_format($payment->amount ?? 0, 2) }}
+                                </td>
+
+                                <td>
+                                    <span class="method-badge">
+                                        {{ $method }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    <span class="status-badge {{ $statusClass }}">
+                                        {{ ucfirst($payment->status ?? 'Pending') }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{ $payment->payment_date
+                                        ? \Carbon\Carbon::parse($payment->payment_date)->format('Y-m-d')
+                                        : ($payment->paid_at
+                                            ? \Carbon\Carbon::parse($payment->paid_at)->format('Y-m-d')
+                                            : ($payment->created_at
+                                                ? $payment->created_at->format('Y-m-d')
+                                                : 'N/A')) }}
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
                 </table>
             </div>
         @else

@@ -2,218 +2,154 @@
 <html>
 <head>
     <title>Trainer Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 1100px;
+            max-width: 1150px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 34px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.26);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 32px;
+            margin: 0;
+            font-size: 36px;
+            font-weight: 900;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
-            margin-bottom: 30px;
+            margin: 10px 0 30px;
+            color: #dbeafe;
+            font-size: 15px;
+            font-weight: 600;
         }
 
-        .top-actions {
+        .actions {
             display: flex;
             gap: 10px;
-            margin-bottom: 25px;
+            margin-bottom: 22px;
             flex-wrap: wrap;
         }
 
         .btn {
             display: inline-block;
             padding: 10px 16px;
-            border-radius: 7px;
+            border-radius: 9px;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+            color: white;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
         }
 
         .btn-back {
-            background: #6b7280;
-            color: white;
+            background: rgba(107, 114, 128, 0.95);
         }
 
         .btn-print {
             background: #2563eb;
-            color: white;
         }
 
         .summary-box {
-            background: #f9fafb;
-            border: 1px solid #e5e7eb;
-            padding: 18px;
+            background: rgba(255, 255, 255, 0.92);
+            color: #111827;
+            border: 1px solid rgba(203, 213, 225, 0.9);
             border-radius: 10px;
-            margin-bottom: 25px;
-            font-weight: bold;
+            padding: 15px 18px;
+            margin-bottom: 22px;
+            font-size: 15px;
+            font-weight: 800;
         }
 
         .table-wrap {
             width: 100%;
             overflow-x: auto;
+            border-radius: 14px;
+            border: 1px solid rgba(203, 213, 225, 0.35);
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-            table-layout: fixed;
+            background: rgba(255, 255, 255, 0.07);
         }
 
         th {
-            background: #111827;
-            color: white;
-            padding: 14px;
+            background: rgba(15, 23, 42, 0.95);
+            color: #ffffff;
+            padding: 13px 12px;
             text-align: center;
-            font-size: 14px;
+            font-size: 13px;
+            border: 1px solid rgba(203, 213, 225, 0.18);
+            white-space: nowrap;
         }
 
         td {
-            padding: 14px;
-            border: 1px solid #d1d5db;
+            padding: 13px 12px;
+            color: #f9fafb;
+            border: 1px solid rgba(203, 213, 225, 0.18);
+            background: rgba(255, 255, 255, 0.07);
             vertical-align: middle;
-            font-size: 14px;
+            font-size: 13px;
+            font-weight: 700;
             text-align: center;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
         }
 
-        tr:nth-child(even) {
-            background: #f9fafb;
+        .specialization-cell {
+            color: #bfdbfe;
+            font-weight: 900;
         }
 
-        .trainer-name {
-            font-weight: bold;
-            color: #111827;
-        }
-
-        .specialization {
-            color: #2563eb;
-            font-weight: bold;
-        }
-
-        .members-list {
+        .member-list {
+            text-align: left;
             margin: 0;
             padding-left: 18px;
-            text-align: left;
+            color: #ffffff;
         }
 
-        .members-list li {
-            margin-bottom: 4px;
+        .member-list li {
+            margin: 4px 0;
         }
 
-        .no-members {
-            color: #6b7280;
+        .empty-text {
+            color: #e5e7eb;
             font-style: italic;
-        }
-
-        .badge {
-            display: inline-block;
-            padding: 6px 12px;
-            border-radius: 999px;
-            background: #dbeafe;
-            color: #1d4ed8;
-            font-size: 12px;
-            font-weight: bold;
-        }
-
-        .empty {
-            text-align: center;
-            color: #6b7280;
-            padding: 30px;
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            background: #f9fafb;
-            font-size: 15px;
-        }
-
-        @media print {
-            @page {
-                size: landscape;
-                margin: 12mm;
-            }
-
-            body {
-                background: white;
-                padding: 0;
-                margin: 0;
-            }
-
-            .container {
-                max-width: 100%;
-                width: 100%;
-                box-shadow: none;
-                border-radius: 0;
-                padding: 0;
-            }
-
-            .top-actions {
-                display: none;
-            }
-
-            .subtitle {
-                margin-bottom: 18px;
-            }
-
-            .summary-box {
-                padding: 10px;
-                margin-bottom: 15px;
-                font-size: 12px;
-            }
-
-            .table-wrap {
-                overflow: visible;
-            }
-
-            table {
-                width: 100%;
-                table-layout: fixed;
-                border-radius: 0;
-            }
-
-            th {
-                padding: 8px;
-                font-size: 11px;
-            }
-
-            td {
-                padding: 8px;
-                font-size: 11px;
-            }
-
-            h1 {
-                font-size: 24px;
-                margin-bottom: 8px;
-            }
-
-            .badge {
-                padding: 4px 8px;
-                font-size: 10px;
-            }
+            font-weight: 700;
         }
 
         @media (max-width: 768px) {
@@ -225,18 +161,105 @@
                 padding: 22px;
             }
 
+            h1 {
+                font-size: 30px;
+            }
+
             table {
                 min-width: 850px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+
+        @media print {
+            body {
+                background: white !important;
+                color: black !important;
+                padding: 0;
+            }
+
+            .container {
+                max-width: 100%;
+                box-shadow: none;
+                border: none;
+                background: white !important;
+                padding: 20px;
+            }
+
+            h1 {
+                color: black !important;
+                text-shadow: none;
+                font-size: 26px;
+            }
+
+            .subtitle {
+                color: #374151 !important;
+            }
+
+            .actions,
+            .btn {
+                display: none !important;
+            }
+
+            .summary-box {
+                background: white !important;
+                color: black !important;
+                border: 1px solid #d1d5db;
+            }
+
+            .table-wrap {
+                border: 1px solid #d1d5db;
+                overflow: visible;
+            }
+
+            table {
+                background: white !important;
+                width: 100%;
+            }
+
+            th {
+                background: #111827 !important;
+                color: white !important;
+                border: 1px solid #d1d5db;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+
+            td {
+                background: white !important;
+                color: black !important;
+                border: 1px solid #d1d5db;
+            }
+
+            .specialization-cell {
+                color: black !important;
+            }
+
+            .member-list {
+                color: black !important;
+            }
+
+            .empty-text {
+                color: black !important;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Trainer Report</h1>
         <p class="subtitle">List of trainers, specializations, and assigned members.</p>
 
-        <div class="top-actions">
+        <div class="actions">
             <a href="{{ route('reports.index') }}" class="btn btn-back">Back</a>
             <button type="button" onclick="window.print()" class="btn btn-print">Print Report</button>
         </div>
@@ -245,9 +268,9 @@
             Total Trainers: {{ $trainers->count() }}
         </div>
 
-        @if($trainers->count() > 0)
-            <div class="table-wrap">
-                <table>
+        <div class="table-wrap">
+            <table>
+                <thead>
                     <tr>
                         <th>Name</th>
                         <th>Email</th>
@@ -255,53 +278,56 @@
                         <th>Specialization</th>
                         <th>Members</th>
                     </tr>
+                </thead>
 
-                    @foreach($trainers as $trainer)
+                <tbody>
+                    @forelse($trainers as $trainer)
+                        @php
+                            $assignedMembers = collect();
+
+                            if ($trainer->relationLoaded('memberships')) {
+                                $assignedMembers = $trainer->memberships
+                                    ->filter(function ($membership) {
+                                        return in_array(strtolower($membership->status ?? ''), ['active', 'approved']);
+                                    })
+                                    ->map(function ($membership) {
+                                        return $membership->member ?? null;
+                                    })
+                                    ->filter()
+                                    ->unique('id')
+                                    ->values();
+                            }
+                        @endphp
+
                         <tr>
-                            <td class="trainer-name">
-                                {{ $trainer->name ?? 'N/A' }}
-                            </td>
-
-                            <td>
-                                {{ $trainer->email ?? 'N/A' }}
-                            </td>
-
-                            <td>
-                                {{ $trainer->phone ?? 'N/A' }}
-                            </td>
-
-                            <td class="specialization">
+                            <td>{{ $trainer->name ?? 'N/A' }}</td>
+                            <td>{{ $trainer->email ?? 'N/A' }}</td>
+                            <td>{{ $trainer->phone ?? 'N/A' }}</td>
+                            <td class="specialization-cell">
                                 {{ $trainer->specialization ?? 'N/A' }}
                             </td>
-
                             <td>
-                                @php
-                                    $uniqueMembers = $trainer->memberships
-                                        ->whereIn('status', ['active', 'approved'])
-                                        ->pluck('member')
-                                        ->filter()
-                                        ->unique('id');
-                                @endphp
-
-                                @if($uniqueMembers->count() > 0)
-                                    <ul class="members-list">
-                                        @foreach($uniqueMembers as $member)
-                                            <li>{{ $member->full_name }}</li>
+                                @if($assignedMembers->count() > 0)
+                                    <ul class="member-list">
+                                        @foreach($assignedMembers as $member)
+                                            <li>{{ $member->full_name ?? $member->name ?? 'N/A' }}</li>
                                         @endforeach
                                     </ul>
                                 @else
-                                    <span class="no-members">No members</span>
+                                    <span class="empty-text">No assigned members</span>
                                 @endif
                             </td>
                         </tr>
-                    @endforeach
-                </table>
-            </div>
-        @else
-            <div class="empty">
-                No trainers found.
-            </div>
-        @endif
+                    @empty
+                        <tr>
+                            <td colspan="5" class="empty-text">
+                                No trainers found.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 </html>

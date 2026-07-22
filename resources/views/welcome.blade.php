@@ -1,51 +1,88 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gym Membership System</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Membership Management System</title>
 
     <style>
         * {
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
         }
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
-            margin: 0;
             min-height: 100vh;
-            color: #111827;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.78)),
+                url('https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1400&q=80') center/cover no-repeat;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 35px 15px;
+            padding: 20px;
         }
 
-        .container {
+        .card {
             width: 100%;
-            max-width: 560px;
-            background: #ffffff;
-            padding: 45px 38px;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.12);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            border-radius: 20px;
+            padding: 50px 35px;
             text-align: center;
+            color: white;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.30);
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(37, 99, 235, 0.20);
+            color: #dbeafe;
+            border: 1px solid rgba(219, 234, 254, 0.25);
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-size: 13px;
+            font-weight: bold;
+            margin-bottom: 20px;
         }
 
         h1 {
-            margin: 0;
-            font-size: 36px;
-            font-weight: 800;
-            color: #0f172a;
-            line-height: 1.2;
+            font-size: 48px;
+            line-height: 1.1;
+            margin-bottom: 18px;
         }
 
-        .subtitle {
-            margin: 16px 0 32px;
-            color: #6b7280;
+        h1 span {
+            color: #60a5fa;
+        }
+
+        p {
             font-size: 16px;
-            line-height: 1.5;
+            color: #e5e7eb;
+            margin-bottom: 30px;
+            line-height: 1.7;
         }
 
-        .actions {
+        .features {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 30px;
+        }
+
+        .feature {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            padding: 10px 14px;
+            border-radius: 999px;
+            font-size: 14px;
+        }
+
+        .buttons {
             display: flex;
             justify-content: center;
             gap: 14px;
@@ -54,50 +91,47 @@
 
         .btn {
             display: inline-block;
-            min-width: 120px;
-            padding: 13px 22px;
-            border-radius: 8px;
             text-decoration: none;
+            padding: 13px 28px;
+            border-radius: 10px;
             font-size: 15px;
             font-weight: bold;
-            border: none;
-            cursor: pointer;
+            transition: 0.2s ease;
         }
 
         .btn-login {
-            background: #0f172a;
-            color: white;
-        }
-
-        .btn-login:hover {
-            background: #1e293b;
-        }
-
-        .btn-register {
             background: #2563eb;
             color: white;
         }
 
-        .btn-register:hover {
+        .btn-login:hover {
             background: #1d4ed8;
         }
 
-        .footer-note {
-            margin-top: 28px;
-            font-size: 13px;
-            color: #9ca3af;
+        .btn-register {
+            background: transparent;
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.30);
         }
 
-        @media (max-width: 600px) {
-            .container {
-                padding: 32px 24px;
+        .btn-register:hover {
+            background: rgba(255, 255, 255, 0.10);
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                padding: 35px 22px;
             }
 
             h1 {
-                font-size: 30px;
+                font-size: 36px;
             }
 
-            .actions {
+            p {
+                font-size: 15px;
+            }
+
+            .buttons {
                 flex-direction: column;
             }
 
@@ -107,22 +141,22 @@
         }
     </style>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Gym Membership<br>Management System</h1>
+    <div class="card">
+        <div class="badge">Gym System</div>
 
-        <p class="subtitle">
-            Manage memberships, trainers, workouts, payments, and member schedules in one system.
+        <h1>
+            Gym Membership
+            <span>Management System</span>
+        </h1>
+
+        <p>
+            Manage members, trainers, schedules, workouts, and payments in one system.
         </p>
 
-        <div class="actions">
+        <div class="buttons">
             <a href="{{ route('login') }}" class="btn btn-login">Login</a>
             <a href="{{ route('register') }}" class="btn btn-register">Register</a>
-        </div>
-
-        <div class="footer-note">
-            Please login or register to continue.
         </div>
     </div>
 </body>

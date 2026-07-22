@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-
-
-
 <html>
 <head>
     <title>BMI Calculator</title>

@@ -32,8 +32,16 @@ class TrainerController extends Controller
         ];
 
         $trainers = Trainer::with([
-            'memberships.member',
-            'workouts.member',
+            'memberships' => function ($query) {
+                $query->with('member')
+                    ->whereIn('status', ['active', 'approved']);
+            },
+            'workouts' => function ($query) {
+                $query->with(['member', 'membership'])
+                    ->whereHas('membership', function ($membershipQuery) {
+                        $membershipQuery->whereIn('status', ['active', 'approved']);
+                    });
+            },
         ])->orderBy('name')->get();
 
         foreach ($trainers as $trainer) {
@@ -47,7 +55,10 @@ class TrainerController extends Controller
 
             foreach ($trainer->workouts as $workout) {
                 $workoutTime = $this->normalizeWorkoutTime(
-                    $workout->workout_time ?? $workout->time ?? ''
+                    $workout->schedule_time
+                    ?? $workout->workout_time
+                    ?? $workout->time
+                    ?? ''
                 );
 
                 if (!in_array($workoutTime, $timeSlots)) {
@@ -70,7 +81,10 @@ class TrainerController extends Controller
 
                 $scheduleGrid[$workoutTime][$workoutDay] = [
                     'member' => $memberName,
-                    'title' => $workout->workout_name ?? $workout->title ?? 'Workout',
+                    'title' => $workout->title
+                        ?? $workout->workout_title
+                        ?? $workout->workout_name
+                        ?? 'Workout',
                     'status' => strtolower($workout->status ?? 'scheduled'),
                 ];
             }
@@ -79,11 +93,15 @@ class TrainerController extends Controller
             $trainer->setAttribute('scheduleGrid', $scheduleGrid);
         }
 
-        $weeklyWorkouts = Workout::with(['member', 'trainer'])
+        $weeklyWorkouts = Workout::with(['member', 'trainer', 'membership'])
+            ->whereHas('membership', function ($query) {
+                $query->whereIn('status', ['active', 'approved']);
+            })
             ->orderBy('workout_date')
             ->get();
 
         $calendarMemberships = Membership::with(['member', 'trainer'])
+            ->whereIn('status', ['active', 'approved'])
             ->whereNotNull('start_date')
             ->whereNotNull('end_date')
             ->orderBy('start_date')
@@ -163,7 +181,18 @@ class TrainerController extends Controller
 
     public function show(Trainer $trainer)
     {
-        $trainer->load(['memberships.member', 'workouts.member']);
+        $trainer->load([
+            'memberships' => function ($query) {
+                $query->with('member')
+                    ->whereIn('status', ['active', 'approved']);
+            },
+            'workouts' => function ($query) {
+                $query->with(['member', 'membership'])
+                    ->whereHas('membership', function ($membershipQuery) {
+                        $membershipQuery->whereIn('status', ['active', 'approved']);
+                    });
+            },
+        ]);
 
         return view('trainers.show', compact('trainer'));
     }

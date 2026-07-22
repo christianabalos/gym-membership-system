@@ -1,7 +1,4 @@
 <!DOCTYPE html>
-
-
-
 <html>
 <head>
     <title>BMI Calculator</title>
@@ -28,8 +25,8 @@
 
         .container {
             max-width: 650px;
-            margin: 55px auto;
-            padding: 30px 26px;
+            margin: 70px auto;
+            padding: 36px 34px;
             border-radius: 24px;
             background: rgba(255, 255, 255, 0.12);
             border: 1px solid rgba(255, 255, 255, 0.25);
@@ -41,7 +38,7 @@
         h1 {
             text-align: center;
             margin: 0;
-            font-size: 32px;
+            font-size: 36px;
             font-weight: 900;
             color: #ffffff;
             text-shadow: 0 3px 12px rgba(0,0,0,0.45);
@@ -49,22 +46,22 @@
 
         .subtitle {
             text-align: center;
-            margin: 10px 0 24px;
+            margin: 10px 0 28px;
             color: #dbeafe;
-            font-size: 14px;
+            font-size: 15px;
             font-weight: 600;
         }
 
         .top-actions {
             display: flex;
             gap: 10px;
-            margin-bottom: 18px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
 
         .btn {
             display: inline-block;
-            padding: 10px 16px;
+            padding: 11px 17px;
             border-radius: 10px;
             text-decoration: none;
             border: none;
@@ -86,14 +83,10 @@
         }
 
         .form-card {
-            padding: 20px;
+            padding: 24px;
             border-radius: 18px;
             background: rgba(255, 255, 255, 0.10);
             border: 1px solid rgba(255, 255, 255, 0.20);
-        }
-
-        .form-group {
-            margin-bottom: 14px;
         }
 
         label {
@@ -101,15 +94,19 @@
             margin-bottom: 8px;
             color: #ffffff;
             font-size: 14px;
-            font-weight: 800;
+            font-weight: 900;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
         }
 
         input {
             width: 100%;
-            padding: 13px 14px;
+            padding: 14px 15px;
             border-radius: 11px;
             border: 1px solid rgba(203, 213, 225, 0.95);
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.95);
             color: #111827;
             font-size: 14px;
             outline: none;
@@ -126,12 +123,11 @@
             border: none;
             border-radius: 11px;
             background: #2563eb;
-            color: #ffffff;
+            color: white;
             font-weight: 900;
             cursor: pointer;
             font-size: 15px;
             transition: 0.2s ease;
-            margin-top: 2px;
         }
 
         .submit-btn:hover {
@@ -145,16 +141,16 @@
             border: 1px solid #fecaca;
             padding: 14px 16px;
             border-radius: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 18px;
             font-size: 14px;
-            font-weight: 700;
+            font-weight: 800;
         }
 
         .result-box {
-            margin-top: 18px;
-            padding: 18px;
+            margin-top: 22px;
+            padding: 22px;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.96);
+            background: rgba(255, 255, 255, 0.95);
             color: #111827;
             border-left: 6px solid #2563eb;
             box-shadow: 0 10px 25px rgba(0,0,0,0.20);
@@ -162,15 +158,14 @@
 
         .result-box h2 {
             margin: 0 0 14px;
-            font-size: 22px;
-            font-weight: 900;
+            font-size: 24px;
             color: #0f172a;
         }
 
         .result-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
+            gap: 12px;
         }
 
         .result-item {
@@ -205,12 +200,12 @@
             }
 
             .container {
-                margin: 20px auto;
-                padding: 22px 16px;
+                margin: 25px auto;
+                padding: 24px 16px;
             }
 
             h1 {
-                font-size: 28px;
+                font-size: 30px;
             }
 
             .top-actions {
@@ -228,7 +223,7 @@
 
         @media print {
             body {
-                background: #ffffff !important;
+                background: white !important;
                 color: #111827 !important;
                 padding: 0;
             }
@@ -238,7 +233,7 @@
                 margin: 0;
                 box-shadow: none;
                 border: none;
-                background: #ffffff !important;
+                background: white !important;
                 backdrop-filter: none;
             }
 
@@ -256,13 +251,14 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>BMI Calculator</h1>
         <p class="subtitle">Enter your age, weight, and height to calculate your BMI.</p>
 
         <div class="top-actions">
-            <a href="{{ route('member.dashboard') }}" class="btn btn-back">Back</a>
+            <a href="{{ route('dashboard') }}" class="btn btn-back">Back</a>
         </div>
 
         <div class="form-card">
@@ -274,7 +270,7 @@
                 </div>
             @endif
 
-            <form action="{{ url('/member/bmi') }}" method="POST">
+            <form action="{{ route('bmi.calculate') }}" method="POST">
                 @csrf
 
                 <div class="form-group">
@@ -320,19 +316,6 @@
 
                 <button type="submit" class="submit-btn">Calculate BMI</button>
             </form>
-
-            <hr>
-
-            <p style="color:red; font-size:20px;">
-            DEBUG:
-            BMI = {{ $bmi ?? 'No BMI' }}
-            </p>
-
-            <p style="color:red; font-size:20px;">
-            Category = {{ $category ?? 'No Category' }}
-            </p>
-
-            <hr>
 
             @if(isset($bmi))
                 <div class="result-box">

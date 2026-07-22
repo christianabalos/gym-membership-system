@@ -8,32 +8,41 @@ use App\Models\Membership;
 use App\Models\Payment;
 use App\Models\Workout;
 use App\Models\MemberRequest;
-use Carbon\Carbon;
 
 class DashboardController extends Controller
 {
     public function index()
     {
         $totalMembers = Member::count();
+
         $totalTrainers = Trainer::count();
-        $activeMemberships = Membership::where('status', 'active')->count();
-        $totalPayments = Payment::sum('amount');
-        $totalWorkouts = Workout::count();
+
+        $activeMemberships = Membership::whereIn('status', ['active', 'approved'])
+            ->count();
+
+        $totalPayments = Payment::whereIn('status', ['paid', 'approved'])
+            ->sum('amount');
+
+        $totalWorkouts = Workout::whereHas('membership', function ($query) {
+            $query->whereIn('status', ['active', 'approved']);
+        })->count();
+
+        $pendingRequests = MemberRequest::where('status', 'pending')
+            ->latest()
+            ->get();
+
+        $pendingRequestsCount = $pendingRequests->count();
 
         $recentPayments = Payment::with(['member', 'membership'])
             ->latest()
             ->take(5)
             ->get();
 
-        $today = Carbon::today();
-
-        $expiringMemberships = Membership::with(['member', 'trainer'])
-            ->whereDate('end_date', '>=', $today)
-            ->whereDate('end_date', '<=', $today->copy()->addDays(7))
-            ->orderBy('end_date')
+        $expiringMemberships = Membership::with('member')
+            ->whereIn('status', ['active', 'approved'])
+            ->whereDate('end_date', '>=', now())
+            ->whereDate('end_date', '<=', now()->addDays(7))
             ->get();
-
-        $pendingRequests = MemberRequest::where('status', 'pending')->count();
 
         return view('dashboard', compact(
             'totalMembers',
@@ -41,9 +50,10 @@ class DashboardController extends Controller
             'activeMemberships',
             'totalPayments',
             'totalWorkouts',
+            'pendingRequests',
+            'pendingRequestsCount',
             'recentPayments',
-            'expiringMemberships',
-            'pendingRequests'
+            'expiringMemberships'
         ));
     }
 }

@@ -2,140 +2,176 @@
 <html>
 <head>
     <title>Add Membership</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            min-height: 100vh;
+            padding: 35px 15px;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 760px;
+            max-width: 720px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 36px 24px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
+            margin: 0;
             font-size: 34px;
-            font-weight: bold;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            margin-top: 6px;
-            margin-bottom: 25px;
-            color: #6b7280;
+            margin: 8px 0 26px;
+            color: #e5e7eb;
             font-size: 14px;
+        }
+
+        .top-actions {
+            margin-bottom: 18px;
         }
 
         .btn-back {
             display: inline-block;
-            background: #6b7280;
+            background: rgba(107, 114, 128, 0.9);
             color: white;
             padding: 10px 16px;
-            border-radius: 7px;
+            border-radius: 9px;
             text-decoration: none;
             font-size: 14px;
             font-weight: bold;
-            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+
+        .btn-back:hover {
+            background: #4b5563;
+        }
+
+        .form-box {
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.20);
+            border-radius: 18px;
+            padding: 22px;
+        }
+
+        .error-box {
+            background: rgba(254, 226, 226, 0.95);
+            color: #991b1b;
+            border: 1px solid #fecaca;
+            padding: 14px 16px;
+            border-radius: 10px;
+            margin-bottom: 18px;
+            font-size: 14px;
+        }
+
+        .error-box ul {
+            margin: 0;
+            padding-left: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
         }
 
         label {
             display: block;
             font-weight: bold;
-            margin-top: 14px;
             margin-bottom: 7px;
+            color: #ffffff;
+            font-size: 14px;
         }
 
         input,
         select {
             width: 100%;
-            padding: 12px;
-            border: 1px solid #cbd5e1;
-            border-radius: 7px;
+            padding: 12px 14px;
+            border-radius: 9px;
+            border: 1px solid rgba(203, 213, 225, 0.95);
             font-size: 14px;
-            box-sizing: border-box;
+            background: rgba(255,255,255,0.95);
+            color: #111827;
+            outline: none;
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.22);
         }
 
         input[readonly] {
-            background: #f9fafb;
-        }
-
-        .trainer-note {
-            margin-top: 8px;
-            color: #166534;
-            font-size: 14px;
-            font-weight: 600;
-        }
-
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 12px 10px;
-            margin-top: 10px;
-            margin-bottom: 16px;
-        }
-
-        .schedule-box {
-            padding: 13px 10px;
-            border-radius: 8px;
-            text-align: center;
-            font-weight: bold;
-            font-size: 14px;
-            cursor: pointer;
-            border: 2px solid transparent;
-            user-select: none;
-        }
-
-        .schedule-box input {
-            display: none;
-        }
-
-        .schedule-box.available {
-            background: #dcfce7;
-            color: #166534;
-        }
-
-        .schedule-box.booked {
-            background: #fee2e2;
-            color: #991b1b;
+            background: rgba(229, 231, 235, 0.9);
             cursor: not-allowed;
         }
 
-        .schedule-box.selected {
-            border-color: #2563eb;
-            background: #dbeafe;
-            color: #1d4ed8;
+        .note {
+            margin-top: 6px;
+            color: #e5e7eb;
+            font-size: 12px;
+            line-height: 1.4;
+            font-weight: 600;
         }
 
-        .price-note {
+        .renewal-warning {
             margin-top: 8px;
-            font-size: 13px;
-            color: #374151;
+            color: #fecaca;
+            font-size: 12px;
+            font-weight: bold;
+            line-height: 1.5;
         }
 
-        .error-box {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 18px;
+        .end-date-note {
+            margin-top: 14px;
+            padding: 12px 14px;
+            border-radius: 10px;
+            background: rgba(219, 234, 254, 0.95);
+            color: #1e3a8a;
+            border: 1px solid #93c5fd;
+            font-size: 13px;
+            font-weight: bold;
+            line-height: 1.5;
+        }
+
+        .end-date-note strong {
+            color: #1d4ed8;
         }
 
         .submit-btn {
             width: 100%;
-            margin-top: 25px;
+            margin-top: 16px;
             padding: 14px;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             background: #2563eb;
             color: white;
             font-weight: bold;
@@ -149,275 +185,289 @@
 
         @media (max-width: 768px) {
             body {
-                padding: 15px;
+                padding: 18px 12px;
             }
 
             .container {
-                padding: 22px;
+                padding: 24px 16px;
             }
 
-            .schedule-grid {
+            h1 {
+                font-size: 28px;
+            }
+
+            .row {
                 grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>Add Membership</h1>
         <p class="subtitle">Create a new membership record for a member.</p>
 
-        <a href="{{ route('memberships.index') }}" class="btn-back">Back</a>
+        <div class="top-actions">
+            <a href="{{ route('memberships.index') }}" class="btn-back">Back</a>
+        </div>
 
-        @if ($errors->any())
-            <div class="error-box">
-                @foreach ($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
-            </div>
-        @endif
+        <div class="form-box">
+            @if ($errors->any())
+                <div class="error-box">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
 
-        @php
-            use App\Models\Membership;
+            <form action="{{ route('memberships.store') }}" method="POST">
+                @csrf
 
-            $slots = [
-                '8:00 AM - 9:00 AM',
-                '9:00 AM - 10:00 AM',
-                '10:00 AM - 11:00 AM',
-                '1:00 PM - 2:00 PM',
-                '2:00 PM - 3:00 PM',
-                '4:00 PM - 5:00 PM',
-            ];
+                <div class="form-group">
+                    <label for="member_id">Member:</label>
+                    <select id="member_id" name="member_id" required>
+                        <option value="">Select Member</option>
 
-            $selectedTrainerId = old('trainer_id', '');
+                        @foreach(($members ?? []) as $member)
+                            @php
+                                $latestMembership = $member->memberships->sortByDesc('end_date')->first();
+                                $latestEndDate = $latestMembership && $latestMembership->end_date
+                                    ? \Carbon\Carbon::parse($latestMembership->end_date)->format('Y-m-d')
+                                    : '';
+                            @endphp
 
-            $bookedSlotsByTrainer = [];
+                            <option
+                                value="{{ $member->id }}"
+                                data-end-date="{{ $latestEndDate }}"
+                                {{ old('member_id') == $member->id ? 'selected' : '' }}
+                            >
+                                {{ $member->full_name }}
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
 
-            foreach ($trainers as $trainer) {
-                $bookedSlotsByTrainer[$trainer->id] = Membership::where('trainer_id', $trainer->id)
-                    ->whereNotNull('schedule_time')
-                    ->whereIn('status', ['pending', 'approved', 'active'])
-                    ->pluck('schedule_time')
-                    ->map(fn($time) => trim($time))
-                    ->toArray();
-            }
-        @endphp
+                <div class="form-group">
+                    <label for="trainer_id">Assign Trainer:</label>
+                    <select id="trainer_id" name="trainer_id">
+                        <option value="">No Trainer</option>
+                        @foreach(($trainers ?? []) as $trainer)
+                            <option value="{{ $trainer->id }}" {{ old('trainer_id') == $trainer->id ? 'selected' : '' }}>
+                                {{ $trainer->name }} - {{ $trainer->specialization }}
+                            </option>
+                        @endforeach
+                    </select>
 
-        <form action="{{ route('memberships.store') }}" method="POST" id="membershipForm">
-            @csrf
+                    <div class="note" id="trainerNote">
+                        No Trainer selected. Standard membership price applies.
+                    </div>
+                </div>
 
-            <label>Member:</label>
-            <select name="member_id" required>
-                <option value="">Select Member</option>
-                @foreach($members as $member)
-                    <option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>
-                        {{ $member->full_name }}
-                    </option>
-                @endforeach
-            </select>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="plan_name">Plan Name:</label>
+                        <select id="plan_name" name="plan_name" required>
+                            <option value="">Select Plan</option>
+                            <option value="Monthly" {{ old('plan_name') == 'Monthly' ? 'selected' : '' }}>Monthly</option>
+                            <option value="Quarterly" {{ old('plan_name') == 'Quarterly' ? 'selected' : '' }}>Quarterly</option>
+                            <option value="Annual" {{ old('plan_name') == 'Annual' ? 'selected' : '' }}>Annual</option>
+                        </select>
+                    </div>
 
-            <label>Assign Trainer:</label>
-            <select name="trainer_id" id="trainer_id">
-                <option value="">No Trainer</option>
-                @foreach($trainers as $trainer)
-                    <option value="{{ $trainer->id }}" {{ $selectedTrainerId == $trainer->id ? 'selected' : '' }}>
-                        {{ $trainer->name }} - {{ $trainer->specialization }}
-                    </option>
-                @endforeach
-            </select>
+                    <div class="form-group">
+                        <label for="price">Price:</label>
+                        <input type="text" id="price" name="price" value="{{ old('price') }}" readonly>
+                        <div class="note">
+                            Monthly ₱500, Quarterly ₱1800, Annual ₱5500. With trainer add ₱300.
+                        </div>
+                    </div>
+                </div>
 
-            <p class="trainer-note" id="trainerNote">
-                No Trainer selected. Standard membership price applies.
-            </p>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="start_date">Start Date:</label>
+                        <input type="date" id="start_date" name="start_date" value="{{ old('start_date') }}" required>
+                    </div>
 
-            <div class="field" id="scheduleSection" style="display: none;">
-                <label>Schedule Time:</label>
+                    <div class="form-group">
+                        <label for="end_date">End Date:</label>
+                        <input type="date" id="end_date" name="end_date" value="{{ old('end_date') }}" readonly>
+                    </div>
+                </div>
 
-                <div class="schedule-grid" id="scheduleGrid"></div>
-            </div>
+                <div class="renewal-warning" id="renewalWarning">
+                    Select a member to see the current membership end date.
+                </div>
 
-            <label>Plan Name:</label>
-            <select name="plan_name" id="plan_name" required>
-                <option value="">Select Plan</option>
-                <option value="Monthly" {{ old('plan_name') == 'Monthly' ? 'selected' : '' }}>Monthly</option>
-                <option value="Quarterly" {{ old('plan_name') == 'Quarterly' ? 'selected' : '' }}>Quarterly</option>
-                <option value="Annual" {{ old('plan_name') == 'Annual' ? 'selected' : '' }}>Annual</option>
-            </select>
+                <div class="row">
+                    <div class="form-group">
+                        <label for="status">Status:</label>
+                        <select id="status" name="status" required>
+                            <option value="pending" {{ old('status', 'pending') == 'pending' ? 'selected' : '' }}>Pending</option>
+                            <option value="approved" {{ old('status') == 'approved' ? 'selected' : '' }}>Approved</option>
+                            <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
+                            <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
+                        </select>
+                    </div>
 
-            <label>Price:</label>
-            <input type="text" name="price" id="price" value="{{ old('price') }}" readonly>
+                    <div class="form-group">
+                        <label for="payment_method">Payment Method:</label>
+                        <select id="payment_method" name="payment_method" required>
+                            <option value="Cash" {{ old('payment_method', 'Cash') == 'Cash' ? 'selected' : '' }}>Cash</option>
+                            <option value="Online" {{ old('payment_method') == 'Online' ? 'selected' : '' }}>Online</option>
+                        </select>
+                    </div>
+                </div>
 
-            <p class="price-note">
-                Monthly ₱500, Quarterly ₱1800, Annual ₱5500. With trainer: add ₱300.
-            </p>
+                <div class="end-date-note" id="endDateNote">
+                    Select a plan and start date to see when the membership will end.
+                </div>
 
-            <label>Start Date:</label>
-            <input type="date" name="start_date" id="start_date" value="{{ old('start_date') }}" required>
-
-            <label>End Date:</label>
-            <input type="date" name="end_date" id="end_date" value="{{ old('end_date') }}" readonly required>
-
-            <label>Status:</label>
-            <select name="status" required>
-                <option value="pending" {{ old('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                <option value="approved" {{ old('status') == 'approved' ? 'selected' : '' }}>Approved</option>
-                <option value="active" {{ old('status') == 'active' ? 'selected' : '' }}>Active</option>
-                <option value="expired" {{ old('status') == 'expired' ? 'selected' : '' }}>Expired</option>
-            </select>
-
-            <label>Payment Method:</label>
-            <select name="payment_method" required>
-                <option value="cash" {{ old('payment_method') == 'cash' ? 'selected' : '' }}>Cash</option>
-                <option value="online" {{ old('payment_method') == 'online' ? 'selected' : '' }}>Online Payment</option>
-            </select>
-
-            <button type="submit" class="submit-btn">Save Membership</button>
-        </form>
+                <button type="submit" class="submit-btn">Save Membership</button>
+            </form>
+        </div>
     </div>
 
     <script>
-        const slots = @json($slots);
-        const bookedSlotsByTrainer = @json($bookedSlotsByTrainer);
-        const oldScheduleTime = @json(old('schedule_time'));
-
+        const memberSelect = document.getElementById('member_id');
         const trainerSelect = document.getElementById('trainer_id');
         const trainerNote = document.getElementById('trainerNote');
-        const scheduleSection = document.getElementById('scheduleSection');
-        const scheduleGrid = document.getElementById('scheduleGrid');
-
         const planSelect = document.getElementById('plan_name');
         const priceInput = document.getElementById('price');
         const startDateInput = document.getElementById('start_date');
         const endDateInput = document.getElementById('end_date');
-        const membershipForm = document.getElementById('membershipForm');
+        const renewalWarning = document.getElementById('renewalWarning');
+        const endDateNote = document.getElementById('endDateNote');
 
-        function updateScheduleSlots() {
-            const trainerId = trainerSelect.value;
-            const bookedSlots = trainerId && bookedSlotsByTrainer[trainerId] ? bookedSlotsByTrainer[trainerId] : [];
+        const basePrices = {
+            Monthly: 500,
+            Quarterly: 1800,
+            Annual: 5500
+        };
 
-            if (!trainerId) {
+        function formatReadableDate(date) {
+            return date.toLocaleDateString('en-US', {
+                month: 'long',
+                day: 'numeric',
+                year: 'numeric'
+            });
+        }
+
+        function updateTrainerNote() {
+            if (trainerSelect.value) {
+                trainerNote.textContent = 'Trainer selected. Additional ₱300 trainer fee applies.';
+            } else {
                 trainerNote.textContent = 'No Trainer selected. Standard membership price applies.';
-                trainerNote.style.color = '#6b7280';
+            }
+        }
 
-                scheduleSection.style.display = 'none';
-                scheduleGrid.innerHTML = '';
+        function updatePrice() {
+            const plan = planSelect.value;
+            let total = 0;
 
+            if (plan && basePrices[plan]) {
+                total = basePrices[plan];
+
+                if (trainerSelect.value) {
+                    total += 300;
+                }
+
+                priceInput.value = '₱' + total.toFixed(2);
+            } else {
+                priceInput.value = '';
+            }
+        }
+
+        function updateRenewalWarning() {
+            const selectedOption = memberSelect.options[memberSelect.selectedIndex];
+
+            if (!memberSelect.value || !selectedOption) {
+                renewalWarning.textContent = 'Select a member to see the current membership end date.';
+                startDateInput.removeAttribute('min');
                 return;
             }
 
-            scheduleSection.style.display = 'block';
+            const currentEndDate = selectedOption.getAttribute('data-end-date');
 
-            const bookedCount = bookedSlots.length;
-            const availableCount = slots.length - bookedCount;
+            if (!currentEndDate) {
+                renewalWarning.textContent = 'This member has no previous membership record yet.';
+                startDateInput.removeAttribute('min');
+                return;
+            }
 
-            trainerNote.textContent = bookedCount + '/' + slots.length + ' Booked, ' + availableCount + ' available. Please choose your preferred schedule time.';
-            trainerNote.style.color = '#166534';
+            renewalWarning.textContent = `Your current membership ends on ${currentEndDate}. Please choose ${currentEndDate} or later as your start date.`;
+            startDateInput.min = currentEndDate;
 
-            scheduleGrid.innerHTML = '';
-
-            slots.forEach(slot => {
-                const isBooked = bookedSlots.includes(slot);
-
-                const label = document.createElement('label');
-                label.className = 'schedule-box ' + (isBooked ? 'booked' : 'available');
-                label.dataset.slot = slot;
-
-                const input = document.createElement('input');
-                input.type = 'radio';
-                input.name = 'schedule_time';
-                input.value = slot;
-
-                if (isBooked) {
-                    input.disabled = true;
-                }
-
-                if (oldScheduleTime === slot && !isBooked) {
-                    input.checked = true;
-                    label.classList.add('selected');
-                }
-
-                const span = document.createElement('span');
-                span.textContent = slot + ' - ' + (isBooked ? 'Booked' : 'Available');
-
-                label.appendChild(input);
-                label.appendChild(span);
-                scheduleGrid.appendChild(label);
-            });
-
-            document.querySelectorAll('.schedule-box input').forEach(input => {
-                input.addEventListener('change', function () {
-                    document.querySelectorAll('.schedule-box').forEach(box => {
-                        box.classList.remove('selected');
-                    });
-
-                    this.closest('.schedule-box').classList.add('selected');
-                });
-            });
+            if (!startDateInput.value || startDateInput.value < currentEndDate) {
+                startDateInput.value = currentEndDate;
+            }
         }
 
-        function updatePriceAndEndDate() {
+        function updateEndDate() {
             const plan = planSelect.value;
-            const hasTrainer = trainerSelect.value !== '';
+            const startDate = startDateInput.value;
 
-            let price = 0;
-            let months = 0;
+            if (!plan || !startDate) {
+                endDateInput.value = '';
+                endDateNote.innerHTML = 'Select a plan and start date to see when the membership will end.';
+                return;
+            }
+
+            const date = new Date(startDate + 'T00:00:00');
+            const start = new Date(startDate + 'T00:00:00');
+
+            let durationText = '';
 
             if (plan === 'Monthly') {
-                price = 500;
-                months = 1;
+                date.setMonth(date.getMonth() + 1);
+                durationText = '1 month';
+            } else if (plan === 'Quarterly') {
+                date.setMonth(date.getMonth() + 4);
+                durationText = '4 months';
+            } else if (plan === 'Annual') {
+                date.setFullYear(date.getFullYear() + 1);
+                durationText = '1 year';
             }
 
-            if (plan === 'Quarterly') {
-                price = 1800;
-                months = 4;
-            }
+            const year = date.getFullYear();
+            const month = String(date.getMonth() + 1).padStart(2, '0');
+            const day = String(date.getDate()).padStart(2, '0');
 
-            if (plan === 'Annual') {
-                price = 5500;
-                months = 12;
-            }
+            endDateInput.value = `${year}-${month}-${day}`;
 
-            if (hasTrainer && price > 0) {
-                price += 300;
-            }
-
-            priceInput.value = price > 0 ? price : '';
-
-            if (startDateInput.value && months > 0) {
-                const endDate = new Date(startDateInput.value);
-                endDate.setMonth(endDate.getMonth() + months);
-
-                const year = endDate.getFullYear();
-                const month = String(endDate.getMonth() + 1).padStart(2, '0');
-                const day = String(endDate.getDate()).padStart(2, '0');
-
-                endDateInput.value = `${year}-${month}-${day}`;
-            } else {
-                endDateInput.value = '';
-            }
+            endDateNote.innerHTML = `
+                Membership duration: <strong>${durationText}</strong><br>
+                Start Date: <strong>${formatReadableDate(start)}</strong><br>
+                End Date: <strong>${formatReadableDate(date)}</strong>
+            `;
         }
 
-        membershipForm.addEventListener('submit', function(e) {
-            if (trainerSelect.value !== '') {
-                const selectedSchedule = document.querySelector('input[name="schedule_time"]:checked');
-
-                if (!selectedSchedule) {
-                    e.preventDefault();
-                    alert('Please select a schedule time for the trainer.');
-                }
-            }
+        memberSelect.addEventListener('change', function () {
+            updateRenewalWarning();
+            updateEndDate();
         });
 
         trainerSelect.addEventListener('change', function () {
-            updateScheduleSlots();
-            updatePriceAndEndDate();
+            updateTrainerNote();
+            updatePrice();
         });
 
-        planSelect.addEventListener('change', updatePriceAndEndDate);
-        startDateInput.addEventListener('change', updatePriceAndEndDate);
+        planSelect.addEventListener('change', function () {
+            updatePrice();
+            updateEndDate();
+        });
 
-        updateScheduleSlots();
-        updatePriceAndEndDate();
+        startDateInput.addEventListener('change', function () {
+            updateEndDate();
+        });
+
+        updateTrainerNote();
+        updatePrice();
+        updateRenewalWarning();
+        updateEndDate();
     </script>
 </body>
 </html>

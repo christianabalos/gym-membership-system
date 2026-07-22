@@ -2,6 +2,7 @@
 <html>
 <head>
     <title>View Workout</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
         * {
@@ -10,164 +11,202 @@
 
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
+            min-height: 100vh;
             padding: 35px 15px;
-            color: #111827;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.82), rgba(15, 23, 42, 0.82)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
             max-width: 760px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 18px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin: auto;
+            padding: 36px 24px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            box-shadow: 0 18px 45px rgba(0,0,0,0.35);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
         }
 
         h1 {
             text-align: center;
             margin: 0;
-            font-size: 36px;
+            font-size: 34px;
             font-weight: 800;
-            color: #0f172a;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .subtitle {
             text-align: center;
-            color: #6b7280;
-            margin-top: 10px;
-            margin-bottom: 28px;
-            font-size: 15px;
+            margin: 8px 0 26px;
+            color: #e5e7eb;
+            font-size: 14px;
         }
 
         .top-actions {
-            margin-bottom: 25px;
+            display: flex;
+            gap: 10px;
+            margin-bottom: 18px;
+            flex-wrap: wrap;
         }
 
         .btn {
             display: inline-block;
-            padding: 10px 18px;
-            border-radius: 8px;
+            padding: 10px 16px;
+            border-radius: 9px;
             text-decoration: none;
             border: none;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 13px;
             font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            opacity: 0.95;
         }
 
         .btn-back {
-            background: #6b7280;
+            background: rgba(107, 114, 128, 0.9);
             color: white;
         }
 
         .btn-edit {
             background: #2563eb;
             color: white;
-            margin-left: 8px;
         }
 
-        .workout-card {
-            border: 1px solid #e5e7eb;
-            border-radius: 14px;
+        .details-card {
             overflow: hidden;
-            background: #ffffff;
+            border-radius: 18px;
+            background: rgba(255, 255, 255, 0.10);
+            border: 1px solid rgba(255, 255, 255, 0.22);
         }
 
         .card-header {
-            background: #111827;
-            color: white;
-            padding: 18px 22px;
+            padding: 20px;
+            background: rgba(15, 23, 42, 0.92);
+            color: #ffffff;
         }
 
         .card-header h2 {
             margin: 0;
-            font-size: 22px;
+            font-size: 24px;
+            font-weight: 800;
         }
 
         .card-header p {
-            margin: 6px 0 0;
-            color: #d1d5db;
+            margin: 7px 0 0;
+            font-size: 13px;
+            color: #dbeafe;
+            font-weight: bold;
+        }
+
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .details-table th,
+        .details-table td {
+            padding: 16px 18px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.18);
+            vertical-align: top;
             font-size: 14px;
         }
 
-        .details {
-            padding: 22px;
+        .details-table th {
+            width: 35%;
+            text-align: left;
+            color: #ffffff;
+            font-weight: 800;
+            background: rgba(255, 255, 255, 0.08);
         }
 
-        .detail-row {
-            display: grid;
-            grid-template-columns: 190px 1fr;
-            gap: 12px;
-            padding: 14px 0;
-            border-bottom: 1px solid #e5e7eb;
+        .details-table td {
+            color: #ffffff;
+            font-weight: 600;
+            line-height: 1.45;
+            background: rgba(255, 255, 255, 0.05);
         }
 
-        .detail-row:last-child {
+        .details-table tr:last-child th,
+        .details-table tr:last-child td {
             border-bottom: none;
-        }
-
-        .label {
-            font-weight: bold;
-            color: #374151;
-        }
-
-        .value {
-            color: #111827;
-            line-height: 1.5;
         }
 
         .status-badge {
             display: inline-block;
-            padding: 7px 12px;
+            padding: 7px 13px;
             border-radius: 999px;
-            font-weight: bold;
-            font-size: 13px;
+            font-size: 12px;
+            font-weight: 900;
             text-transform: capitalize;
         }
 
         .status-scheduled {
-            background: #dbeafe;
+            background: rgba(219, 234, 254, 0.95);
             color: #1d4ed8;
         }
 
-        .status-completed {
-            background: #dcfce7;
-            color: #166534;
-        }
-
         .status-rest {
-            background: #fef3c7;
+            background: rgba(254, 243, 199, 0.95);
             color: #92400e;
         }
 
-        .status-missed {
-            background: #fee2e2;
+        .status-completed {
+            background: rgba(220, 252, 231, 0.95);
+            color: #166534;
+        }
+
+        .status-cancelled {
+            background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
         }
 
-        .status-default {
-            background: #e5e7eb;
-            color: #374151;
-        }
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
 
-        @media (max-width: 700px) {
             .container {
-                padding: 22px;
+                padding: 24px 16px;
             }
 
             h1 {
-                font-size: 30px;
+                font-size: 28px;
             }
 
-            .detail-row {
-                grid-template-columns: 1fr;
-                gap: 5px;
+            .top-actions {
+                flex-direction: column;
             }
 
-            .btn-edit {
-                margin-left: 0;
-                margin-top: 8px;
+            .btn {
+                text-align: center;
+            }
+
+            .details-table th,
+            .details-table td {
+                display: block;
+                width: 100%;
+            }
+
+            .details-table th {
+                border-bottom: none;
+                padding-bottom: 6px;
+            }
+
+            .details-table td {
+                padding-top: 6px;
             }
         }
     </style>
@@ -185,73 +224,76 @@
 
         @php
             $status = strtolower($workout->status ?? 'scheduled');
+            $statusClass = 'status-' . $status;
 
-            $statusClass = match($status) {
-                'scheduled' => 'status-scheduled',
-                'completed' => 'status-completed',
-                'rest' => 'status-rest',
-                'missed' => 'status-missed',
-                default => 'status-default',
-            };
+            $titleFromWorkoutTitle = $workout->workout_title ?? null;
+            $titleFromTitle = $workout->title ?? null;
+
+            if ($titleFromTitle === 'Workout Details') {
+                $titleFromTitle = null;
+            }
+
+            $workoutTitle = $titleFromWorkoutTitle
+                ?? $titleFromTitle
+                ?? $workout->workout_name
+                ?? 'N/A';
 
             $workoutDate = $workout->workout_date
-                ? \Carbon\Carbon::parse($workout->workout_date)->format('M d, Y')
+                ? \Carbon\Carbon::parse($workout->workout_date)->format('F d, Y')
                 : 'N/A';
-
-            $workoutTime = $workout->workout_time ?? $workout->time ?? 'N/A';
         @endphp
 
-        <div class="workout-card">
+        <div class="details-card">
             <div class="card-header">
-                <h2>{{ $workout->workout_name ?? $workout->title ?? 'Workout' }}</h2>
-                <p>{{ $workout->day ?? 'No day set' }} • {{ $workoutDate }}</p>
+                <h2>{{ $workoutTitle }}</h2>
+                <p>{{ $workout->day ?? 'N/A' }} • {{ $workoutDate }}</p>
             </div>
 
-            <div class="details">
-                <div class="detail-row">
-                    <div class="label">Member</div>
-                    <div class="value">{{ $workout->member->full_name ?? $workout->member->name ?? 'N/A' }}</div>
-                </div>
+            <table class="details-table">
+                <tr>
+                    <th>Member</th>
+                    <td>{{ $workout->member->full_name ?? $workout->membership->member->full_name ?? 'N/A' }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Trainer</div>
-                    <div class="value">{{ $workout->trainer->name ?? 'No Trainer' }}</div>
-                </div>
+                <tr>
+                    <th>Trainer</th>
+                    <td>{{ $workout->trainer->name ?? $workout->membership->trainer->name ?? 'No Trainer' }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Workout Type</div>
-                    <div class="value">{{ $workout->workout_type ?? 'N/A' }}</div>
-                </div>
+                <tr>
+                    <th>Workout Type</th>
+                    <td>{{ $workout->workout_type ?? $workout->type ?? 'N/A' }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Workout Title</div>
-                    <div class="value">{{ $workout->workout_name ?? $workout->title ?? 'N/A' }}</div>
-                </div>
+                <tr>
+                    <th>Workout Title</th>
+                    <td>{{ $workoutTitle }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Description</div>
-                    <div class="value">{{ $workout->description ?? $workout->details ?? 'N/A' }}</div>
-                </div>
+                <tr>
+                    <th>Description</th>
+                    <td>{{ $workout->details ?? $workout->description ?? 'N/A' }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Date</div>
-                    <div class="value">{{ $workoutDate }}</div>
-                </div>
+                <tr>
+                    <th>Date</th>
+                    <td>{{ $workoutDate }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Time</div>
-                    <div class="value">{{ $workoutTime }}</div>
-                </div>
+                <tr>
+                    <th>Time</th>
+                    <td>{{ $workout->schedule_time ?? $workout->time ?? '8:00 AM - 9:00 AM' }}</td>
+                </tr>
 
-                <div class="detail-row">
-                    <div class="label">Status</div>
-                    <div class="value">
+                <tr>
+                    <th>Status</th>
+                    <td>
                         <span class="status-badge {{ $statusClass }}">
-                            {{ ucfirst($status) }}
+                            {{ ucfirst($workout->status ?? 'Scheduled') }}
                         </span>
-                    </div>
-                </div>
-            </div>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </body>

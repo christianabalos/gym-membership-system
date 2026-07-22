@@ -2,162 +2,227 @@
 <html>
 <head>
     <title>Member Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <style>
+        * {
+            box-sizing: border-box;
+        }
+
         body {
             font-family: Arial, sans-serif;
-            background: #f4f6f9;
             margin: 0;
-            padding: 35px;
-            color: #111827;
+            padding: 35px 15px;
+            min-height: 100vh;
+            color: #ffffff;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.78), rgba(15, 23, 42, 0.78)),
+                url("https://images.unsplash.com/photo-1534438327276-14e5300c3a48?auto=format&fit=crop&w=1600&q=80");
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
         }
 
         .container {
-            max-width: 850px;
+            max-width: 1050px;
             margin: auto;
-            background: #ffffff;
-            padding: 35px;
-            border-radius: 14px;
-            box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+            padding: 38px;
+            border-radius: 22px;
+            background: rgba(255, 255, 255, 0.17);
+            border: 1px solid rgba(255, 255, 255, 0.30);
+            box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .badge-wrap {
+            text-align: center;
+            margin-bottom: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 999px;
+            background: rgba(37, 99, 235, 0.25);
+            color: #dbeafe;
+            border: 1px solid rgba(147, 197, 253, 0.45);
+            font-size: 13px;
+            font-weight: bold;
         }
 
         h1 {
             text-align: center;
-            margin-top: 0;
-            font-size: 32px;
+            margin: 0;
+            font-size: 38px;
+            font-weight: 800;
+            color: #ffffff;
+            text-shadow: 0 3px 12px rgba(0,0,0,0.45);
         }
 
         .welcome {
             text-align: center;
-            font-size: 18px;
-            margin-bottom: 30px;
+            margin-top: 10px;
+            margin-bottom: 32px;
+            color: #dbeafe;
+            font-size: 17px;
         }
 
-        h2 {
-            text-align: center;
-            font-size: 22px;
-            margin-top: 0;
+        .profile-header{
+            text-align:center;
+            margin-bottom:30px;
         }
 
-        .membership-box {
-            border: 1px solid #d1d5db;
-            border-radius: 10px;
-            padding: 25px;
-            margin-bottom: 25px;
-            background: #ffffff;
+        .profile-avatar{
+            width:110px;
+            height:110px;
+            border-radius:50%;
+            object-fit:cover;
+            border:4px solid rgba(255,255,255,.9);
+            box-shadow:0 10px 25px rgba(0,0,0,.35);
+            transition:.25s;
+            cursor:pointer;
         }
 
-        .membership-box p {
-            margin: 12px 0;
-            font-size: 16px;
+        .profile-avatar:hover{
+            transform:scale(1.05);
         }
 
-        .status-active {
-            color: green;
-            font-weight: bold;
+        .profile-name{
+            margin:15px 0 5px;
+            font-size:24px;
+            font-weight:800;
+            color:#fff;
         }
 
-        .status-pending {
-            color: #b45309;
-            font-weight: bold;
+        .profile-link{
+            color:#93c5fd;
+            text-decoration:none;
+            font-weight:bold;
         }
 
-        .status-expired {
-            color: red;
-            font-weight: bold;
+        .profile-link:hover{
+            text-decoration:underline;
+        }        
+
+        /* --- QR CARD STYLES --- */
+        .qr-card-container {
+            max-width: 350px; 
+            margin: 0 auto 40px auto; 
+            background: rgba(255, 255, 255, 0.08); 
+            border: 1px solid rgba(255, 255, 255, 0.2); 
+            border-radius: 18px; 
+            padding: 25px 20px; 
+            text-align: center; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.25); 
+            backdrop-filter: blur(10px);
+        }
+        
+        .qr-pass-label {
+            font-size: 11px; 
+            text-transform: uppercase; 
+            letter-spacing: 2px; 
+            color: #a5f3fc; 
+            font-weight: bold; 
+            display: block; 
+            margin-bottom: 5px;
         }
 
-        .status-default {
+        .qr-member-name {
+            margin: 0 0 15px 0; 
+            font-size: 20px; 
+            font-weight: 800; 
+            color: #ffffff;
+        }
+
+        .qr-image-wrapper {
+            background: white; 
+            padding: 12px; 
+            display: inline-block; 
+            border-radius: 12px; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .qr-instructions {
+            font-size: 12px; 
+            color: #dbeafe; 
+            margin: 15px 0 0 0;
+        }
+        /* ------------------------ */
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+        }
+
+        .module-card {
+            background: rgba(255, 255, 255, 0.92);
             color: #111827;
-            font-weight: bold;
+            border-radius: 16px;
+            padding: 22px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.18);
+            border-left: 6px solid #2563eb;
+            transition: 0.2s ease;
         }
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            margin-bottom: 30px;
+        .module-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 16px 30px rgba(0,0,0,0.25);
         }
 
-        th {
-            background: #f3f4f6;
-            padding: 14px;
-            border: 1px solid #9ca3af;
-            text-align: center;
+        .module-title {
+            font-size: 20px;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #0f172a;
         }
 
-        td {
-            padding: 14px;
-            border: 1px solid #9ca3af;
-            vertical-align: middle;
-        }
-
-        .module-cell {
-            width: 160px;
-            font-weight: 500;
-        }
-
-        .action-cell {
-            text-align: center;
-            width: 160px;
-        }
-
-        .btn {
-            display: inline-block;
-            min-width: 75px;
-            padding: 10px 18px;
-            border-radius: 7px;
-            text-decoration: none;
-            border: none;
-            cursor: pointer;
+        .module-desc {
+            color: #4b5563;
             font-size: 14px;
-            font-weight: bold;
-            text-align: center;
+            line-height: 1.5;
+            min-height: 44px;
+            margin-bottom: 18px;
         }
 
-        .btn-primary {
-            background: #111827;
+        .module-btn {
+            display: inline-block;
+            width: 100%;
+            text-align: center;
+            padding: 12px 16px;
+            background: #0f172a;
             color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            font-size: 14px;
+            transition: 0.2s ease;
         }
 
-        .btn-primary:hover {
-            background: #374151;
+        .module-btn:hover {
+            background: #2563eb;
         }
 
-        .logout-wrap {
+        .logout-area {
             text-align: center;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
         .logout-btn {
-            background: white;
-            color: #111827;
-            border: 1px solid #111827;
-            padding: 10px 22px;
-            border-radius: 7px;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 10px;
+            background: #dc2626;
+            color: white;
+            font-weight: bold;
             cursor: pointer;
             font-size: 14px;
+            box-shadow: 0 8px 18px rgba(220, 38, 38, 0.35);
         }
 
         .logout-btn:hover {
-            background: #111827;
-            color: white;
-        }
-
-        .success {
-            background: #dcfce7;
-            color: #166534;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 18px;
-        }
-
-        .error {
-            background: #fee2e2;
-            color: #991b1b;
-            padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 18px;
+            background: #b91c1c;
         }
 
         @media (max-width: 768px) {
@@ -166,170 +231,120 @@
             }
 
             .container {
-                padding: 22px;
+                padding: 24px;
             }
 
-            table {
-                font-size: 14px;
+            h1 {
+                font-size: 30px;
             }
 
-            .btn {
-                padding: 9px 12px;
-                font-size: 13px;
+            .module-grid {
+                grid-template-columns: 1fr;
             }
         }
     </style>
 </head>
+
 <body>
     <div class="container">
-        <h1>Member Dashboard</h1>
+        <div class="profile-header">
 
-        <p class="welcome">
-            Welcome, {{ auth()->user()->name ?? 'Member' }}!
-        </p>
+            <a href="{{ route('member.profile') }}">
+                <img
+                    src="{{ auth()->user()->member && auth()->user()->member->profile_photo
+                        ? asset('storage/' . auth()->user()->member->profile_photo)
+                        : asset('images/default-avatar.png') }}"
+                    alt="Profile"
+                    class="profile-avatar">
+            </a>
 
-        @if(session('success'))
-            <div class="success">{{ session('success') }}</div>
-        @endif
-
-        @if($errors->any())
-            <div class="error">
-                @foreach($errors->all() as $error)
-                    <div>{{ $error }}</div>
-                @endforeach
+            <div class="profile-name">
+                {{ auth()->user()->name }}
             </div>
-        @endif
 
-        @if(isset($membership) && $membership)
-            @php
-                $status = strtolower($membership->status ?? 'pending');
+            <a href="{{ route('member.profile') }}" class="profile-link">
+                ✏ Edit Profile
+            </a>
 
-                $statusText = match($status) {
-                    'active' => 'Approved / Active',
-                    'approved' => 'Approved / Active',
-                    'pending' => 'Pending',
-                    'expired' => 'Expired',
-                    default => ucfirst($status),
-                };
+        </div>
 
-                $statusClass = match($status) {
-                    'active', 'approved' => 'status-active',
-                    'pending' => 'status-pending',
-                    'expired' => 'status-expired',
-                    default => 'status-default',
-                };
+            <h1>Member Dashboard</h1>
+        <div class="qr-card-container">
+            <span class="qr-pass-label">
+                Official Gym Pass
+            </span>
+            <h3 class="qr-member-name">
+                {{ auth()->user()->name ?? 'Member Pass' }}
+            </h3>
 
-                $daysLeftValue = null;
-
-                if (!empty($membership->end_date)) {
-                    $daysLeftValue = \Carbon\Carbon::now()
-                        ->startOfDay()
-                        ->diffInDays(\Carbon\Carbon::parse($membership->end_date)->startOfDay(), false);
-                }
-            @endphp
-
-            <div class="membership-box">
-                <h2>
-                    @if($status == 'pending')
-                        Pending Membership
-                    @elseif($status == 'expired')
-                        Expired Membership
-                    @else
-                        Current Active Membership
-                    @endif
-                </h2>
-
-                <p><strong>Plan:</strong> {{ $membership->plan_name ?? 'N/A' }}</p>
-                <p><strong>Start Date:</strong> {{ $membership->start_date ?? 'N/A' }}</p>
-                <p><strong>End Date:</strong> {{ $membership->end_date ?? 'N/A' }}</p>
-
-                @if($status == 'active' || $status == 'approved')
-                    <p>
-                        <strong>Days Left:</strong>
-                        {{ $daysLeftValue !== null && $daysLeftValue > 0 ? $daysLeftValue . ' days' : 'Expired' }}
-                    </p>
-                @endif
-
-                <p>
-                    <strong>Status:</strong>
-                    <span class="{{ $statusClass }}">
-                        {{ $statusText }}
-                    </span>
-                </p>
-
-                @if($status == 'pending')
-                    <p class="status-pending">
-                        Your membership is pending. Please wait for admin approval.
-                    </p>
-                @elseif($status == 'active' || $status == 'approved')
-                    <p class="status-active">
-                        Your membership is active.
-                    </p>
-                @elseif($status == 'expired')
-                    <p class="status-expired">
-                        Your membership has expired.
-                    </p>
+            <div class="qr-image-wrapper">
+                @if(auth()->check() && auth()->user()->member)
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ urlencode(route('members.show', auth()->user()->member->id)) }}" 
+                         alt="Member QR Code" 
+                         style="display: block;"
+                    >
+                @else
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data={{ urlencode(url('/profile/' . auth()->id())) }}" 
+                         alt="User QR Code" 
+                         style="display: block;"
+                    >
                 @endif
             </div>
-        @endif
 
-        <table>
-            <tr>
-                <th>Member Module</th>
-                <th>Description</th>
-                <th>Action</th>
-            </tr>
+            <p class="qr-instructions">
+            </p>
+        </div>
+        <div class="module-grid">
+            <div class="module-card">
+                <div class="module-title">Register Membership</div>
+                <div class="module-desc">
+                    Apply for a gym membership plan.
+                </div>
+                <a href="{{ route('member.registerMembership') }}" class="module-btn">Open</a>
+            </div>
 
-            <tr>
-                <td class="module-cell">Register Membership</td>
-                <td>Apply for a gym membership plan.</td>
-                <td class="action-cell">
-                    <a href="{{ route('member.registerMembership') }}" class="btn btn-primary">Open</a>
-                </td>
-            </tr>
+            <div class="module-card">
+                <div class="module-title">View Schedules</div>
+                <div class="module-desc">
+                    View your workout and training schedules.
+                </div>
+                <a href="{{ route('member.schedules') }}" class="module-btn">Open</a>
+            </div>
 
-            <tr>
-                <td class="module-cell">View Schedules</td>
-                <td>View workout or training schedules.</td>
-                <td class="action-cell">
-                    <a href="{{ route('member.schedules') }}" class="btn btn-primary">Open</a>
-                </td>
-            </tr>
+            <div class="module-card">
+                <div class="module-title">Track Payments</div>
+                <div class="module-desc">
+                    Check your payment records and status.
+                </div>
+                <a href="{{ route('member.payments') }}" class="module-btn">Open</a>
+            </div>
 
-            <tr>
-                <td class="module-cell">Track Payments</td>
-                <td>Check your payment records and payment status.</td>
-                <td class="action-cell">
-                    <a href="{{ route('member.payments') }}" class="btn btn-primary">Open</a>
-                </td>
-            </tr>
+            <div class="module-card">
+                <div class="module-title">BMI Calculator</div>
+                <div class="module-desc">
+                    Calculate your Body Mass Index.
+                </div>
+                <a href="{{ route('member.bmi') }}" class="module-btn">Open</a>
+            </div>
 
-            <tr>
-                <td class="module-cell">BMI Calculator</td>
-                <td>Calculate your Body Mass Index.</td>
-                <td class="action-cell">
-                    <a href="{{ url('/member/bmi') }}" class="btn btn-primary">Open</a>
-                </td>
-            </tr>
+            <div class="module-card">
+                <div class="module-title">My Requests</div>
+                <div class="module-desc">
+                    View your sent requests or concerns.
+                </div>
+                <a href="{{ url('/member/requests') }}" class="module-btn">Open</a>
+            </div>
 
-            <tr>
-                <td class="module-cell">My Requests</td>
-                <td>View the requests or concerns you sent to the admin.</td>
-                <td class="action-cell">
-                    <a href="{{ route('member.requests') }}" class="btn btn-primary">Open</a>
-                </td>
-            </tr>
+            <div class="module-card">
+                <div class="module-title">Send Request</div>
+                <div class="module-desc">
+                    Send a concern to the admin.
+                </div>
+                <a href="{{ url('/member/requests/create') }}" class="module-btn">Open</a>
+            </div>
+        </div>
 
-            <tr>
-                <td class="module-cell">Send Request</td>
-                <td>Send a membership, payment, or schedule concern to the admin.</td>
-                <td class="action-cell">
-                    <a href="{{ route('member.requests.create') }}" class="btn btn-primary">Open</a>
-                </td>
-            </tr>
-        </table>
-
-        <div class="logout-wrap">
+        <div class="logout-area">
             <form action="{{ route('logout') }}" method="POST">
                 @csrf
                 <button type="submit" class="logout-btn">Logout</button>
