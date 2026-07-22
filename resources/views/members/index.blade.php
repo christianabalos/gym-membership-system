@@ -64,13 +64,32 @@
         .btn-csv { background: #0284c7; color: white; }
         .btn-xlsx { background: #16a34a; color: white; }
         .btn-json { background: #d97706; color: white; }
-<<<<<<< HEAD
-        .file-upload-wrapper { position: relative; display: inline-block; }
-        .file-upload-input { position: absolute; left: 0; top: 0; opacity: 0; width: 100%; height: 100%; cursor: pointer; }
-        .btn-import-trigger { background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px dashed rgba(255, 255, 255, 0.3); }
-=======
-        .btn-import-trigger { background: rgba(255, 255, 255, 0.15); color: #ffffff; border: 1px dashed rgba(255, 255, 255, 0.3); padding: 10px 16px; border-radius: 9px; cursor: pointer; font-size: 13px; font-weight: bold; transition: 0.2s; }
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
+        .file-upload-wrapper {
+            position: relative;
+            display: inline-block;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .btn-import-trigger {
+            background: rgba(255,255,255,.15);
+            color:#fff;
+            border:1px dashed rgba(255,255,255,.3);
+            padding:10px 16px;
+            border-radius:9px;
+            cursor:pointer;
+            font-size:13px;
+            font-weight:bold;
+            transition:.2s;
+        }
         .btn-import-trigger:hover { background: rgba(255, 255, 255, 0.25); }
         .success { background: rgba(220, 252, 231, 0.92); color: #166534; border: 1px solid #86efac; padding: 13px 15px; border-radius: 10px; margin-bottom: 20px; font-weight: bold; }
         .error-alert { background: rgba(254, 226, 226, 0.92); color: #991b1b; border: 1px solid #fca5a5; padding: 13px 15px; border-radius: 10px; margin-bottom: 20px; font-weight: bold; }
@@ -95,10 +114,7 @@
         <div class="top-actions">
             <a href="{{ route('dashboard') }}" class="btn btn-back">Back</a>
             <a href="{{ route('members.create') }}" class="btn btn-add">Add Member</a>
-<<<<<<< HEAD
             <a href="{{ route('members.scan') }}" class="btn btn-add">📷 Scan QR</a>
-=======
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
         </div>
         <div class="data-panel">
             <div class="export-group">
@@ -107,26 +123,31 @@
                 <a href="{{ route('members.export', 'xlsx') }}" class="btn btn-xlsx">Excel (XLSX)</a>
                 <a href="{{ route('members.export', 'json') }}" class="btn btn-json">JSON</a>
             </div>
-<<<<<<< HEAD
-            <div class="import-group">
-                <span class="panel-label">Import List:</span>
-                <form action="{{ route('members.import') }}" method="POST" enctype="multipart/form-data" id="importForm" style="display: inline-block; margin: 0;">
-                    @csrf
-                    <div class="file-upload-wrapper">
-                        <button type="button" class="btn btn-import-trigger">Upload CSV File</button>
-                        <input type="file" name="import_file" class="file-upload-input" accept=".csv" onchange="submitImportForm()" required>
-                    </div>
-=======
-                        <div class="import-group">
-                <span class="panel-label">Import List:</span>
-                <form action="{{ route('members.import') }}" method="POST" enctype="multipart/form-data" style="display:inline-block; margin: 0;">
-                    @csrf
-                    <input type="file" name="csv_file" id="csv_input" style="display:none;" onchange="this.form.submit()" accept=".csv">
-                    <button type="button" class="btn-import-trigger" onclick="document.getElementById('csv_input').click()">
-                        Upload CSV File
-                    </button>
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
-                </form>
+                <div class="import-group">
+                    <span class="panel-label">Import List:</span>
+
+                    <form action="{{ route('members.import') }}"
+                        method="POST"
+                        enctype="multipart/form-data"
+                        id="importForm"
+                        style="display:inline-block; margin:0;">
+
+                        @csrf
+
+                        <div class="file-upload-wrapper">
+                            <button type="button" class="btn btn-import-trigger">
+                                Upload CSV File
+                            </button>
+
+                            <input type="file"
+                                name="import_file"
+                                class="file-upload-input"
+                                accept=".csv"
+                                onchange="submitImportForm()"
+                                required>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
         <div style="margin-bottom: 20px; margin-top: 15px;">
@@ -149,7 +170,6 @@
         <div class="table-wrap">
             <table>
                 <tr>
-<<<<<<< HEAD
                 <th>Name</th>
                 <th>QR Pass</th>
                 <th>Email</th>
@@ -159,23 +179,12 @@
                 <th>Gender</th>
                 <th>Registration Date</th>
                 <th>Action</th>
-=======
-                    <th>Name</th>
-                    <th>QR Pass</th>
-                    <th>Email</th>
-                    <th>Trainer</th>
-                    <th>Phone</th>
-                    <th>Gender</th>
-                    <th>Registration Date</th>
-                    <th>Action</th>
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
                 </tr>
                 @forelse($members as $member)
                     <tr>
                         <td class="member-name">{{ $member->full_name }}</td>
                         <td>
                             <div class="qr-thumbnail">
-<<<<<<< HEAD
                                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data={{ urlencode(route('members.show', $member->id)) }}" alt="QR Code" style="display: block; width: 65px; height: 65px;">
                             </div>
                         </td>
@@ -222,13 +231,6 @@
 
                                 @endif
                             </td>
-                        
-=======
-                                <img src="https://api.qrserver.com/v1/create-qr-code/?size=70x70&data={{ urlencode(request()->getSchemeAndHttpHost() . '/members/' . $member->id) }}" alt="QR Code" style="display: block; width: 65px; height: 65px;">
-                            </div>
-                        </td>
-                        <td>{{ $member->user->email ?? $member->email ?? 'N/A' }}</td>
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
                         <td>
                             @php
                                 $latestMembership = $member->memberships->sortByDesc('created_at')->first();
@@ -252,11 +254,7 @@
                         </td>
                     </tr>
                 @empty
-<<<<<<< HEAD
                     <tr> <td colspan="9" class="empty">No members found.</td> </tr>
-=======
-                    <tr> <td colspan="8" class="empty">No members found.</td> </tr>
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
                 @endforelse
             </table>
         </div>
