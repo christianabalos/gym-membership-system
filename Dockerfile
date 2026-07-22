@@ -32,11 +32,10 @@ RUN mkdir -p database \
     && chmod -R 775 database storage bootstrap/cache \
     && ls -lah database
 
-RUN composer install --no-dev --optimize-autoloader
+RUN composer install --no-dev --optimize-autoloader --no-cache
 
-RUN php artisan config:clear || true
-RUN php artisan route:clear || true
-RUN php artisan view:clear || true
+RUN php artisan optimize:clear || true
+RUN rm -rf bootstrap/cache/*.php || true
 
 EXPOSE 8080
 
