@@ -10,7 +10,7 @@ use Carbon\Carbon;
 
 class TrainerController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $days = [
             'Monday',
@@ -106,6 +106,11 @@ class TrainerController extends Controller
             ->whereNotNull('end_date')
             ->orderBy('start_date')
             ->get();
+
+            if ($request->is('api/*')) {
+                return response()->json($trainers);
+            }            
+
 
         return view('trainers.index', compact(
             'trainers',
