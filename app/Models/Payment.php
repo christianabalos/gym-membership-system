@@ -10,10 +10,9 @@ class Payment extends Model
         'member_id',
         'membership_id',
         'amount',
-        'method',
+        'payment_method',
         'status',
         'payment_date',
-        'paid_at',
     ];
 
     public function member()
