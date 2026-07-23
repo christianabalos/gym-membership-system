@@ -19,12 +19,16 @@ class MemberController extends Controller
         $members = Member::with(['user', 'memberships.trainer'])
             ->when($search, function ($query, $search) {
                 $query->where('full_name', 'like', "%{$search}%")
-                      ->orWhereHas('user', function ($q) use ($search) {
-                          $q->where('email', 'like', "%{$search}%");
-                      });
+                    ->orWhereHas('user', function ($q) use ($search) {
+                        $q->where('email', 'like', "%{$search}%");
+                    });
             })
             ->latest()
             ->get();
+
+        if ($request->is('api/*')) {
+            return response()->json($members);
+        }
 
         return view('members.index', compact('members', 'search'));
     }
