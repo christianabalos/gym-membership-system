@@ -79,7 +79,6 @@
             border: 1px solid rgba(203, 213, 225, 0.9);
         }
 
-<<<<<<< HEAD
         .btn-pdf {
             display: inline-block;
             background: #dc2626;
@@ -97,8 +96,6 @@
             background: #b91c1c;
         }
 
-=======
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
         .schedule-grid {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
@@ -186,7 +183,6 @@
         <h1>My Workout Schedules</h1>
         <p class="subtitle">View your weekly workout plan, trainer, time, and workout status.</p>
 
-<<<<<<< HEAD
         <a href="{{ route('member.dashboard') }}" class="btn-back">
             Back
         </a>
@@ -242,57 +238,6 @@
                         </p>
 
                         <p class="info">
-=======
-        <a href="{{ route('member.dashboard') }}" class="btn-back">Back</a>
-
-        @php
-            $myWorkouts = $workouts ?? collect();
-        @endphp
-
-        @if($myWorkouts->count() > 0)
-            <div class="schedule-grid">
-                @foreach($myWorkouts as $workout)
-                    @php
-                        $status = strtolower($workout->status ?? 'scheduled');
-
-                        $statusClass = match($status) {
-                            'completed' => 'completed',
-                            'rest' => 'rest',
-                            'missed' => 'missed',
-                            default => 'scheduled',
-                        };
-
-                        $workoutTitle = $workout->title
-                            ?? $workout->workout_title
-                            ?? $workout->workout_name
-                            ?? 'Workout';
-
-                        $workoutTime = $workout->schedule_time
-                            ?? $workout->time
-                            ?? $workout->workout_time
-                            ?? 'N/A';
-                    @endphp
-
-                    <div class="schedule-card">
-                        <h3>{{ $workoutTitle }}</h3>
-
-                        <p class="info">
-                            <strong>Trainer:</strong>
-                            {{ $workout->trainer->name ?? 'No Trainer' }}
-                        </p>
-
-                        <p class="info">
-                            <strong>Day:</strong>
-                            {{ $workout->day ?? 'N/A' }}
-                        </p>
-
-                        <p class="info">
-                            <strong>Time:</strong>
-                            {{ $workoutTime }}
-                        </p>
-
-                        <p class="info">
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
                             <strong>Type:</strong>
                             {{ $workout->workout_type ?? $workout->type ?? 'N/A' }}
                         </p>
