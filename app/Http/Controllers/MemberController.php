@@ -133,7 +133,6 @@ class MemberController extends Controller
                 'membership_id' => $membership->id,
                 'amount' => $price,
                 'payment_method' => $paymentMethod,
-                'method' => $paymentMethod,
                 'status' => $paymentStatus,
                 'payment_date' => now()->toDateString(),
                 'paid_at' => $paymentStatus === 'paid' ? now() : null,
