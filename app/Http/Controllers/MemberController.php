@@ -135,7 +135,6 @@ class MemberController extends Controller
                 'payment_method' => $paymentMethod,
                 'status' => $paymentStatus,
                 'payment_date' => now()->toDateString(),
-                'paid_at' => $paymentStatus === 'paid' ? now() : null,
             ]);
         }
 
