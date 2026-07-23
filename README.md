@@ -152,10 +152,10 @@ npm run dev
 php artisan serve
 ```
 
-Open your browser:
+Hosting link:
 
 ```
-http://127.0.0.1:8000
+[http://127.0.0.1:8000](https://gym-membership-system-production.up.railway.app/login)
 ```
 
 ---
