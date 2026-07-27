@@ -431,8 +431,6 @@
 
             h2 {
                 font-size: 23px;
-<<<<<<< HEAD
-=======
             }
         }
 
@@ -529,7 +527,6 @@
                 border: 1px solid #6b7280 !important;
                 color: #000000 !important;
                 background: transparent !important;
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
             }
         }
     </style>
@@ -693,71 +690,6 @@
         <div id="printable-calendar">
             <h2>Membership Schedule Calendar</h2>
 
-<<<<<<< HEAD
-        <div class="calendar-scroll">
-            <div class="calendar-grid" id="calendarGrid"></div>
-        </div>
-
-        <h2>Trainer Schedule</h2>
-
-        @php
-            $days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
-
-            $cleanTimeSlots = [
-                '8:00 AM - 9:00 AM',
-                '9:00 AM - 10:00 AM',
-                '10:00 AM - 11:00 AM',
-                '1:00 PM - 2:00 PM',
-                '2:00 PM - 3:00 PM',
-                '4:00 PM - 5:00 PM',
-            ];
-        @endphp
-
-        <div class="schedule-list">
-            @foreach($trainers as $trainer)
-                <div class="schedule-card">
-                    <h3>{{ $trainer->name }}</h3>
-                    <div class="specialization">{{ $trainer->specialization }}</div>
-
-                    <div class="table-wrap">
-                        <table class="schedule-table">
-                            <tr>
-                                <th>Time</th>
-                                @foreach($days as $day)
-                                    <th>{{ $day }}</th>
-                                @endforeach
-                            </tr>
-
-                            @foreach($cleanTimeSlots as $time)
-                                <tr>
-                                    <td class="time-cell">{{ $time }}</td>
-
-                                    @foreach($days as $day)
-                                        @php
-                                            $cell = $trainer->scheduleGrid[$time][$day] ?? null;
-                                        @endphp
-
-                                        <td>
-                                            @if($cell)
-                                                @if(($cell['status'] ?? '') === 'rest')
-                                                    <div class="slot-box rest">Rest</div>
-                                                @else
-                                                    <div class="slot-box booked">
-                                                        {{ $cell['member'] }}
-                                                    </div>
-                                                @endif
-                                            @else
-                                                <div class="slot-box available">Available</div>
-                                            @endif
-                                        </td>
-                                    @endforeach
-                                </tr>
-                            @endforeach
-                        </table>
-                    </div>
-                </div>
-            @endforeach
-=======
             <div class="calendar-controls">
                 <button type="button" onclick="previousMonth()" class="calendar-btn no-print">Previous</button>
                 <h3 id="calendarTitle"></h3>
@@ -844,7 +776,7 @@
                     </div>
                 @endforeach
             </div>
->>>>>>> fcad23c5ab6fcb4e40e7d4d0b86f52da3ecfa38c
+
         </div>
     </div>
 
