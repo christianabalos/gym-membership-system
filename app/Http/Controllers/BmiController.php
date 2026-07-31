@@ -45,6 +45,7 @@ class BmiController extends Controller
         if (request()->is('member/bmi')) {
             return view('member.bmi', compact(
                 'age',
+                'gender',
                 'weight',
                 'height',
                 'bmi',
@@ -54,6 +55,7 @@ class BmiController extends Controller
 
         return view('bmi.index', compact(
             'age',
+            'gender',
             'weight',
             'height',
             'bmi',

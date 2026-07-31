@@ -149,14 +149,13 @@
             font-weight: 700;
         }
 
-        .result-box {
-            margin-top: 18px;
-            padding: 18px;
-            border-radius: 18px;
-            background: rgba(255, 255, 255, 0.96);
-            color: #111827;
-            border-left: 6px solid #2563eb;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.20);
+        .result-box{
+            margin-top:18px;
+            padding:18px;
+            border-radius:18px;
+            background:rgba(255,255,255,.96);
+            color:#111827;
+            box-shadow:0 10px 25px rgba(0,0,0,.20);
         }
 
         .result-box h2 {
@@ -194,8 +193,20 @@
             font-weight: 900;
         }
 
-        .category {
-            color: #2563eb;
+        .category-underweight{
+            color:#3b82f6;
+        }
+
+        .category-normal{
+            color:#22c55e;
+        }
+
+        .category-overweight{
+            color:#f59e0b;
+        }
+
+        .category-obese{
+            color:#ef4444;
         }
 
         @media (max-width: 650px) {
@@ -344,21 +355,68 @@
             </form>
 
             @if(isset($bmi))
-                <div class="result-box">
-                    <h2>BMI Result</h2>
+            <div class="result-box"
 
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <p class="result-label">Your BMI</p>
-                            <p class="result-value">{{ number_format($bmi, 2) }}</p>
-                        </div>
+            @if($category == 'Underweight')
+            style="border-left:6px solid #3b82f6;"
 
-                        <div class="result-item">
-                            <p class="result-label">Category</p>
-                            <p class="result-value category">{{ $category ?? 'N/A' }}</p>
-                        </div>
+            @elseif($category == 'Normal')
+            style="border-left:6px solid #22c55e;"
+
+            @elseif($category == 'Overweight')
+            style="border-left:6px solid #f59e0b;"
+
+            @else
+            style="border-left:6px solid #ef4444;"
+            @endif
+            >
+                <h2>📊 BMI Result</h2>
+
+                <div class="result-grid">
+
+                    <div class="result-item">
+                        <p class="result-label">👤 Gender</p>
+                        <p class="result-value">{{ $gender }}</p>
                     </div>
+
+                    <div class="result-item">
+                        <p class="result-label">🎂 Age</p>
+                        <p class="result-value">{{ $age }} Years</p>
+                    </div>
+
+                    <div class="result-item">
+                        <p class="result-label">⚖ Weight</p>
+                        <p class="result-value">{{ $weight }} kg</p>
+                    </div>
+
+                    <div class="result-item">
+                        <p class="result-label">📏 Height</p>
+                        <p class="result-value">{{ $height }} cm</p>
+                    </div>
+
+                    <div class="result-item">
+                        <p class="result-label">🧮 BMI</p>
+                        <p class="result-value">{{ number_format($bmi, 2) }}</p>
+                    </div>
+
+                    <div class="result-item">
+                        <p class="result-label">✅ Category</p>
+                        <p class="result-value
+                        @if($category == 'Underweight')
+                            category-underweight
+                        @elseif($category == 'Normal')
+                            category-normal
+                        @elseif($category == 'Overweight')
+                            category-overweight
+                        @else
+                            category-obese
+                        @endif">
+                            {{ $category }}
+                        </p>
+                    </div>
+
                 </div>
+            </div>
             @endif
         </div>
     </div>
