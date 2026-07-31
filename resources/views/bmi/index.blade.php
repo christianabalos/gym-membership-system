@@ -196,7 +196,7 @@
             color:#3b82f6;
         }
 
-        .category-normalweight{
+        .category-normal{
             color:#22c55e;
         }
 
@@ -404,7 +404,7 @@
                         @if($category == 'Underweight')
                             category-underweight
                         @elseif($category == 'Normal Weight')
-                            category-normal weight
+                            category-normal 
                         @elseif($category == 'Overweight')
                             category-overweight
                         @else
