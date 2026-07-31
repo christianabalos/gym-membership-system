@@ -353,9 +353,9 @@
         </div>
         <div class="module-grid">
             <div class="module-card">
-                <div class="module-title">Register Membership</div>
+                <div class="module-title">Renew Membership</div>
                 <div class="module-desc">
-                    Apply for a gym membership plan.
+                    Renew your gym membership plan.
                 </div>
                 <a href="{{ route('member.registerMembership') }}" class="module-btn">Open</a>
             </div>
