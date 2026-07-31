@@ -128,8 +128,67 @@
             flex-direction: column;
             justify-content: center;
             align-items: center;
+
+            transition: 0.3s ease;
+            cursor: pointer;
         }
 
+        .summary-card:hover {
+            transform: translateY(-8px);
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30);
+        }
+
+        .total-card:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 25px rgba(59,130,246,.55);
+        }
+
+        .active-card:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 25px rgba(34,197,94,.55);
+        }
+
+        .expired-card:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 25px rgba(239,68,68,.55);
+        }
+
+        .cancelled-card:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 25px rgba(249,115,22,.55);
+        }
+
+        .revenue-card:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 25px rgba(37,99,235,.60);
+        }       
+
+        .total-card{
+            border-left:6px solid #3B82F6;
+        }
+
+        .active-card{
+            border-left:6px solid #22C55E;
+        }
+
+        .expired-card{
+            border-left:6px solid #EF4444;
+        }
+
+        .cancelled-card{
+            border-left:6px solid #F97316;
+        }
+
+        .revenue-card{
+            border-left:6px solid #2563EB;
+        }     
+        
         .summary-card .label {
             margin: 0 0 14px;
             min-height: 24px;
@@ -175,7 +234,7 @@
         .table-card {
             padding: 18px;
             border-radius: 18px;
-            background: rgba(255, 255, 255, 0.10);
+            background: rgba(255, 255, 255, 0.15);
             border: 1px solid rgba(255, 255, 255, 0.22);
             box-shadow: 0 12px 28px rgba(0,0,0,0.25);
         }
@@ -255,7 +314,7 @@
 
         .chart-container{
             position:relative;
-            height:320px;
+            height:380px;
         }
 
         @media(max-width:900px){
@@ -437,31 +496,32 @@
         <h2 class="section-title">Membership Summary</h2>
 
         <div class="summary-grid">
-            <div class="summary-card">
-                <p class="label">Total Memberships</p>
+            <div class="summary-card total-card">
+                <p class="label">👥 Total Memberships</p>
                 <p class="value">{{ $totalMemberships ?? 0 }}</p>
             </div>
 
-            <div class="summary-card">
-                <p class="label">Active Memberships</p>
+            <div class="summary-card active-card">
+                <p class="label">🟢 Active Memberships</p>
                 <p class="value active">{{ $activeMemberships ?? 0 }}</p>
             </div>
 
-            <div class="summary-card">
-                <p class="label">Expired Memberships</p>
+            <div class="summary-card expired-card">
+                <p class="label">🔴 Expired Memberships</p>
                 <p class="value expired">{{ $expiredMemberships ?? 0 }}</p>
             </div>
 
-            <div class="summary-card">
-                <p class="label">Cancelled Memberships</p>
+            <div class="summary-card cancelled-card">
+                <p class="label">🟠 Cancelled Memberships</p>
                 <p class="value cancelled">{{ $cancelledMemberships ?? 0 }}</p>
             </div>
 
-            <div class="summary-card">
-                <p class="label">Total Revenue</p>
-                <p class="value revenue">₱{{ number_format($totalRevenue ?? 0, 2) }}</p>
+            <div class="summary-card revenue-card">
+                <p class="label">💰 Total Revenue</p>
+                <p class="value revenue">
+                    ₱{{ number_format($totalRevenue ?? 0,2) }}
+                </p>
             </div>
-        </div>
 
         <h2 class="section-title">
             📊 Analytics Charts
@@ -604,7 +664,8 @@
                 },
 
                 animation:{
-                    duration:1500
+                    duration:1800,
+                    easing:'easeOutQuart'
                 }
 
             }
