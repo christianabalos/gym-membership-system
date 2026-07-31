@@ -26,7 +26,7 @@
         }
 
         .container {
-            max-width: 1250px;
+            max-width: 1450px;
             margin: auto;
             padding: 38px 36px;
             border-radius: 26px;
@@ -307,14 +307,15 @@
 
         .charts-wrapper{
             display:grid;
-            grid-template-columns:repeat(2,1fr);
-            gap:20px;
+            grid-template-columns:1fr 1fr;
+            gap:24px;
             margin-bottom:30px;
+            align-items:stretch;
         }
 
         .chart-container{
             position:relative;
-            height:380px;
+            height:400px;
         }
 
         @media(max-width:900px){
@@ -523,6 +524,8 @@
                 </p>
             </div>
 
+        </div>
+
         <h2 class="section-title">
             📊 Analytics Charts
         </h2>
@@ -530,7 +533,7 @@
         <div class="charts-wrapper">
 
             <div class="table-card">
-                <h3 style="text-align:center;margin-bottom:15px;">
+                <h3 style="text-align:center;margin-bottom:20px;">
                     Membership Distribution
                 </h3>
 
@@ -540,7 +543,7 @@
             </div>
 
             <div class="table-card">
-                <h3 style="text-align:center;margin-bottom:15px;">
+                <h3 style="text-align:center;margin-bottom:20px;">
                     Revenue by Plan
                 </h3>
 
