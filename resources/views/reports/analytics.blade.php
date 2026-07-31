@@ -3,6 +3,8 @@
 <head>
     <title>Membership Analytics</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
         * {
@@ -244,6 +246,28 @@
             font-weight: 900;
         }
 
+        .charts-wrapper{
+            display:grid;
+            grid-template-columns:repeat(2,1fr);
+            gap:20px;
+            margin-bottom:30px;
+        }
+
+        .chart-container{
+            position:relative;
+            height:320px;
+        }
+
+        @media(max-width:900px){
+
+            .charts-wrapper{
+
+                grid-template-columns:1fr;
+
+            }
+
+        }        
+
         @media (max-width: 1200px) {
             .summary-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -439,6 +463,34 @@
             </div>
         </div>
 
+        <h2 class="section-title">
+            📊 Analytics Charts
+        </h2>
+
+        <div class="charts-wrapper">
+
+            <div class="table-card">
+                <h3 style="text-align:center;margin-bottom:15px;">
+                    Membership Distribution
+                </h3>
+
+                <div class="chart-container">
+                    <canvas id="membersChart"></canvas>
+                </div>
+            </div>
+
+            <div class="table-card">
+                <h3 style="text-align:center;margin-bottom:15px;">
+                    Revenue by Plan
+                </h3>
+
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
+            </div>
+
+        </div>        
+
         <h2 class="section-title">Plan Analytics</h2>
 
         <div class="table-card">
@@ -484,5 +536,164 @@
             </div>
         </div>
     </div>
+
+    <script>
+
+    document.addEventListener('DOMContentLoaded',function(){
+
+        const analyticsData = @json($planAnalytics ?? []);
+
+        const labels=analyticsData.map(item=>item.plan);
+
+        const membersData=analyticsData.map(item=>item.total_members);
+
+        const revenueData=analyticsData.map(item=>item.total_revenue);
+
+        const bgColors=[
+            '#3B82F6',
+            '#8B5CF6',
+            '#10B981'
+        ];
+
+        const borderColors=[
+            '#2563EB',
+            '#7C3AED',
+            '#059669'
+        ];
+
+        /* MEMBERS CHART */
+
+        new Chart(document.getElementById('membersChart'),{
+
+            type:'doughnut',
+
+            data:{
+
+                labels:labels,
+
+                datasets:[{
+
+                    data:membersData,
+
+                    backgroundColor:bgColors,
+
+                    borderColor:borderColors,
+
+                    borderWidth:2
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+                plugins:{
+
+                    legend:{
+                        position:'bottom',
+
+                        labels:{
+                            color:'#ffffff'
+                        }
+                    }
+
+                },
+
+                animation:{
+                    duration:1500
+                }
+
+            }
+
+        });
+
+        /* REVENUE CHART */
+
+        new Chart(document.getElementById('revenueChart'),{
+
+            type:'bar',
+
+            data:{
+
+                labels:labels,
+
+                datasets:[{
+
+                    label:'Revenue',
+
+                    data:revenueData,
+
+                    backgroundColor:bgColors,
+
+                    borderColor:borderColors,
+
+                    borderWidth:1,
+
+                    borderRadius:8
+
+                }]
+
+            },
+
+            options:{
+
+                responsive:true,
+
+                maintainAspectRatio:false,
+
+                animation:{
+                    duration:1500
+                },
+
+                plugins:{
+
+                    legend:{
+                        display:false
+                    }
+
+                },
+
+                scales:{
+
+                    y:{
+
+                        beginAtZero:true,
+
+                        ticks:{
+                            color:'#ffffff'
+                        },
+
+                        grid:{
+                            color:'rgba(255,255,255,.15)'
+                        }
+
+                    },
+
+                    x:{
+
+                        ticks:{
+                            color:'#ffffff'
+                        },
+
+                        grid:{
+                            display:false
+                        }
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    });
+
+    </script>    
+
 </body>
 </html>
