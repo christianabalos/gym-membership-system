@@ -446,7 +446,7 @@
                 <table>
                     <thead>
                         <tr>
-                            <th>Plan</th>
+                            <th>Plans</th>
                             <th>Total Members</th>
                             <th>Total Revenue</th>
                         </tr>
