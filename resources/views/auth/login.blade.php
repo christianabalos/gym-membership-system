@@ -54,23 +54,6 @@
             margin-bottom: 28px;
         }
 
-        .btn-back {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.14);
-            color: white;
-            padding: 9px 15px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-            margin-bottom: 22px;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-        }
-
-        .btn-back:hover {
-            background: rgba(255, 255, 255, 0.22);
-        }
-
         label {
             display: block;
             font-weight: bold;
@@ -157,8 +140,6 @@
         </h1>
 
         <p class="subtitle">Login to access your account.</p>
-
-        <a href="{{ route('welcome') }}" class="btn-back">Back</a>
 
         @if ($errors->any())
             <div class="error-box">

@@ -148,7 +148,6 @@
                         </div>
                     </form>
                 </div>
-            </div>
         </div>
         <div style="margin-bottom: 20px; margin-top: 15px;">
             <form action="{{ route('members.index') }}" method="GET" style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">

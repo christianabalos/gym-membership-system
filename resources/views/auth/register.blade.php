@@ -52,25 +52,6 @@
             font-size: 15px;
         }
 
-        .top-actions {
-            margin-bottom: 25px;
-        }
-
-        .btn-back {
-            display: inline-block;
-            background: rgba(107, 114, 128, 0.95);
-            color: white;
-            padding: 10px 18px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            font-weight: bold;
-        }
-
-        .btn-back:hover {
-            background: #4b5563;
-        }
-
         .error-box {
             background: rgba(254, 226, 226, 0.95);
             color: #991b1b;
@@ -102,6 +83,25 @@
             color: #ffffff;
             text-shadow: 0 1px 5px rgba(0,0,0,0.45);
         }
+       
+            .required {
+                color: #ef4444;
+                font-weight: bold;
+            }     
+
+            .section-title {
+                font-size: 22px;
+                font-weight: bold;
+                color: #93c5fd;
+                margin-top: 30px;
+                margin-bottom: 15px;
+                padding-bottom: 8px;
+                border-bottom: 2px solid rgba(255,255,255,0.25);
+            }
+
+            .section-title:first-of-type {
+                margin-top: 0;
+            }
 
             input,
             select,
@@ -279,7 +279,7 @@
 
             #termsModal .modal-footer{
                 color:#212529;
-            }            
+            }                   
 
     </style>
 
@@ -291,10 +291,6 @@
     <div class="container">
         <h1>Member Registration</h1>
         <p class="subtitle">Create your gym membership account.</p>
-
-        <div class="top-actions">
-            <a href="{{ route('welcome') }}" class="btn-back">Back</a>
-        </div>
 
         @if ($errors->any())
             <div class="error-box">
@@ -336,36 +332,38 @@
         <form action="{{ route('register.submit') }}" method="POST">
             @csrf
 
+            <h2 class="section-title">👤 Personal Information</h2>
+
             <div class="field">
-                <label>Full Name:</label>
+                <label>Full Name <span class="required">*</span></label>
                 <input type="text" name="full_name" value="{{ old('full_name') }}" placeholder="Enter your full name" required>
             </div>
 
             <div class="field">
-                <label>Email:</label>
+                <label>Email <span class="required">*</span></label>
                 <input type="email" name="email" value="{{ old('email') }}" placeholder="Enter your email address" required>
             </div>
 
             <div class="two-column">
                 <div class="field">
-                    <label>Password:</label>
+                    <label>Password <span class="required">*</span></label>
                     <input type="password" name="password" placeholder="Enter password" required>
                 </div>
 
                 <div class="field">
-                    <label>Confirm Password:</label>
+                    <label>Confirm Password <span class="required">*</span></label>
                     <input type="password" name="password_confirmation" placeholder="Confirm password" required>
                 </div>
             </div>
 
             <div class="two-column">
                 <div class="field">
-                    <label>Phone:</label>
+                    <label>Phone <span class="required">*</span></label>
                     <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Enter your phone number" required>
                 </div>
 
                 <div class="field">
-                    <label>Gender:</label>
+                    <label>Gender <span class="required">*</span></label>
                     <select name="gender" required>
                         <option value="">Select Gender</option>
                         <option value="Male" {{ old('gender') == 'Male' ? 'selected' : '' }}>Male</option>
@@ -375,12 +373,12 @@
             </div>
 
             <div class="field">
-                <label>Address:</label>
+                <label>Address <span class="required">*</span></label>
                 <input type="text" name="address" value="{{ old('address') }}" placeholder="Enter your address" required>
             </div>
 
             <div class="field">
-                <label>Birth Date:</label>
+                <label>Birth Date <span class="required">*</span></label>
                 <div class="birth-grid">
                     <select name="birth_month" required>
                         <option value="">Month</option>
@@ -411,6 +409,7 @@
                 </div>
             </div>
 
+            <h2 class="section-title">🏋️ Membership Information</h2>
             <div class="field">
                 <label>Trainer Option:</label>
                 <select name="trainer_id" id="trainer_id">
@@ -474,6 +473,7 @@
                 </div>
             </div>
 
+            <h2 class="section-title">💳 Payment Information</h2>
             <div class="field">
                 <label>Payment Method:</label>
                 <select name="payment_method" required>
@@ -482,6 +482,8 @@
                     <option value="online" {{ old('payment_method') == 'online' ? 'selected' : '' }}>Online Payment</option>
                 </select>
             </div>
+
+                <h2 class="section-title">❤️ Health Declaration</h2>
      
                 <details class="mt-3">
 
@@ -522,7 +524,7 @@
 
             </details>            
 
-            <hr>
+            <h2 class="section-title">🚨 Emergency Contact</h2>
 
             <h5 style="color: white;">
                 🚨 Emergency Contact Information
