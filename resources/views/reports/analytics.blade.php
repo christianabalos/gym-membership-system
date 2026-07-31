@@ -87,6 +87,15 @@
             color: #ffffff;
         }
 
+        .filter-select{
+            padding:11px 15px;
+            border-radius:10px;
+            border:none;
+            font-weight:700;
+            min-width:170px;
+            background:white;
+        }        
+
         .section-title {
             margin: 0 0 18px;
             font-size: 26px;
@@ -361,8 +370,44 @@
         <p class="subtitle">Monitor membership totals, plan usage, and generated revenue.</p>
 
         <div class="top-actions">
-            <a href="{{ route('reports.index') }}" class="btn btn-back">Back</a>
-            <button type="button" onclick="window.print()" class="btn btn-print">Print Analytics</button>
+
+            <a href="{{ route('reports.index') }}" class="btn btn-back">
+                Back
+            </a>
+
+            <form method="GET" action="{{ route('reports.analytics') }}" style="display:flex; gap:10px;">
+
+                <select name="period" class="filter-select">
+
+                    <option value="week"
+                        {{ request('period') == 'week' ? 'selected' : '' }}>
+                        Weekly
+                    </option>
+
+                    <option value="month"
+                        {{ request('period', 'month') == 'month' ? 'selected' : '' }}>
+                        Monthly
+                    </option>
+
+                    <option value="year"
+                        {{ request('period') == 'year' ? 'selected' : '' }}>
+                        Yearly
+                    </option>
+
+                </select>
+
+                <button class="btn btn-print" type="submit">
+                    Apply Filter
+                </button>
+
+            </form>
+
+            <button type="button"
+                    onclick="window.print()"
+                    class="btn btn-print">
+                Print Analytics
+            </button>
+
         </div>
 
         <h2 class="section-title">Membership Summary</h2>

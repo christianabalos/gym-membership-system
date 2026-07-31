@@ -96,7 +96,31 @@ class ReportController extends Controller
     {
         $today = Carbon::today();
 
-        $memberships = Membership::with(['member', 'trainer'])->get();
+        $period = request('period', 'month');
+
+        $query = Membership::with(['member', 'trainer']);
+
+        if ($period == 'week') {
+
+            $query->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ]);
+
+        }
+        elseif ($period == 'month') {
+
+            $query->whereMonth('created_at', Carbon::now()->month)
+                ->whereYear('created_at', Carbon::now()->year);
+
+        }
+        elseif ($period == 'year') {
+
+            $query->whereYear('created_at', Carbon::now()->year);
+
+        }
+
+        $memberships = $query->get();
 
         $totalMemberships = $memberships->count();
 
