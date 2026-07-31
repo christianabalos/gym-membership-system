@@ -19,11 +19,13 @@ class BmiController extends Controller
     {
         $request->validate([
             'age' => 'required|numeric|min:1',
+            'gender' => 'required|in:Male,Female',
             'weight' => 'required|numeric|min:1',
             'height' => 'required|numeric|min:1',
         ]);
 
         $age = $request->age;
+        $gender = $request->gender;
         $weight = $request->weight;
         $height = $request->height;
 

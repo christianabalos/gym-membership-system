@@ -101,7 +101,8 @@
             font-weight: 800;
         }
 
-        input {
+        input,
+        select {
             width: 100%;
             padding: 13px 14px;
             border-radius: 11px;
@@ -112,7 +113,8 @@
             outline: none;
         }
 
-        input:focus {
+        input:focus,
+        select:focus {
             border-color: #60a5fa;
             box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.25);
         }
@@ -256,7 +258,7 @@
 <body>
     <div class="container">
         <h1>BMI Calculator</h1>
-        <p class="subtitle">Enter your age, weight, and height to calculate your BMI.</p>
+        <p class="subtitle">Enter your age, gender, weight, and height to calculate your BMI.</p>
 
         <div class="top-actions">
             <a href="{{ route('member.dashboard') }}" class="btn btn-back">Back</a>
@@ -286,6 +288,29 @@
                         required
                     >
                 </div>
+
+                <div class="form-group">
+                    <label for="gender">Gender:</label>
+
+                    <select
+                        id="gender"
+                        name="gender"
+                        required>
+
+                        <option value="">Select Gender</option>
+
+                        <option value="Male"
+                            {{ old('gender', $gender ?? '') == 'Male' ? 'selected' : '' }}>
+                            Male
+                        </option>
+
+                        <option value="Female"
+                            {{ old('gender', $gender ?? '') == 'Female' ? 'selected' : '' }}>
+                            Female
+                        </option>
+
+                    </select>
+                </div>                
 
                 <div class="form-group">
                     <label for="weight">Weight in kg:</label>
