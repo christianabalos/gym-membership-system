@@ -35,7 +35,7 @@ class BmiController extends Controller
         if ($bmi < 18.5) {
             $category = 'Underweight';
         } elseif ($bmi < 25) {
-            $category = 'Normal';
+            $category = 'Normal Weight';
         } elseif ($bmi < 30) {
             $category = 'Overweight';
         } else {
