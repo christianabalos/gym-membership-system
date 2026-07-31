@@ -524,8 +524,6 @@
 
             </details>            
 
-            <h2 class="section-title">🚨 Emergency Contact</h2>
-
             <h5 style="color: white;">
                 🚨 Emergency Contact Information
             </h5>

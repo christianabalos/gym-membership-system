@@ -175,7 +175,7 @@
 
 <body>
     <div class="container">
-        <h1>Register Membership</h1>
+        <h1>Renew Membership</h1>
         <p class="subtitle">Choose your plan, trainer, and payment method.</p>
 
         <a href="{{ route('member.dashboard') }}" class="btn-back">Back</a>

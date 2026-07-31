@@ -353,7 +353,7 @@
         </div>
         <div class="module-grid">
             <div class="module-card">
-                <div class="module-title">Renew Membership</div>
+                <div class="module-title">Renew Membership Plan</div>
                 <div class="module-desc">
                     Renew your gym membership plan.
                 </div>
