@@ -211,31 +211,48 @@
 
         .program-card,
         .schedule-card {
-            background: rgba(255, 255, 255, 0.10);
+            background: rgba(255,255,255,.14);
             color: #ffffff;
             border: 1px solid rgba(255, 255, 255, 0.25);
             border-radius: 16px;
             padding: 20px;
-            box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+            box-shadow:0 18px 40px rgba(0,0,0,.30);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
         }
 
         .program-card h3,
-        .schedule-card h3 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #ffffff;
-            text-shadow: 0 2px 8px rgba(0,0,0,0.35);
+        .schedule-card h3{
+            font-size:20px;
+            font-weight:800;
+            color:white;
+            padding-bottom:12px;
+            margin-bottom:12px;
+            border-bottom:2px solid rgba(255,255,255,.15);
+            text-shadow:0 2px 8px rgba(0,0,0,.35);
         }
 
-        .program-specialization,
-        .specialization {
-            color: #dbeafe;
-            margin-top: 5px;
-            margin-bottom: 15px;
-            font-weight: 600;
+        .program-specialization{
+            font-size:15px;
+            font-weight:700;
+            letter-spacing:.5px;
         }
+
+        .program-card.cardio .program-specialization{
+            color:#60A5FA;
+        }
+
+        .program-card.weight .program-specialization{
+            color:#4ADE80;
+        }
+
+        .program-card.strength .program-specialization{
+            color:#FACC15;
+        }
+
+        .program-card.flexibility .program-specialization{
+            color:#F472B6;
+        }        
 
         .program-table,
         .schedule-table {
@@ -246,21 +263,72 @@
             overflow: hidden;
         }
 
+        .program-card{
+            transition:.35s ease;
+            cursor:pointer;
+        }
+
+        .program-card:hover{
+            transform:translateY(-8px);
+        }
+
+        /* Cardio */
+        .program-card.cardio{
+            border-left:6px solid #3B82F6;
+        }
+
+        .program-card.cardio:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(59,130,246,.55);
+        }
+
+        /* Weight Loss */
+        .program-card.weight{
+            border-left:6px solid #22C55E;
+        }
+
+        .program-card.weight:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(34,197,94,.55);
+        }
+
+        /* Strength */
+        .program-card.strength{
+            border-left:6px solid #F59E0B;
+        }
+
+        .program-card.strength:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(245,158,11,.55);
+        }
+
+        /* Flexibility / Default */
+        .program-card.flexibility{
+            border-left:6px solid #EC4899;
+        }
+
+        .program-card.flexibility:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(236,72,153,.55);
+        }        
+
         .program-table th,
         .schedule-table th {
             background: rgba(15, 23, 42, 0.92);
             color: #ffffff;
             padding: 11px;
             font-size: 13px;
+
+            border-bottom:2px solid rgba(255,255,255,.15);
         }
 
-        .program-table td,
-        .schedule-table td {
-            padding: 11px;
-            background: rgba(255, 255, 255, 0.08);
-            color: #ffffff;
-            border: 1px solid rgba(255, 255, 255, 0.18);
-            font-size: 13px;
+        .program-table tr:hover td{
+            background:rgba(255,255,255,.14);
+            transition:.25s;
         }
 
         .program-table tr:last-child td {
@@ -685,8 +753,44 @@
 
         <div class="program-grid">
             @foreach($trainers as $trainer)
-                <div class="program-card">
-                    <h3>{{ $trainer->name }}</h3>
+                @php
+                    $specialization = strtolower($trainer->specialization);
+
+                    if(str_contains($specialization,'cardio')){
+                        $cardClass='cardio';
+                    }elseif(str_contains($specialization,'weight')){
+                        $cardClass='weight';
+                    }elseif(str_contains($specialization,'strength')){
+                        $cardClass='strength';
+                    }else{
+                        $cardClass='flexibility';
+                    }
+                @endphp
+
+                <div class="program-card {{ $cardClass }}">
+                    <h3>
+
+                    @if(str_contains(strtolower($trainer->specialization),'cardio'))
+
+                    🏃
+
+                    @elseif(str_contains(strtolower($trainer->specialization),'weight'))
+
+                    ⚖️
+
+                    @elseif(str_contains(strtolower($trainer->specialization),'strength'))
+
+                    💪
+
+                    @else
+
+                    🧘
+
+                    @endif
+
+                    {{ $trainer->name }}
+
+                    </h3>
                     <p class="program-specialization">{{ $trainer->specialization }}</p>
 
                     <table class="program-table">
