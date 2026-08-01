@@ -152,6 +152,22 @@
             color: #ffffff;
         }
 
+        .trainer-blue{
+            color:#60A5FA;
+        }
+
+        .trainer-green{
+            color:#4ADE80;
+        }
+
+        .trainer-gold{
+            color:#FACC15;
+        }
+
+        .trainer-pink{
+            color:#F472B6;
+        }        
+
         .members-list {
             margin: 0;
             padding-left: 18px;
@@ -558,7 +574,16 @@
 
                 @forelse($trainers as $trainer)
                     <tr>
-                        <td class="trainer-name">{{ $trainer->name }}</td>
+                        <td
+                            class="trainer-name
+                            @if($loop->index==0) trainer-blue
+                            @elseif($loop->index==1) trainer-green
+                            @elseif($loop->index==2) trainer-gold
+                            @elseif($loop->index==3) trainer-pink
+                            @endif">
+
+                            {{ $trainer->name }}
+                        </td>
                         <td>{{ $trainer->email }}</td>
                         <td>{{ $trainer->phone }}</td>
                         <td>{{ $trainer->specialization }}</td>
