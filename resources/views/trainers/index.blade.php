@@ -304,11 +304,11 @@
         }
 
         .program-card.cardio .program-specialization{
-            color:#60A5FA;
+            color:#4ADE80;
         }
 
         .program-card.weight .program-specialization{
-            color:#4ADE80;
+            color:#60A5FA; 
         }
 
         .program-card.strength .program-specialization{
@@ -337,7 +337,7 @@
             transform:translateY(-8px);
         }
 
-        /* Cardio */
+        /* Weight Loss */
         .program-card.weight{
             border-left:6px solid #3B82F6;
         }
@@ -348,7 +348,7 @@
                 0 0 28px rgba(59,130,246,.55);
         }
 
-        /* Weight Loss */
+        /* Cardio */
         .program-card.cardio{
             border-left:6px solid #22C55E;
         }
