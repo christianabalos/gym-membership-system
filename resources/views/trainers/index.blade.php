@@ -942,7 +942,14 @@
                     @endphp
 
                     <div class="schedule-card {{ $cardClass }}">
-                        <h3>{{ $trainer->name }}</h3>
+                        <h3 class="trainer-name
+                        @if($cardClass=='cardio') trainer-blue
+                        @elseif($cardClass=='weight') trainer-green
+                        @elseif($cardClass=='strength') trainer-gold
+                        @else trainer-pink
+                        @endif">
+                            {{ $trainer->name }}
+                        </h3>
                         <div class="specialization program-specialization">
                             {{ $trainer->specialization }}
                         </div>
