@@ -338,22 +338,22 @@
         }
 
         /* Cardio */
-        .program-card.cardio{
+        .program-card.weight{
             border-left:6px solid #3B82F6;
         }
 
-        .program-card.cardio:hover{
+        .program-card.weight:hover{
             box-shadow:
                 0 18px 35px rgba(0,0,0,.30),
                 0 0 28px rgba(59,130,246,.55);
         }
 
         /* Weight Loss */
-        .program-card.weight{
+        .program-card.cardio{
             border-left:6px solid #22C55E;
         }
 
-        .program-card.weight:hover{
+        .program-card.cardio:hover{
             box-shadow:
                 0 18px 35px rgba(0,0,0,.30),
                 0 0 28px rgba(34,197,94,.55);
