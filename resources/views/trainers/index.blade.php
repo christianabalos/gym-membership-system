@@ -168,11 +168,11 @@
             color:#F472B6;
         }        
 
-        .schedule-card.cardio .program-specialization{
+        .schedule-card.weight .program-specialization{
             color:#60A5FA;
         }
 
-        .schedule-card.weight .program-specialization{
+        .schedule-card.cardio .program-specialization{
             color:#4ADE80;
         }
 
@@ -246,21 +246,21 @@
             transform:translateY(-8px);
         }        
 
-        .schedule-card.cardio{
+        .schedule-card.weight{
             border-left:6px solid #3B82F6;
         }
 
-        .schedule-card.cardio:hover{
+        .schedule-card.weight:hover{
             box-shadow:
                 0 18px 35px rgba(0,0,0,.30),
                 0 0 28px rgba(59,130,246,.55);
         }
 
-        .schedule-card.weight{
+        .schedule-card.cardio{
             border-left:6px solid #22C55E;
         }
 
-        .schedule-card.weight:hover{
+        .schedule-card.cardio:hover{
             box-shadow:
                 0 18px 35px rgba(0,0,0,.30),
                 0 0 28px rgba(34,197,94,.55);
@@ -928,16 +928,19 @@
             <div class="schedule-list">
                 @foreach($trainers as $trainer)
                     @php
-                        $specialization = strtolower($trainer->specialization);
+                        $name = strtolower($trainer->name);
 
-                        if(str_contains($specialization,'cardio')){
-                            $cardClass='cardio';
-                        }elseif(str_contains($specialization,'weight')){
-                            $cardClass='weight';
-                        }elseif(str_contains($specialization,'strength')){
-                            $cardClass='strength';
-                        }else{
-                            $cardClass='flexibility';
+                        if (str_contains($name, 'bhing')) {
+                            $cardClass = 'blue';
+                        }
+                        elseif (str_contains($name, 'christian')) {
+                            $cardClass = 'green';
+                        }
+                        elseif (str_contains($name, 'james')) {
+                            $cardClass = 'orange';
+                        }
+                        else {
+                            $cardClass = 'pink';
                         }
                     @endphp
 
