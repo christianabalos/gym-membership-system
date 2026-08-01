@@ -168,6 +168,22 @@
             color:#F472B6;
         }        
 
+        .schedule-card.cardio .program-specialization{
+            color:#60A5FA;
+        }
+
+        .schedule-card.weight .program-specialization{
+            color:#4ADE80;
+        }
+
+        .schedule-card.strength .program-specialization{
+            color:#FBBF24;
+        }
+
+        .schedule-card.flexibility .program-specialization{
+            color:#F472B6;
+        }        
+
         .members-list {
             margin: 0;
             padding-left: 18px;
@@ -220,6 +236,55 @@
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
         }
+
+        .schedule-card{
+            transition:.35s ease;
+            cursor:pointer;
+        }
+
+        .schedule-card:hover{
+            transform:translateY(-8px);
+        }        
+
+        .schedule-card.cardio{
+            border-left:6px solid #3B82F6;
+        }
+
+        .schedule-card.cardio:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(59,130,246,.55);
+        }
+
+        .schedule-card.weight{
+            border-left:6px solid #22C55E;
+        }
+
+        .schedule-card.weight:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(34,197,94,.55);
+        }
+
+        .schedule-card.strength{
+            border-left:6px solid #F59E0B;
+        }
+
+        .schedule-card.strength:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(245,158,11,.55);
+        }
+
+        .schedule-card.flexibility{
+            border-left:6px solid #EC4899;
+        }
+
+        .schedule-card.flexibility:hover{
+            box-shadow:
+                0 18px 35px rgba(0,0,0,.30),
+                0 0 28px rgba(236,72,153,.55);
+        }        
 
         .program-card h3,
         .schedule-card h3{
@@ -862,9 +927,25 @@
 
             <div class="schedule-list">
                 @foreach($trainers as $trainer)
-                    <div class="schedule-card">
+                    @php
+                        $specialization = strtolower($trainer->specialization);
+
+                        if(str_contains($specialization,'cardio')){
+                            $cardClass='cardio';
+                        }elseif(str_contains($specialization,'weight')){
+                            $cardClass='weight';
+                        }elseif(str_contains($specialization,'strength')){
+                            $cardClass='strength';
+                        }else{
+                            $cardClass='flexibility';
+                        }
+                    @endphp
+
+                    <div class="schedule-card {{ $cardClass }}">
                         <h3>{{ $trainer->name }}</h3>
-                        <div class="specialization">{{ $trainer->specialization }}</div>
+                        <div class="specialization program-specialization">
+                            {{ $trainer->specialization }}
+                        </div>
 
                         <div class="table-wrap">
                             <table class="schedule-table">
