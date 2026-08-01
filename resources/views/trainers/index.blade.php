@@ -943,8 +943,8 @@
 
                     <div class="schedule-card {{ $cardClass }}">
                         <h3 class="trainer-name
-                        @if($cardClass=='cardio') trainer-blue
-                        @elseif($cardClass=='weight') trainer-green
+                        @if($cardClass=='cardio') trainer-green
+                        @elseif($cardClass=='weight') trainer-blue
                         @elseif($cardClass=='strength') trainer-gold
                         @else trainer-pink
                         @endif">
