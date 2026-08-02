@@ -418,6 +418,20 @@
                 background:#f3f4f6;
             }            
 
+            .notification-item,
+            .notification-item:visited{
+                color:#111827;
+                text-decoration:none;
+            }
+
+            .notification-item strong{
+                color:#111827;
+            }
+
+            .notification-item small{
+                color:#6b7280;
+            }            
+
         }
     </style>
 </head>
@@ -450,13 +464,7 @@
                 @endif
 
 
-                <div class="notification-dropdown" id="notificationDropdown">
-
-                        <div class="notification-footer">
-                            <a href="{{ route('admin.member-requests.index') }}">
-                                View all requests
-                            </a>
-                        </div>                
+                <div class="notification-dropdown" id="notificationDropdown">               
 
                         <div class="notification-header">
                             Notifications
@@ -492,6 +500,12 @@
                             </div>
 
                         @endif
+
+                        <div class="notification-footer">
+                            <a href="{{ route('admin.member-requests.index') }}">
+                                View all requests
+                            </a>
+                        </div>                         
 
                     </div>
 
