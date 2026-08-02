@@ -318,6 +318,83 @@
             table {
                 min-width: 760px;
             }
+
+            .notification-wrapper{
+                position:relative;
+                display:inline-block;
+            }
+
+            .notification-bell{
+                width:42px;
+                height:42px;
+                border:none;
+                border-radius:50%;
+                background:#1f2937;
+                color:white;
+                cursor:pointer;
+                font-size:18px;
+            }
+
+            .notification-bell:hover{
+                background:#374151;
+            }
+
+            .notification-count{
+                position:absolute;
+                top:-5px;
+                right:-5px;
+                background:#ef4444;
+                color:white;
+                font-size:11px;
+                min-width:18px;
+                height:18px;
+                border-radius:50%;
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                font-weight:bold;
+            }
+
+            .notification-dropdown{
+                display:none;
+                position:absolute;
+                right:0;
+                top:50px;
+
+                width:320px;
+
+                background:white;
+                color:#111827;
+
+                border-radius:10px;
+                box-shadow:0 10px 25px rgba(0,0,0,.2);
+
+                z-index:9999;
+
+                overflow:hidden;
+            }
+
+            .notification-header{
+                padding:15px;
+                font-weight:bold;
+                border-bottom:1px solid #ddd;
+                background:#f3f4f6;
+            }
+
+            .notification-item{
+                padding:15px;
+                border-bottom:1px solid #eee;
+            }
+
+            .notification-item:hover{
+                background:#f8fafc;
+                cursor:pointer;
+            }
+
+            .notification-item small{
+                color:#6b7280;
+            }            
+
         }
     </style>
 </head>
@@ -565,5 +642,25 @@
             <div class="empty-box">No expiring memberships found.</div>
         @endif
     </div>
+
+        <script>
+        const bell = document.getElementById('notificationBell');
+        const dropdown = document.getElementById('notificationDropdown');
+
+        bell.addEventListener('click', function (e) {
+            e.stopPropagation();
+
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+            }
+        });
+
+        document.addEventListener('click', function () {
+            dropdown.style.display = 'none';
+        });
+        </script>
+    
 </body>
 </html>
