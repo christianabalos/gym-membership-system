@@ -105,6 +105,41 @@
             justify-content:center;
         }
 
+        .notification-dropdown{
+            display:none;
+            position:absolute;
+            right:0;
+            top:55px;
+            width:320px;
+            background:white;
+            color:#111827;
+            border-radius:10px;
+            box-shadow:0 10px 25px rgba(0,0,0,.2);
+            z-index:9999;
+            overflow:hidden;
+        }
+
+        .notification-header{
+            padding:15px;
+            font-weight:bold;
+            border-bottom:1px solid #ddd;
+            background:#f3f4f6;
+        }
+
+        .notification-item{
+            padding:15px;
+            border-bottom:1px solid #eee;
+        }
+
+        .notification-item:hover{
+            background:#f8fafc;
+            cursor:pointer;
+        }
+
+        .notification-item small{
+            color:#6b7280;
+        }        
+
         .logout-btn {
             border: none;
             background: #dc2626;
@@ -355,45 +390,6 @@
                 font-weight:bold;
             }
 
-            .notification-dropdown{
-                display:none;
-                position:absolute;
-                right:0;
-                top:50px;
-
-                width:320px;
-
-                background:white;
-                color:#111827;
-
-                border-radius:10px;
-                box-shadow:0 10px 25px rgba(0,0,0,.2);
-
-                z-index:9999;
-
-                overflow:hidden;
-            }
-
-            .notification-header{
-                padding:15px;
-                font-weight:bold;
-                border-bottom:1px solid #ddd;
-                background:#f3f4f6;
-            }
-
-            .notification-item{
-                padding:15px;
-                border-bottom:1px solid #eee;
-            }
-
-            .notification-item:hover{
-                background:#f8fafc;
-                cursor:pointer;
-            }
-
-            .notification-item small{
-                color:#6b7280;
-            }            
 
         }
     </style>
@@ -501,25 +497,6 @@
         </div>
 
         <hr class="divider">
-
-        @if(isset($pendingRequestsCount) && $pendingRequestsCount > 0)
-    <div class="notification">
-        <strong>Notification: You have {{ $pendingRequestsCount }} pending member requests.</strong>
-
-        <ul>
-            @foreach($pendingRequests as $request)
-                <li>
-                    {{ $request->member->full_name ?? $request->user->name ?? 'Member' }}
-                    - {{ $request->created_at ? $request->created_at->format('M d, Y') : 'N/A' }}
-                </li>
-            @endforeach
-        </ul>
-
-        <a href="{{ route('admin.member-requests.index') }}" class="notification-btn">
-            View Member Requests
-        </a>
-    </div>
-@endif
 
         <h2>System Summary</h2>
 
