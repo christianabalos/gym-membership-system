@@ -243,7 +243,7 @@
         }
 
         .schedule-card:hover{
-            transform:translateY(-8px);
+            transform:translateY(-6px);
         }        
 
         .schedule-card.weight{
@@ -928,29 +928,29 @@
             <div class="schedule-list">
                 @foreach($trainers as $trainer)
                     @php
-                        $name = strtolower($trainer->name);
+                        $specialization = strtolower($trainer->specialization);
 
-                        if (str_contains($name, 'bhing')) {
-                            $cardClass = 'blue';
+                        if (str_contains($specialization, 'weight')) {
+                            $cardClass = 'weight';
                         }
-                        elseif (str_contains($name, 'christian')) {
-                            $cardClass = 'green';
+                        elseif (str_contains($specialization, 'cardio')) {
+                            $cardClass = 'cardio';
                         }
-                        elseif (str_contains($name, 'james')) {
-                            $cardClass = 'orange';
+                        elseif (str_contains($specialization, 'strength')) {
+                            $cardClass = 'strength';
                         }
                         else {
-                            $cardClass = 'pink';
+                            $cardClass = 'flexibility';
                         }
                     @endphp
 
                     <div class="schedule-card {{ $cardClass }}">
-                        <h3 class="trainer-name
-                        @if($cardClass=='cardio') trainer-green
-                        @elseif($cardClass=='weight') trainer-blue
-                        @elseif($cardClass=='strength') trainer-gold
-                        @else trainer-pink
-                        @endif">
+                        <h3 class="trainer-name  
+                            @if($cardClass=='weight') trainer-blue
+                            @elseif($cardClass=='cardio') trainer-green
+                            @elseif($cardClass=='strength') trainer-gold
+                            @else trainer-pink
+                            @endif">
                             {{ $trainer->name }}
                         </h3>
                         <div class="specialization program-specialization">
