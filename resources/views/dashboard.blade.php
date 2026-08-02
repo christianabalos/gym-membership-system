@@ -62,6 +62,49 @@
             margin: 0;
         }
 
+        .header-actions{
+            display:flex;
+            align-items:center;
+            gap:15px;
+        }
+
+        .notification-wrapper{
+            position:relative;
+        }
+
+        .notification-bell{
+            width:46px;
+            height:46px;
+            border:none;
+            border-radius:50%;
+            background:rgba(255,255,255,.18);
+            color:#fff;
+            font-size:22px;
+            cursor:pointer;
+            transition:.3s;
+        }
+
+        .notification-bell:hover{
+            background:#2563EB;
+            transform:scale(1.05);
+        }
+
+        .notification-count{
+            position:absolute;
+            top:-4px;
+            right:-4px;
+            min-width:20px;
+            height:20px;
+            border-radius:50%;
+            background:#EF4444;
+            color:#fff;
+            font-size:11px;
+            font-weight:bold;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+        }
+
         .logout-btn {
             border: none;
             background: #dc2626;
@@ -280,15 +323,92 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="header">
-            <h1>Gym Membership Management System</h1>
+    <div class="header">
 
-            <form action="{{ route('logout') }}" method="POST" class="logout-form">
+        <h1>Gym Membership Management System</h1>
+
+        <div class="header-actions">
+
+            <div class="notification-wrapper">
+
+                <button
+                    class="notification-bell"
+                    id="notificationBell">
+
+                    <i class="fa-solid fa-bell"></i>
+
+                </button>
+
+                @if(($pendingRequestsCount ?? 0) > 0)
+
+                    <span class="notification-count">
+
+                        {{ $pendingRequestsCount }}
+
+                    </span>
+
+                @endif
+
+
+                <div class="notification-dropdown" id="notificationDropdown">
+
+                        <div class="notification-header">
+                            Notifications
+                        </div>
+
+                        @if(($pendingRequestsCount ?? 0) > 0)
+
+                            @foreach($pendingRequests as $request)
+
+                                <div class="notification-item">
+
+                                    <strong>{{ $request->name }}</strong>
+
+                                    submitted a membership request.
+
+                                    <br>
+
+                                    <small>
+                                        {{ $request->created_at->diffForHumans() }}
+                                    </small>
+
+                                </div>
+
+                            @endforeach
+
+                        @else
+
+                            <div class="notification-item">
+                                No new notifications.
+                            </div>
+
+                        @endif
+
+                    </div>
+
+                </div>                
+
+            </div>
+
+            <form action="{{ route('logout') }}"
+                method="POST"
+                class="logout-form">
+
                 @csrf
-                <button type="submit" class="logout-btn">Logout</button>
+
+                <button
+                    type="submit"
+                    class="logout-btn">
+
+                    Logout
+
+                </button>
+
             </form>
+
         </div>
+
+    </div>
 
         <div class="nav-grid">
             <a href="{{ route('dashboard') }}" class="nav-btn">Dashboard</a>
