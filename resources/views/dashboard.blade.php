@@ -77,13 +77,18 @@
         }
 
         .notification-bell{
-            width:46px;
-            height:46px;
-            border:none;
+            width:50px;
+            height:50px;
             border-radius:50%;
-            background:rgba(255,255,255,.18);
-            color:#fff;
             font-size:22px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+
+            background:#2d3748;
+            color:white;
+
             cursor:pointer;
             transition:.3s;
         }
@@ -95,15 +100,20 @@
 
         .notification-count{
             position:absolute;
-            top:-4px;
-            right:-4px;
-            min-width:20px;
-            height:20px;
+            top:-5px;
+            right:-5px;
+
+            width:22px;
+            height:22px;
+
             border-radius:50%;
-            background:#EF4444;
-            color:#fff;
-            font-size:11px;
+
+            background:#ef4444;
+            color:white;
+
+            font-size:12px;
             font-weight:bold;
+
             display:flex;
             align-items:center;
             justify-content:center;
@@ -130,7 +140,12 @@
             background:#f3f4f6;
         }
 
-        .notification-item{
+        .notification-item,
+        .notification-item:link,
+        .notification-item:visited{
+            display:block;
+            color:#111827;
+            text-decoration:none;
             padding:15px;
             border-bottom:1px solid #eee;
         }
@@ -139,6 +154,22 @@
             background:#f8fafc;
             cursor:pointer;
         }
+
+        .notification-name{
+            font-weight:bold;
+            color:#111827;
+            margin-bottom:4px;
+        }
+
+        .notification-message{
+            color:#4b5563;
+            margin-bottom:5px;
+        }
+
+        .notification-item small{
+            color:#9ca3af;
+            font-size:12px;
+        }        
 
         .notification-item small{
             color:#6b7280;
@@ -406,31 +437,20 @@
                 text-decoration:none;
             }          
             
-            .notification-item{
-                display:block;
+            .notification-item,
+            .notification-item:link,
+            .notification-item:visited{
                 color:#111827;
                 text-decoration:none;
-                padding:15px;
-                border-bottom:1px solid #eee;
             }
 
             .notification-item:hover{
                 background:#f3f4f6;
             }            
 
-            .notification-item,
-            .notification-item:visited{
-                color:#111827;
-                text-decoration:none;
-            }
-
-            .notification-item strong{
-                color:#111827;
-            }
-
             .notification-item small{
                 color:#6b7280;
-            }            
+            }
 
         }
     </style>
@@ -476,14 +496,13 @@
 
                                 <a href="{{ route('admin.member-requests.index') }}"
                                  class="notification-item">
+                                    <div class="notification-name">
+                                        👤 {{ $request->member->full_name ?? $request->user->name ?? $request->name }}
+                                    </div>
 
-                                    <strong>
-                                    {{ $request->member->full_name ?? $request->user->name ?? $request->name }}
-                                    </strong>
-
-                                    submitted a membership request.
-
-                                    <br>
+                                    <div class="notification-message">
+                                        submitted a membership request
+                                    </div>
 
                                     <small>
                                         {{ $request->created_at->diffForHumans() }}
@@ -495,15 +514,21 @@
 
                         @else
 
-                            <div class="notification-item">
-                                No new notifications.
+                            <div class="notification-item" style="text-align:center;">
+                                <div style="font-size:28px;">🔔</div>
+
+                                <strong>No new notifications</strong>
+
+                                <br>
+
+                                <small>You're all caught up!</small>
                             </div>
 
                         @endif
 
                         <div class="notification-footer">
                             <a href="{{ route('admin.member-requests.index') }}">
-                                View all requests
+                               View all member requests →
                             </a>
                         </div>                         
 

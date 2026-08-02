@@ -55,6 +55,12 @@ class MemberRequestController extends Controller
 
     public function adminIndex()
     {
+        MemberRequest::where('status', 'pending')
+            ->where('is_read', false)
+            ->update([
+                'is_read' => true
+            ]);
+
         $requests = MemberRequest::with(['member', 'user'])
             ->latest()
             ->get();

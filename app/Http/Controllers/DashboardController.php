@@ -28,6 +28,7 @@ class DashboardController extends Controller
         })->count();
 
         $pendingRequests = MemberRequest::where('status', 'pending')
+            ->where('is_read', false)
             ->latest()
             ->get();
 
