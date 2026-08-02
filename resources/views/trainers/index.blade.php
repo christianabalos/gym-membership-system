@@ -1257,6 +1257,16 @@
 
         }      
 
+        function previousMonth() {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        }
+
+        function nextMonth() {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        }
+
         function previousView(){
 
             if(currentView === 'month'){
