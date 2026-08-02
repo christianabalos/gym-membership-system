@@ -883,11 +883,48 @@
 
         <div id="printable-calendar">
             <h2>Membership Schedule Calendar</h2>
-
+              
             <div class="calendar-controls">
-                <button type="button" onclick="previousMonth()" class="calendar-btn no-print">Previous</button>
-                <h3 id="calendarTitle"></h3>
-                <button type="button" onclick="nextMonth()" class="calendar-btn no-print">Next</button>
+
+                <button type="button"
+                        onclick="previousView()"
+                        class="calendar-btn no-print">
+                    ◀ Previous
+                </button>
+
+                <div style="text-align:center;">
+
+                    <h3 id="calendarTitle"></h3>
+
+                    <div style="margin-top:10px;">
+
+                        <button
+                            type="button"
+                            id="monthBtn"
+                            class="calendar-btn no-print"
+                            onclick="switchView('month')">
+                            📅 Month View
+                        </button>
+
+                        <button
+                            type="button"
+                            id="weekBtn"
+                            class="calendar-btn no-print"
+                            onclick="switchView('week')">
+                            🗓 Week View
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <button
+                    type="button"
+                    onclick="nextView()"
+                    class="calendar-btn no-print">
+                    Next ▶
+                </button>
+
             </div>
 
             <div class="trainer-legend">
@@ -1002,6 +1039,7 @@
 
     <script>
         let currentDate = new Date();
+        let currentView = 'month';
 
         const trainerColors = {
             @foreach($trainers as $index => $trainer)
@@ -1046,6 +1084,11 @@
             const calendarTitle = document.getElementById('calendarTitle');
 
             calendarGrid.innerHTML = '';
+
+            if (currentView === 'week') {
+                renderWeekCalendar();
+                return;
+            }            
 
             const year = currentDate.getFullYear();
             const month = currentDate.getMonth();
@@ -1119,15 +1162,137 @@
             }
         }
 
-        function previousMonth() {
-            currentDate.setMonth(currentDate.getMonth() - 1);
-            renderCalendar();
+        function renderWeekCalendar() {
+
+            const calendarGrid = document.getElementById('calendarGrid');
+            const calendarTitle = document.getElementById('calendarTitle');
+
+            calendarGrid.innerHTML = '';
+
+            const start = new Date(currentDate);
+
+            start.setDate(start.getDate() - start.getDay());
+
+            const end = new Date(start);
+
+            end.setDate(start.getDate() + 6);
+
+            calendarTitle.innerText =
+                start.toLocaleDateString() +
+                " - " +
+                end.toLocaleDateString();
+
+            dayNames.forEach(day => {
+
+                const header = document.createElement('div');
+
+                header.className = 'calendar-day-header';
+
+                header.innerText = day;
+
+                calendarGrid.appendChild(header);
+
+            });
+
+            for(let i=0;i<7;i++){
+
+                const date=new Date(start);
+
+                date.setDate(start.getDate()+i);
+
+                const dateString=formatDateLocal(date);
+
+                const dayCell=document.createElement('div');
+
+                dayCell.className='calendar-day';
+
+                const dateLabel=document.createElement('div');
+
+                dateLabel.className='calendar-date';
+
+                dateLabel.innerText=date.getDate();
+
+                dayCell.appendChild(dateLabel);
+
+                const membershipsForDate=calendarData.filter(item=>{
+
+                    return dateString>=item.start_date &&
+                        dateString<=item.end_date;
+
+                });
+
+                membershipsForDate.forEach(item=>{
+
+                    const membership=document.createElement('div');
+
+                    membership.className='calendar-item';
+
+                    const color=trainerColors[item.trainer] || {
+
+                        background:"#DBEAFE",
+
+                        text:"#1E40AF",
+
+                        border:"#2563EB"
+
+                    };
+
+                    membership.style.background=color.background;
+                    membership.style.color=color.text;
+                    membership.style.borderLeft="4px solid "+color.border;
+
+                    membership.innerHTML=`
+                        <strong>${item.member}</strong><br>
+                        ${item.trainer}<br>
+                        ${item.plan}
+                    `;
+
+                    dayCell.appendChild(membership);
+
+                });
+
+                calendarGrid.appendChild(dayCell);
+
+            }
+
+        }      
+
+        function previousView(){
+
+            if(currentView === 'month'){
+                previousMonth();
+            }else{
+                currentDate.setDate(currentDate.getDate() - 7);
+                renderWeekCalendar();
+            }
+
         }
 
-        function nextMonth() {
-            currentDate.setMonth(currentDate.getMonth() + 1);
-            renderCalendar();
+        function nextView(){
+
+            if(currentView === 'month'){
+                nextMonth();
+            }else{
+                currentDate.setDate(currentDate.getDate() + 7);
+                renderWeekCalendar();
+            }
+
         }
+
+
+        function switchView(view){
+
+            currentView = view;
+
+            document.getElementById('monthBtn').style.opacity =
+                view === 'month' ? '1' : '.6';
+
+            document.getElementById('weekBtn').style.opacity =
+                view === 'week' ? '1' : '.6';
+
+            renderCalendar();
+
+        }        
 
         function printMembershipCalendar() {
             document.body.classList.add('print-calendar-mode');
