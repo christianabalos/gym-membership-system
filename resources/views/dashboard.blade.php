@@ -4,6 +4,10 @@
     <title>Gym Dashboard</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">    
+    <i class="fa-solid fa-bell"></i>
+
     <style>
         * {
             box-sizing: border-box;
@@ -109,7 +113,7 @@
             display:none;
             position:absolute;
             right:0;
-            top:55px;
+            top:59px;
             width:320px;
             background:white;
             color:#111827;
@@ -390,6 +394,29 @@
                 font-weight:bold;
             }
 
+            .notification-footer{
+                text-align:center;
+                padding:12px;
+                border-top:1px solid #eee;
+            }
+
+            .notification-footer a{
+                color:#2563eb;
+                font-weight:bold;
+                text-decoration:none;
+            }          
+            
+            .notification-item{
+                display:block;
+                color:#111827;
+                text-decoration:none;
+                padding:15px;
+                border-bottom:1px solid #eee;
+            }
+
+            .notification-item:hover{
+                background:#f3f4f6;
+            }            
 
         }
     </style>
@@ -425,6 +452,12 @@
 
                 <div class="notification-dropdown" id="notificationDropdown">
 
+                        <div class="notification-footer">
+                            <a href="{{ route('admin.member-requests.index') }}">
+                                View all requests
+                            </a>
+                        </div>                
+
                         <div class="notification-header">
                             Notifications
                         </div>
@@ -433,9 +466,12 @@
 
                             @foreach($pendingRequests as $request)
 
-                                <div class="notification-item">
+                                <a href="{{ route('admin.member-requests.index') }}"
+                                 class="notification-item">
 
-                                    <strong>{{ $request->name }}</strong>
+                                    <strong>
+                                    {{ $request->member->full_name ?? $request->user->name ?? $request->name }}
+                                    </strong>
 
                                     submitted a membership request.
 
@@ -445,7 +481,7 @@
                                         {{ $request->created_at->diffForHumans() }}
                                     </small>
 
-                                </div>
+                                </a>
 
                             @endforeach
 
