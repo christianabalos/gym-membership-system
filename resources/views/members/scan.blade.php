@@ -276,7 +276,7 @@ function onScanSuccess(decodedText) {
 
                 <p><strong>Expired on:</strong><br>${data.expires}</p>
 
-                <p>Please renew your membership plan at the front desk or on your user profile.</p>
+                <p>Your membership has expired. Please renew your membership through your account or visit the front desk for assistance.</p>
             `;
             document.getElementById("expiredSound").play();
         }
