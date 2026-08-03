@@ -332,7 +332,7 @@
         <form action="{{ route('register.submit') }}" method="POST">
             @csrf
 
-         <div id="step1">
+        <div id="step1">
 
             <h2 class="section-title">👤 Personal Information</h2>
 
@@ -495,7 +495,7 @@
                 </select>
             </div>
            
-        </div>
+       
 
                 <h2 class="section-title">❤️ Health Declaration</h2>
      
@@ -643,8 +643,7 @@
                 </button>                
             </div>            
             
-         </div> <!-- END STEP 2 -->
-
+        </div> <!-- END STEP 2 -->
         </form>
 
         <div class="login-link">
