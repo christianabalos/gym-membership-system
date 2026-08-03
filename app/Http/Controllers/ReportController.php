@@ -214,7 +214,9 @@ class ReportController extends Controller
 
         }
 
-        $totalRevenue = $paymentQuery->sum('amount');
+        $totalRevenue = Payment::whereHas('membership')
+            ->whereIn('status', ['paid', 'approved'])
+            ->sum('amount');
 
         $planAnalytics = [
             [
