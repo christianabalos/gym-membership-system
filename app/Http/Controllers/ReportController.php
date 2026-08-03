@@ -192,8 +192,29 @@ class ReportController extends Controller
             ->whereIn('status', ['paid', 'approved'])
             ->sum('amount');
 
-        $totalRevenue = Payment::whereIn('status', ['paid', 'approved'])
-            ->sum('amount');
+        $paymentQuery = Payment::whereIn('status', ['paid', 'approved']);
+
+        if ($period == 'week') {
+
+            $paymentQuery->whereBetween('created_at', [
+                Carbon::now()->startOfWeek(),
+                Carbon::now()->endOfWeek()
+            ]);
+
+        }
+        elseif ($period == 'month') {
+
+            $paymentQuery->whereMonth('created_at', Carbon::now()->month)
+                        ->whereYear('created_at', Carbon::now()->year);
+
+        }
+        elseif ($period == 'year') {
+
+            $paymentQuery->whereYear('created_at', Carbon::now()->year);
+
+        }
+
+        $totalRevenue = $paymentQuery->sum('amount');
 
         $planAnalytics = [
             [
