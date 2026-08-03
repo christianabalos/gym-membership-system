@@ -9,7 +9,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('member_requests', function (Blueprint $table) {
-            $table->boolean('is_read')->default(false)->after('status');
+            $table->boolean('is_read')->default(false);
         });
     }
 
