@@ -332,6 +332,8 @@
         <form action="{{ route('register.submit') }}" method="POST">
             @csrf
 
+         <div id="step1">
+
             <h2 class="section-title">👤 Personal Information</h2>
 
             <div class="field">
@@ -409,6 +411,16 @@
                 </div>
             </div>
 
+            <div id="step1Buttons">
+                <button type="button" class="submit-btn" id="nextBtn">
+                    Next →
+                </button>
+            </div>
+
+        </div> <!-- END STEP 1 -->
+
+        <div id="step2" style="display:none;">
+
             <h2 class="section-title">🏋️ Membership Information</h2>
             <div class="field">
                 <label>Trainer Option:</label>
@@ -482,6 +494,8 @@
                     <option value="online" {{ old('payment_method') == 'online' ? 'selected' : '' }}>Online Payment</option>
                 </select>
             </div>
+           
+        </div>
 
                 <h2 class="section-title">❤️ Health Declaration</h2>
      
@@ -617,9 +631,20 @@
                 All information you provide will be kept confidential
                 and used only for membership management and emergency purposes.
 
-            </p>            
+            </p> 
 
-            <button type="submit" class="submit-btn">Register Account</button>
+            <div id="step2Buttons" style="display:none;">
+                <button type="button" class="btn btn-secondary" id="prevBtn">
+                    ← Previous
+                </button>
+
+                <button type="submit" class="submit-btn">
+                    Register Account
+                </button>                
+            </div>            
+            
+         </div> <!-- END STEP 2 -->
+
         </form>
 
         <div class="login-link">
@@ -859,6 +884,43 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+    const step1 = document.getElementById('step1');
+    const step2 = document.getElementById('step2');
+
+    const nextBtn = document.getElementById('nextBtn');
+    const prevBtn = document.getElementById('prevBtn');
+
+    const step1Buttons = document.getElementById('step1Buttons');
+    const step2Buttons = document.getElementById('step2Buttons');
+
+    nextBtn.addEventListener('click', function () {
+        step1.style.display = 'none';
+        step2.style.display = 'block';
+
+        step1Buttons.style.display = 'none';
+        step2Buttons.style.display = 'block';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+
+    prevBtn.addEventListener('click', function () {
+        step2.style.display = 'none';
+        step1.style.display = 'block';
+
+        step2Buttons.style.display = 'none';
+        step1Buttons.style.display = 'block';
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
+    </script>
 
 </body>
 </html>
