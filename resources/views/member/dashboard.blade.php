@@ -156,7 +156,7 @@
             gap: 18px;
         }
 
-=======
+
         /* --- QR CARD STYLES --- */
         .qr-card-container {
             max-width: 350px; 
@@ -325,7 +325,65 @@
 
         </div>
 
-            <h1>Member Dashboard</h1>
+            @if(isset($daysLeft))
+
+                @if($daysLeft < 0)
+
+                    <div class="alert alert-danger mb-4">
+                        <h5>❌ Membership Expired</h5>
+
+                        Your membership expired on
+
+                        <strong>
+                            {{ \Carbon\Carbon::parse($activeMembership->end_date)->format('F d, Y') }}
+                        </strong>
+
+                        <br><br>
+
+                        <p>
+                        Your membership has expired.
+                        Please renew it to continue accessing gym facilities,
+                        training schedules, and other member services.
+                        </p>
+
+                        <a href="{{ route('member.registerMembership') }}"
+                        class="btn btn-danger">
+                            Renew Membership
+                        </a>
+                    </div>
+
+                @elseif($daysLeft <= 7)
+
+                    <div class="alert alert-warning mb-4">
+                        <h5>⚠ Membership Expiring Soon</h5>
+
+                        Your membership will expire in
+
+                        <strong>{{ $daysLeft }} day(s)</strong>.
+
+                        <br><br>
+
+                        Expiration Date:
+
+                        <strong>
+                            {{ \Carbon\Carbon::parse($activeMembership->end_date)->format('F d, Y') }}
+                        </strong>
+
+                        <br><br>
+
+                        <a href="{{ route('member.registerMembership') }}"
+                        class="btn btn-warning btn-sm">
+
+                            Renew Membership
+
+                        </a>
+
+                    </div>
+
+                @endif
+
+            @endif        
+
         <div class="qr-card-container">
             <span class="qr-pass-label">
                 Official Gym Pass
