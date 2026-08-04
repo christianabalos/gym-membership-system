@@ -198,10 +198,10 @@ class AuthController extends Controller
     {
         $payment->load('membership');
 
-        $successUrl = config('services.paymongo.success_url', env('PAYMONGO_SUCCESS_URL'));
-        $cancelUrl = config('services.paymongo.cancel_url', env('PAYMONGO_CANCEL_URL'));
+        $successUrl = config('services.paymongo.success_url');
+        $cancelUrl = config('services.paymongo.cancel_url');
 
-        $response = Http::withBasicAuth(env('PAYMONGO_SECRET_KEY'), '')
+        $response = Http::withBasicAuth(config('services.paymongo.secret_key'), '')
             ->post('https://api.paymongo.com/v1/checkout_sessions', [
                 'data' => [
                     'attributes' => [
